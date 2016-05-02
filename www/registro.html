@@ -32,13 +32,22 @@
 	{
 		$('#id').val(data.id);
 		$('#first_name').val(data.nombre);
+		$('#first_name').focus();
 		$('#last_name').val(data.apellido);
+		$('#last_name').focus();
 		$('#dni').val(data.dni);
+		$('#dni').focus();
 		$('#loc').val(data.localidad);
+		$('#loc').focus();
 		$('#email').val(data.email);
+		$('#email').focus();
 		$('#cel').val('');
+		$('#cel').focus();
 		$('#fijo').val('');
+		$('#fijo').focus();
 		$('#username').val(data.username);
+		$('#username').focus();
+		$('#username').blur();
 	}
 
 	$(document).ready(function(){
