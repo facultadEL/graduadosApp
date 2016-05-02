@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Registro</title>
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script defer>
+
+	function getDatos()
+	{
+		$.ajax({
+			type:"GET",
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
+			success: function(response)
+			{
+				alert(response);
+				/*
+				var r = JSON.parse(response);
+				successGetDatos(r);
+				*/
+			},
+			error: function(msg)
+			{
+				alert(`Hubo un error al buscar los datos. Error: ${msg}`);
+			}
+		});
+	}
+
+	function successGetDatos(data)
+	{
+		console.log(data);
+	}
+
+	$(document).ready(function(){
+
+	getDatos();
+
+	});
+
+	</script>
+</head>
+<body>
+
+
+    <div class="container">
+        <nav>
+            <div class="nav-wrapper blue darken-4">
+                <a href="registro.html" class="brand-logo center">Registro</a>
+            </div>
+        </nav>
+
+        <div class="card-panel blue lighten-5">
+
+            <div class="row">
+
+                <form class="col s12">
+
+                    <h6 class="black-text">Datos personales</h6>
+                    <div class="divider"></div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="first_name" type="text">
+                            <label for="first_name">Nombre</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="last_name" type="text">
+                            <label for="last_name">Apellido</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="dni" type="number">
+                            <label for="dni">DNI</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="loc" type="text">
+                            <label for="loc">Localidad</label>
+                        </div>
+                    </div>
+
+                    <h6 class="black-text">Contacto</h6>
+                    <div class="divider"></div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" type="email">
+                            <label for="email">Correo</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="cel" type="text">
+                            <label for="cel">Celular</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="fijo" type="text">
+                            <label for="cel">Telefono fijo</label>
+                        </div>
+                    </div>
+
+                    <h6 class="black-text">Datos de cuenta</h6>
+                    <div class="divider"></div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="username" type="text">
+                            <label for="username">Nombre Usuario</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="password" type="password">
+                            <label for="password">Contraseña</label>
+                        </div>
+                    </div>
+
+                    <div class="center-align">
+                        <button class="btn waves-effect light-blue darken-3" type="submit" name="action">Registrarme
+                            <i class="material-icons right">done</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <footer class="page-footer blue darken-4">
+            <div class="container right-align white-text">
+                <b><i>UTN - FRVM</i></b>
+            </div>
+        </footer>
+    </div>
+
+
+    <!--Import jQuery before materialize.js-->
+    
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+</html>
