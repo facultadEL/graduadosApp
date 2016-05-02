@@ -45,7 +45,10 @@
 				}
 				else
 				{
-					alert("Datos de ingreso inválidos");
+					var $toastContent = $('<span>Datos inválidos</span>');
+					Materialize.toast($toastContent, 4000);
+					$('.toast').css('background-color','#f44336');
+					$('.toast').css('color','black');
 				}
 			},
 			error: function(msg)
