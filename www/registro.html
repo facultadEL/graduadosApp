@@ -17,11 +17,9 @@
 			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
 			success: function(response)
 			{
-				alert(response);
-				/*
+				//alert(response);
 				var r = JSON.parse(response);
-				successGetDatos(r);
-				*/
+				successGetDatos(r[0]);
 			},
 			error: function(msg)
 			{
@@ -32,7 +30,15 @@
 
 	function successGetDatos(data)
 	{
-		console.log(data);
+		$('#id').val(data.id);
+		$('#first_name').val(data.nombre);
+		$('#last_name').val(data.apellido);
+		$('#dni').val(data.dni);
+		$('#loc').val(data.localidad);
+		$('#email').val(data.email);
+		$('#cel').val('');
+		$('#fijo').val('');
+		$('#username').val(data.username);
 	}
 
 	$(document).ready(function(){
@@ -63,6 +69,7 @@
                     <div class="divider"></div>
                     <div class="row">
                         <div class="input-field col s6">
+                        	<input type="hidden" id="id" />
                             <input id="first_name" type="text">
                             <label for="first_name">Nombre</label>
                         </div>
