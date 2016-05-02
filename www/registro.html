@@ -10,6 +10,78 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script defer>
 
+	var passRequired = false;
+
+	function controlVacio(nombreSelector)
+	{
+		if($.trim($(nombreSelector).val()) == '')
+		{
+			$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
+			$(nombreSelector).focus();
+			return false;
+		}
+		return true;
+	}
+
+	function sacarColor(me)
+	{
+		$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+	}
+
+	function controlSubmit()
+	{
+		if(!controlVacio('#first_name')) return false;
+		if(!controlVacio('#last_name')) return false;
+		if(!controlVacio('#dni')) return false;
+		if(!controlVacio('#loc')) return false;
+		if(!controlVacio('#email')) return false;
+		//if(!controlVacio('#cel')) return false;
+		//if(!controlVacio('#fijo')) return false;
+		if(!controlVacio('#username')) return false;
+		if(passRequired)
+		{
+			if(!controlVacio('#password')) return false;
+		}
+
+		var param = {
+			"id":($('#id').val()),
+			"nombre":($('#first_name').val()),
+			"apellido":($('#last_name').val()),
+			"dni":($('#dni').val()),
+			"localidad":($('#loc').val()),
+			"email":($('#email').val()),
+			"cel":($('#cel').val()),
+			"fijo":($('#fijo').val()),
+			"username":($('#username').val()),
+			"passRequired": passRequired,
+			"password":($('#password').val())
+		}
+
+		$.ajax({
+			type:"POST",
+			data: param,
+			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				if(r[0].success)
+				{
+					alert("Guardado correctamente");
+				}
+				else
+				{
+					alert("No se pudo guardar");
+				}
+			},
+			error: function(msg)
+			{
+				alert("Hubo un error al guardar los datos");
+			}
+		});
+
+		return false;
+	}
+
 	function getDatos()
 	{
 		$.ajax({
@@ -17,7 +89,6 @@
 			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
 			success: function(response)
 			{
-				//alert(response);
 				var r = JSON.parse(response);
 				successGetDatos(r[0]);
 			},
@@ -30,6 +101,12 @@
 
 	function successGetDatos(data)
 	{
+		if(data.primerLogin == 't')
+		{
+			passRequired = true;
+			$('#password').prop('required',true);
+		}
+
 		$('#id').val(data.id);
 		$('#first_name').val(data.nombre);
 		$('#first_name').focus();
@@ -72,28 +149,28 @@
 
             <div class="row">
 
-                <form class="col s12">
+                <form class="col s12" onsubmit="return controlSubmit();">
 
                     <h6 class="black-text">Datos personales</h6>
                     <div class="divider"></div>
                     <div class="row">
                         <div class="input-field col s6">
                         	<input type="hidden" id="id" />
-                            <input id="first_name" type="text">
+                            <input id="first_name" type="text" onkeydown="sacarColor(this)">
                             <label for="first_name">Nombre</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="last_name" type="text">
+                            <input id="last_name" type="text" onkeydown="sacarColor(this)">
                             <label for="last_name">Apellido</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="dni" type="number">
+                            <input id="dni" type="number" onkeydown="sacarColor(this)">
                             <label for="dni">DNI</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="loc" type="text">
+                            <input id="loc" type="text" onkeydown="sacarColor(this)">
                             <label for="loc">Localidad</label>
                         </div>
                     </div>
@@ -102,17 +179,17 @@
                     <div class="divider"></div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="email" type="email">
+                            <input id="email" type="email" onkeydown="sacarColor(this)">
                             <label for="email">Correo</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="cel" type="text">
+                            <input id="cel" type="text" onkeydown="sacarColor(this)">
                             <label for="cel">Celular</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="fijo" type="text">
+                            <input id="fijo" type="text" onkeydown="sacarColor(this)">
                             <label for="cel">Telefono fijo</label>
                         </div>
                     </div>
@@ -121,11 +198,11 @@
                     <div class="divider"></div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="username" type="text">
+                            <input id="username" type="text" onkeydown="sacarColor(this)">
                             <label for="username">Nombre Usuario</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="password" type="password">
+                            <input id="password" type="password" onkeydown="sacarColor(this)">
                             <label for="password">Contraseña</label>
                         </div>
                     </div>
