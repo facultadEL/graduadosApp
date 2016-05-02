@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\DOCUMENTOS\\SEU\\APP-GRADUADOS\\graduadosApp\\platforms\\android\\build\\intermediates\\res\\merged\\debug\\drawable-land-mdpi-v4\\logo.png",
+        "source": "D:\\DOCUMENTOS\\SEU\\APP-GRADUADOS\\graduadosApp\\platforms\\android\\res\\drawable-land-mdpi\\logo.png"
+    },
+    {
         "merged": "D:\\DOCUMENTOS\\SEU\\APP-GRADUADOS\\graduadosApp\\platforms\\android\\build\\intermediates\\res\\merged\\debug\\drawable-land-mdpi-v4\\screen.png",
         "source": "D:\\DOCUMENTOS\\SEU\\APP-GRADUADOS\\graduadosApp\\platforms\\android\\res\\drawable-land-mdpi\\screen.png"
     }
