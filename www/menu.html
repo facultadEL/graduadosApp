@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Get Material Design from a CDN. Check for a more recent version. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">  <!-- Site's designed for mobile -->
+    <!-- Site's designed for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+</head>
+<body>
+
+
+<nav class="indigo darken-4">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <!-- These navigation links disappear if the screen gets too small. -->
+        <ul class="right hide-on-med-and-down">
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+        </ul>
+        <!-- Put up a "hamburger" menu when the web page gets too narrow -->
+        <a href="#" data-activates="side-menu" ><i class="mdi-navigation-menu"></i></a>
+        <!-- These navigation links appear when the web page gets narrow. -->
+        <!-- They appear when the user clicks the hamburger menu. -->
+        <ul class="side-nav" id="side-menu">
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Obtain latest version of jquery from CDN -->
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- jQuery must be imported before materialize -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // Activate the side menu
+        $(".button-collapse").sideNav();
+    });
+</script>
+
+
+</body>
+</html>
