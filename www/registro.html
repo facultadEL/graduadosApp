@@ -282,7 +282,7 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="password" type="password" onkeydown="sacarColor(this)" pattern=".{6,}"  onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Debe tener al menos 6 caracteres' : ''); if(this.checkValidity()) form.passwordRep.pattern = this.value; if(this.value.length > 0) {form.passwordRep.setAttribute('required',true);}else{if(form.password.getAttribute('required')){form.passwordRep.setAttribute('required',true);}else{form.passwordRep.setAttribute('required',false);}}">
+							<input placeholder="Contraseña con al menos 6 caracteres" id="password" type="password" onkeydown="sacarColor(this)" pattern=".{6,}"  onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Debe tener al menos 6 caracteres' : ''); if(this.checkValidity()) form.passwordRep.pattern = this.value; if(this.value.length > 0) {form.passwordRep.setAttribute('required',true);}else{if(form.password.getAttribute('required')){form.passwordRep.setAttribute('required',true);}else{form.passwordRep.setAttribute('required',false);}}">
 							<label for="password">Contraseña</label>
 						</div>
 						<div class="input-field col s6">
