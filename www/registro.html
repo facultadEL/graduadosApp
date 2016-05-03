@@ -151,35 +151,39 @@
 
 	function checkDni()
 	{
-		if($('#id').val() == -1)
+		var dni = $('#dni').val().trim();
+		if(dni != '')
 		{
-			var dni = $('#dni').val();
-			var param = {
-				"dni":dni
-			};
+			if($('#id').val() == -1)
+			{
+				
+				var param = {
+					"dni":dni
+				};
 
-			$.ajax({
-				type:"POST",
-				data: param,
-				url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
-				success: function(response)
-				{
-					var r = JSON.parse(response);
-					if(r.length > 0)
+				$.ajax({
+					type:"POST",
+					data: param,
+					url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
+					success: function(response)
 					{
-						successGetDatos(r[0]);
-					}
-					else
+						var r = JSON.parse(response);
+						if(r.length > 0)
+						{
+							successGetDatos(r[0]);
+						}
+						else
+						{
+							$('#id').val('-1');
+							$('#first_name').focus();
+						}
+					},
+					error: function(msg)
 					{
-						$('#id').val('-1');
-						$('#first_name').focus();
+						alert("Se ha generado un error al ir a buscar los datos por DNI");
 					}
-				},
-				error: function(msg)
-				{
-					alert("Se ha generado un error al ir a buscar los datos por DNI");
-				}
-			});
+				});
+			}
 		}
 	}
 
@@ -209,7 +213,7 @@
 
             <div class="row">
 
-                <form class="col s12" onsubmit="return controlSubmit();">
+                <form class="col s12" id="form" onsubmit="return controlSubmit();">
 
                     <h6 class="black-text">Datos personales</h6>
                     <div class="divider"></div>
@@ -276,8 +280,12 @@
                             <label for="username">Nombre Usuario</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="password" type="password" onkeydown="sacarColor(this)" pattern=".{6,}">
+                            <input id="password" type="password" onkeydown="sacarColor(this)" pattern=".{6,}"  onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Debe tener al menos 6 caracteres' : ''); if(this.checkValidity()) form.passwordRep.pattern = this.value; if(this.value.length > 0) {form.passwordRep.setAttribute('required',true);}else{if(form.password.getAttribute('required')){form.passwordRep.setAttribute('required',true);}else{form.passwordRep.setAttribute('required',false);}}">
                             <label for="password">Contraseña</label>
+                        </div>
+                        <div class="input-field col s6 offset-s6">
+                            <input id="passwordRep" type="password" onkeydown="sacarColor(this)" pattern=".{6,}" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Ingrese la misma contraseña' : '');">
+                            <label for="passwordRep">Repita Contraseña</label>
                         </div>
                     </div>
 
