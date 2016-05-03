@@ -62,7 +62,7 @@ function toasty(text,style)
 	}
 
 	var $toastContent = $(`<span>${text}</span>`);
-	Materialize.toast($toastContent, 3000);
+	Materialize.toast($toastContent, 1000);
 	$('.toast').css('background-color',bgColor);
 	$('.toast').css('color',color);
 	$('#toast-container').css('top','auto');
