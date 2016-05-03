@@ -11,7 +11,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 	<script>
-		
+	var f;
+
 	function doLogin()
 	{
 		var user = $('#username').val();
@@ -33,25 +34,25 @@
 				{
 					if(resp[0].success)
 					{
-						if(resp[0].first == 't')
+						toasty('Ingreso correcto','success');
+						var t = this;
+						t.f = resp[0].first;
+						setTimeout(function()
 						{
-							window.location.href="registro.html";
-						}
-						else
-						{
-							window.location.href="inicio.html";
-						}
+							if(t.f == 't')
+							{
+								window.location.href="registro.html";
+							}
+							else
+							{
+								window.location.href="inicio.html";
+							}
+						}, 500);
 					}
 				}
 				else
 				{
-					var $toastContent = $('<span>Datos inválidos</span>');
-					Materialize.toast($toastContent, 4000);
-					$('.toast').css('background-color','#f44336');
-					$('.toast').css('color','black');
-					$('#toast-container').css('top','auto');
-					$('#toast-container').css('right','auto');
-					$('#toast-container').css('bottom','50%');
+					toasty('Datos inválidos','error');
 				}
 			},
 			error: function(msg)
@@ -120,5 +121,6 @@
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
 </body>
 </html>

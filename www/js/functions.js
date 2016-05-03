@@ -40,3 +40,32 @@ function showNoty(type,text)
 		timeout: 3000,
 	});
 }
+
+function toasty(text,style)
+{
+	style = style.toLowerCase();
+	var bgColor,fColor;
+	switch(style)
+	{
+		case 'error':
+			bgColor = '#f44336';
+			color = 'black';
+			break;
+		case 'success':
+			bgColor = 'green';
+			color = 'white';
+			break;
+		default:
+			 bgColor = 'black';
+			 color = 'white';
+			 break;
+	}
+
+	var $toastContent = $(`<span>${text}</span>`);
+	Materialize.toast($toastContent, 3000);
+	$('.toast').css('background-color',bgColor);
+	$('.toast').css('color',color);
+	$('#toast-container').css('top','auto');
+	$('#toast-container').css('right','auto');
+	$('#toast-container').css('bottom','50%');
+}
