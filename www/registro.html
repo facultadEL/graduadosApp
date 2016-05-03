@@ -118,9 +118,11 @@
 		$('#loc').focus();
 		$('#email').val(data.email);
 		$('#email').focus();
-		$('#cel').val('');
+		$('#celId').val(data.celId);
+		$('#cel').val(`${data.caracCel}${data.cel}`);
 		$('#cel').focus();
-		$('#fijo').val('');
+		$('#fijoId').val(data.fijoId);
+		$('#fijo').val(`${data.caracFijo}${data.fijo}`);
 		$('#fijo').focus();
 		$('#username').val(data.username);
 		$('#username').focus();
@@ -189,10 +191,12 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
+                        	<input type="hidden" id="celId" />
                             <input id="cel" type="text" onkeydown="sacarColor(this)">
                             <label for="cel">Celular</label>
                         </div>
                         <div class="input-field col s6">
+                        	<input type="hidden" id="fijoId" />
                             <input id="fijo" type="text" onkeydown="sacarColor(this)">
                             <label for="cel">Telefono fijo</label>
                         </div>
