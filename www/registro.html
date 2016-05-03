@@ -50,7 +50,9 @@
 			"dni":($('#dni').val()),
 			"localidad":($('#loc').val()),
 			"email":($('#email').val()),
+			"caracCel":($('#carCel').val()),
 			"cel":($('#cel').val()),
+			"caracFijo":($('#carFijo').val()),
 			"fijo":($('#fijo').val()),
 			"username":($('#username').val()),
 			"passRequired": passRequired,
@@ -68,7 +70,14 @@
 				var r = JSON.parse(response);
 				if(r[0].success)
 				{
-					alert("Guardado correctamente");
+					if(r[0].created)
+					{
+						window.location.href="index.html";
+					}
+					else
+					{
+						window.location.href="inicio.html";
+					}
 				}
 				else
 				{
@@ -121,14 +130,57 @@
 		$('#email').val(data.email);
 		$('#email').focus();
 		$('#celId').val(data.celId);
-		$('#cel').val(`${data.caracCel}${data.cel}`);
+		$('#carCel').val(data.caracCel);
+		$('#carCel').focus();
+		$('#cel').val(data.cel);
 		$('#cel').focus();
 		$('#fijoId').val(data.fijoId);
-		$('#fijo').val(`${data.caracFijo}${data.fijo}`);
+		$('#carFijo').val(data.caracFijo);
+		$('#carFijo').focus();
+		$('#fijo').val(data.fijo);
 		$('#fijo').focus();
 		$('#username').val(data.username);
 		$('#username').focus();
 		$('#username').blur();
+
+		if(data.id == "-1")
+		{
+			$('#dni').focus();
+		}
+	}
+
+	function checkDni()
+	{
+		if($('#id').val() == -1)
+		{
+			var dni = $('#dni').val();
+			var param = {
+				"dni":dni
+			};
+
+			$.ajax({
+				type:"POST",
+				data: param,
+				url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
+				success: function(response)
+				{
+					var r = JSON.parse(response);
+					if(r.length > 0)
+					{
+						successGetDatos(r[0]);
+					}
+					else
+					{
+						$('#id').val('-1');
+						$('#first_name').focus();
+					}
+				},
+				error: function(msg)
+				{
+					alert("Se ha generado un error al ir a buscar los datos por DNI");
+				}
+			});
+		}
 	}
 
 	$(document).ready(function(){
@@ -174,7 +226,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="dni" type="number" onkeydown="sacarColor(this)">
+                            <input id="dni" type="number" onkeydown="sacarColor(this)" onblur="checkDni()">
                             <label for="dni">DNI</label>
                         </div>
                         <div class="input-field col s6">
@@ -195,24 +247,24 @@
                         <div class="input-field col s6">
                         	<input type="hidden" id="carCId" />
                             <input id="carCel" type="text" onkeydown="sacarColor(this)">
-                            <label for="carCel">Característica</label>
+                            <label for="carCel">Caracter&iacute;stica (Sin 0)</label>
                         </div>
                         <div class="input-field col s6">
                         	<input type="hidden" id="ceId" />
-                            <input id="celu" type="text" onkeydown="sacarColor(this)">
-                            <label for="celu">Celular</label>
+                            <input id="cel" type="text" onkeydown="sacarColor(this)">
+                            <label for="cel">Celular (Sin 15)</label>
                         </div>
                     </div>
 					<div class="row">
 						<div class="input-field col s6">
 							<input type="hidden" id="carTId" />
-							<input id="calTel" type="text" onkeydown="sacarColor(this)">
-							<label for="calTel">Característica</label>
+							<input id="carFijo" type="text" onkeydown="sacarColor(this)">
+							<label for="carFijo">Caracter&iacute;stica (Sin 0)</label>
 						</div>
 						<div class="input-field col s6">
 							<input type="hidden" id="fijoId" />
 							<input id="fijo" type="text" onkeydown="sacarColor(this)">
-							<label for="fijo">Telefono fijo</label>
+							<label for="fijo">Tel&eacute;fono fijo</label>
 						</div>
 					</div>
 
