@@ -54,6 +54,15 @@
                         </div>
                     </div>
 
+					<div class="row">
+                        <div class="input-field col s12" id="divProvincia">
+                        </div>
+                    </div>
+					<div class="row">
+						<div class="input-field col s12" id="divLocalidad">
+						</div>
+					</div>
+
                     <h6 class="black-text">Contacto</h6>
                     <div class="divider"></div>
                     <div class="row">
@@ -305,10 +314,87 @@
 		}
 	}
 
+	function getProvincia()
+	{
+		$.ajax({
+			type:"GET",
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getProvincia.php",
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				successGetProvincia(r);
+			},
+			error: function(msg)
+			{
+				toasty('Se ha generado un error al buscar las provincias','danger');
+			}
+		});
+	}
+
+	function successGetProvincia(r)
+	{
+		var htmlProvincias = `<select id="selProvincia" onchange="getLocalidad()">`;
+		for(var i = 0; i < r.length; i++)
+		{
+			var val = r[i].val;
+			var name = r[i].name;
+			htmlProvincias += `<option value="${val}">${name}</option>`;
+		}
+		htmlProvincias += `</select><label>Provincia</label>`;
+		
+		$('#divProvincia').html(htmlProvincias);
+		$('select').material_select();
+	}
+	
+	function getLocalidad()
+	{
+		var valProvincia = $('#selProvincia').val();
+		if(valProvincia != 0)
+		{
+			var param = {
+				"provincia":valProvincia
+			}
+			
+			$.ajax({
+				type:"POST",
+				url:"http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidad.php",
+				data:param,
+				success: function(response)
+				{
+					var r = JSON.parse(response);
+					successGetLocalidad(r);
+				},
+				error: function(msg)
+				{
+					toasty('Se produjo un error al traer las localidades','danger');
+				}
+			});
+		}
+		else
+		{
+			toasty('Seleccione una provincia','danger');
+		}
+	}
+	
+	function successGetLocalidad(r)
+	{
+		var htmlLocalidad = `<select id="selLocalidad">`;
+		for(var i = 0; i < r.length; i++)
+		{
+			var val = r[i].val;
+			var name = r[i].name;
+			htmlLocalidad += `<option value="${val}">${name}</option>`;
+		}
+		htmlLocalidad += `</select><label>Localidad</label>`;
+		
+		$('#divLocalidad').html(htmlLocalidad);
+		$('select').material_select();
+	}
+
 	$(document).ready(function(){
-
-	getDatos();
-
+		getProvincia();
+		getDatos();
+	
 	});
 
 	</script>
