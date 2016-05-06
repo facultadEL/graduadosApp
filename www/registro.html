@@ -50,8 +50,8 @@
                         </div>
                         <div class="input-field col s6">
                             <!--<input id="loc" type="text" onkeydown="sacarColor(this)">-->
-							<input type="date" class="datepicker">
-                            <label for="loc">Fecha de nacimiento</label>
+							<input type="date" id="fechanac" class="datepicker">
+                            <label for="fechanac">Fecha de nacimiento</label>
                         </div>
                     </div>
 					<div class="row">
@@ -154,6 +154,56 @@
 		$(me).css('box-shadow','0px 0px 0px 0px #ccc');
 	}
 
+	function formatDate(date)
+	{
+		var vDate = date.split(',');
+		var year = vDate[1].trim();
+		var monthName = vDate[0].split(' ')[1].toLowerCase();
+		var day = vDate[0].split(' ')[0];
+		var month = 0;
+		switch(monthName)
+		{
+			case 'january':
+				month = 1;
+				break;
+			case 'february':
+				month = 2;
+				break;
+			case 'march':
+				month = 3;
+				break;
+			case 'april':
+				month = 4;
+				break;
+			case 'may':
+				month = 5;
+				break;
+			case 'june':
+				month = 6;
+				break;
+			case 'july':
+				month = 7;
+				break;
+			case 'august':
+				month = 8;
+				break;
+			case 'september':
+				month = 9;
+				break;
+			case 'october':
+				month = 10;
+				break;
+			case 'november':
+				month = 11;
+				break;
+			case 'december':
+				month = 12;
+				break;
+		}
+		
+		return `${year}-${month}-${day}`;
+	}
+
 	function controlSubmit()
 	{
 		if(!controlVacio('#first_name')) return false;
@@ -168,6 +218,8 @@
 		{
 			if(!controlVacio('#password')) return false;
 		}
+
+		var birthDate = formatDate($('#fechanac').val());
 
 		var param = {
 			"id":($('#id').val()),
@@ -184,7 +236,8 @@
 			"passRequired": passRequired,
 			"password":($('#password').val()),
 			"celId":($('#celId').val()),
-			"fijoId":($('#fijoId').val())
+			"fijoId":($('#fijoId').val()),
+			"birthDate":birthDate
 		}
 
 		$.ajax({
