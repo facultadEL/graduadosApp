@@ -23,7 +23,19 @@
 	    </div>
     </div>
     <div class="container">
-
+		<div class="preloader-wrapper active" id="loader">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
         <div class="card-panel blue lighten-5">
 
             <div class="row">
@@ -209,7 +221,7 @@
 		if(!controlVacio('#first_name')) return false;
 		if(!controlVacio('#last_name')) return false;
 		if(!controlVacio('#dni')) return false;
-		if(!controlVacio('#loc')) return false;
+		if(!controlVacio('#autocompleteState')) return false;
 		if(!controlVacio('#email')) return false;
 		//if(!controlVacio('#cel')) return false;
 		//if(!controlVacio('#fijo')) return false;
@@ -239,13 +251,14 @@
 			"fijoId":($('#fijoId').val()),
 			"birthDate":birthDate
 		}
-
+		$('#loader').show();
 		$.ajax({
 			type:"POST",
 			data: param,
 			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
 			success: function(response)
 			{
+				$('#loader').hide();
 				var r = JSON.parse(response);
 				if(r[0].success)
 				{
@@ -515,6 +528,7 @@
 	}
 
 	$(document).ready(function(){
+		$('#loader').hide();
 		getDataLocalidad();
 		getDatos();
 		$('.datepicker').pickadate({
