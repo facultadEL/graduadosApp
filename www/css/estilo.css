@@ -43,9 +43,10 @@ main {
 
   position: absolute;
 
-  background: #383838;
-
+  /*background: #383838;*/
+  background: #0D47A1;
   margin-top: -.9rem;
+  opacity: 1.0;
 
 }
 
@@ -53,7 +54,8 @@ main {
 
   clear: both;
 
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 1);
+  opacity: 1.0;
 
   cursor: pointer;
 
@@ -65,15 +67,15 @@ main {
 
   text-transform: none;
 
-  padding: 10px;
+  padding: 7px;
 
 }
 
 .autocomplete-content li > span {
 
-  color: #ffa726;
+  color: white;
 
-  font-size: .9rem;
+  font-size: .8rem;
 
   padding: 1.2rem;
 

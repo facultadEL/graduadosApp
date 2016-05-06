@@ -53,21 +53,11 @@
                             <label for="loc">Localidad</label>
                         </div>
                     </div>
-
 					<div class="row">
-                        <div class="input-field col s12" id="divProvincia">
-                        </div>
-                    </div>
-					<div class="row">
-						<div class="input-field col s12" id="divLocalidad">
+						<div class="input-field col s12">
+							<label class="active">State</label>
+							<input type="text" id="autocompleteState" class="autocomplete inputFields">
 						</div>
-					</div>
-					<div class="row">
-					<div class="input-field col s12">
-						<label class="active">State</label>
-						<input type="text" id="autocompleteState" class="autocomplete inputFields">
-
-					</div>
 					</div>
 
                     <h6 class="black-text">Contacto</h6>
@@ -393,6 +383,7 @@
 
 				// Perform search
 				$(document).on('keyup', $input, function() {
+					var quantity = 0;
 				var $val = $input.val().trim(),
 					$select = $('.autocomplete-content');
 				// Check if the input isn't empty
@@ -411,6 +402,17 @@
 					if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
 					{
 						check = false;
+					}
+					if(check)
+					{
+						if(quantity < 5)
+						{
+							quantity++;
+						}
+						else
+						{
+							check = false;
+						}	
 					}
 					/*
 					for (var i in $val) {
