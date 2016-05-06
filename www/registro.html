@@ -49,13 +49,14 @@
                             <label for="dni">DNI</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="loc" type="text" onkeydown="sacarColor(this)">
-                            <label for="loc">Localidad</label>
+                            <!--<input id="loc" type="text" onkeydown="sacarColor(this)">-->
+							<input type="date" class="datepicker">
+                            <label for="loc">Fecha de nacimiento</label>
                         </div>
                     </div>
 					<div class="row">
 						<div class="input-field col s12">
-							<label class="active">State</label>
+							<label class="active">Localidad</label>
 							<input type="text" id="autocompleteState" class="autocomplete inputFields">
 						</div>
 					</div>
@@ -339,108 +340,104 @@
 		$('#autocompleteState').data('array', localidadData);
 		
 		var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea';
-  
-  
-		/**************************
-		* Auto complete plugin  *
-		*************************/
-
-
+		
 		$(input_selector).each(function() {
 			var $input = $(this);
 
-			if ($input.hasClass('autocomplete')) {
-			var $array = $input.data('array'),
-				$inputDiv = $input.closest('.input-field'); // Div to append on
-			// Check if "data-array" isn't empty
-			if ($array !== '') {
-				// Create html element
-				var $html = '<ul class="autocomplete-content hide">';
-
-				for (var i = 0; i < $array.length; i++) {
-				// If path and class aren't empty add image to auto complete else create normal element
-				if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
-					$html += '<li class="autocomplete-option"><img src="' + $array[i]['path'] + '" class="' + $array[i]['class'] + '"><span>' + $array[i]['value'] + '</span></li>';
-				} else {
-					$html += '<li class="autocomplete-option"><span>' + $array[i]['value'] + '</span></li>';
-				}
-				}
-
-				$html += '</ul>';
-				$inputDiv.append($html); // Set ul in body
-				// End create html element
-
-				function highlight(string) {
-				$('.autocomplete-content li').each(function() {
-					var matchStart = $(this).text().toLowerCase().indexOf("" + string.toLowerCase() + ""),
-					matchEnd = matchStart + string.length - 1,
-					beforeMatch = $(this).text().slice(0, matchStart),
-					matchText = $(this).text().slice(matchStart, matchEnd + 1),
-					afterMatch = $(this).text().slice(matchEnd + 1);
-					$(this).html("<span>" + beforeMatch + "<span class='highlight'>" + matchText + "</span>" + afterMatch + "</span>");
-				});
-				}
-
-				// Perform search
-				$(document).on('keyup', $input, function() {
-					var quantity = 0;
-				var $val = $input.val().trim(),
-					$select = $('.autocomplete-content');
-				// Check if the input isn't empty
-				$select.css('width',$input.width());
-
-				if ($val != '' && $val.length >= 3) {
-					$select.children('li').addClass('hide');
-					$select.children('li').filter(function() {
-					$select.removeClass('hide'); // Show results
-
-					// If text needs to highlighted
-					if ($input.hasClass('highlight-matching')) {
-						highlight($val);
-					}
-					var check = true;
-					if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
+			if ($input.hasClass('autocomplete'))
+			{
+				var $array = $input.data('array');
+				var $inputDiv = $input.closest('.input-field'); // Div to append on
+				if ($array !== '')
+				{
+					var $html = '<ul class="autocomplete-content hide">';
+					for (var i = 0; i < $array.length; i++)
 					{
-						check = false;
-					}
-					if(check)
-					{
-						if(quantity < 5)
-						{
-							quantity++;
+						if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
+							$html += '<li class="autocomplete-option"><img src="' + $array[i]['path'] + '" class="' + $array[i]['class'] + '"><span>' + $array[i]['value'] + '</span></li>';
+						} else {
+							$html += '<li class="autocomplete-option"><span>' + $array[i]['value'] + '</span></li>';
 						}
-						else
-						{
-							check = false;
-						}	
 					}
+					$html += '</ul>';
+					$inputDiv.append($html); // Set ul in body
+					// End create html element
 					/*
-					for (var i in $val) {
-						if ($val[i].toLowerCase() !== $(this).text().toLowerCase()[i])
+					function highlight(string)
+					{
+						$('.autocomplete-content li').each(function()
 						{
-							check = true;
+							var matchStart = $(this).text().toLowerCase().indexOf("" + string.toLowerCase() + ""),
+							matchEnd = matchStart + string.length - 1,
+							beforeMatch = $(this).text().slice(0, matchStart),
+							matchText = $(this).text().slice(matchStart, matchEnd + 1),
+							afterMatch = $(this).text().slice(matchEnd + 1);
+							$(this).html("<span>" + beforeMatch + "<span class='highlight'>" + matchText + "</span>" + afterMatch + "</span>");
+						});
+					}
+					*/
+					var lengthWord = 0;
+					// Perform search
+					$(document).on('keyup', $input, function()
+					{
+						var quantity = 0;
+						var $val = $input.val().trim(),
+						$select = $('.autocomplete-content');
+						
+						$select.css('width',$input.width());
+
+						var length = $val.length;
+						if ($val != '' && $val.length >= 3 && length > lengthWord)
+						{
+							lengthWord = length
+							$select.children('li').addClass('hide');
+							$select.children('li').filter(function()
+							{
+								$select.removeClass('hide'); // Show results
+
+								/*
+								if ($input.hasClass('highlight-matching')) {
+									highlight($val);
+								}
+								*/
+								var check = true;
+								if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
+								{
+									check = false;
+								}
+								if(check)
+								{
+									if(quantity < 5)
+									{
+										quantity++;
+									}
+									else
+									{
+										check = false;
+									}	
+								}
+								
+								return check ? $(this).text().toLowerCase().indexOf($val.toLowerCase()) !== -1 : false;
+							}).removeClass('hide');	
 						}
 						else
 						{
-							check = true;
+							lengthWord = length;
+							$select.children('li').addClass('hide');
 						}
-					};
-					*/
-					return check ? $(this).text().toLowerCase().indexOf($val.toLowerCase()) !== -1 : false;
-					}).removeClass('hide');
-				} else {
-					$select.children('li').addClass('hide');
-				}
-				});
+					});
 
-				// Set input value
-				$('.autocomplete-option').click(function() {
-				$input.val($(this).text().trim());
-				$('.autocomplete-option').addClass('hide');
-				});
-			} else {
-				return false;
-			}
+					// Set input value
+					$('.autocomplete-option').click(function()
+					{
+						$input.val($(this).text().trim());
+						$('.autocomplete-option').addClass('hide');
+					});
+				}
+				else
+				{
+					return false;
+				}
 			}
 		});
 	}
@@ -465,6 +462,10 @@
 	$(document).ready(function(){
 		getDataLocalidad();
 		getDatos();
+		$('.datepicker').pickadate({
+			selectMonths: true, // Creates a dropdown to control month
+			selectYears: 100 // Creates a dropdown of 15 years to control year
+		});
 	});
 
 	</script>
