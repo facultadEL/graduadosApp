@@ -11,62 +11,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-	<script>
-	var f;
-
-	function doLogin()
-	{
-		var user = $('#username').val();
-		var pass = $('#password').val();
-
-		var param = {
-			"user":user,
-			"pass":pass
-		};
-
-		$.ajax({
-			type: "POST",
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/login.php",
-			data: param,
-			success: function(response)
-			{
-				var resp = JSON.parse(response);
-				if(resp.length > 0)
-				{
-					if(resp[0].success)
-					{
-						toasty('Ingreso correcto','success');
-						var t = this;
-						t.f = resp[0].first;
-						setTimeout(function()
-						{
-							if(t.f == 't')
-							{
-								window.location.href="registro.html";
-							}
-							else
-							{
-								window.location.href="inicio.html";
-							}
-						}, 1000);
-					}
-				}
-				else
-				{
-					toasty('Datos inválidos','error');
-				}
-			},
-			error: function(msg)
-			{
-				alert(`Se ha producido un error en el logueo. Error: ${msg}`);
-			}
-		});
-
-		return false;
-	}
-
-	</script>
 </head>
 
 <body>
@@ -80,6 +24,17 @@
 	</div>
 </div>
 <div class="container">
+	<div class="preloader-wrapper active" id="loader">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
 	<div class="card-panel blue lighten-5">
 		<div class="center-align" >
 			<img class="circle responsive-img" src="img/login.png" height="100" width="100">
@@ -125,5 +80,67 @@
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
+<script>
+	var f;
+
+	function doLogin()
+	{
+		$('#loader').show();
+		var user = $('#username').val();
+		var pass = $('#password').val();
+
+		var param = {
+			"user":user,
+			"pass":pass
+		};
+
+		$.ajax({
+			type: "POST",
+			url: "http://extension.frvm.utn.edu.ar/graduadosApi/login.php",
+			data: param,
+			success: function(response)
+			{
+				$('#loader').hide();
+				var resp = JSON.parse(response);
+				if(resp.length > 0)
+				{
+					if(resp[0].success)
+					{
+						//toasty('Ingreso correcto','success');
+						//var t = this;
+						//t.f = resp[0].first;
+						//setTimeout(function()
+						//{
+							//if(t.f == 't')
+							if(resp[0].first == 't')
+							{
+								window.location.href="registro.html";
+							}
+							else
+							{
+								window.location.href="inicio.html";
+							}
+						//}, 1000);
+					}
+				}
+				else
+				{
+					toasty('Datos inválidos','error');
+				}
+			},
+			error: function(msg)
+			{
+				alert(`Se ha producido un error en el logueo. Error: ${msg}`);
+			}
+		});
+
+		return false;
+	}
+
+	$(document).ready(function(){
+		$('#loader').hide();
+	});
+
+	</script>
 </body>
 </html>

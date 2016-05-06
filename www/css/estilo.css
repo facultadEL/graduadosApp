@@ -30,3 +30,11 @@ main {
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+#loader {
+  position: absolute;
+  top:auto;
+  bottom: 50%;
+  z-index: 99;
+  left: 45%;
+}
