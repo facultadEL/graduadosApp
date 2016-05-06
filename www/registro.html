@@ -255,6 +255,8 @@
 					}
 					else
 					{
+						var storage = window.localStorage;
+						storage.setItem('id', $('#id').val());
 						window.location.href="inicio.html";
 					}
 				}

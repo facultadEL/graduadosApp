@@ -139,6 +139,12 @@
 
 	$(document).ready(function(){
 		$('#loader').hide();
+		var storage = window.localStorage;
+		var value = storage.getItem('id');
+		if(value != undefined)
+		{
+			window.location.href = 'inicio.html';
+		}
 	});
 
 	</script>
