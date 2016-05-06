@@ -350,7 +350,7 @@
 				var $inputDiv = $input.closest('.input-field'); // Div to append on
 				if ($array !== '')
 				{
-					var $html = '<ul class="autocomplete-content hide">';
+					var $html = '<ul class="autocomplete-content hide" style="z-index:1;">';
 					for (var i = 0; i < $array.length; i++)
 					{
 						if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
