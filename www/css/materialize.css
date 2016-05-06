@@ -8181,3 +8181,15 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     margin-bottom: 5em;
   }
 }
+
+@font-face {
+font-family: 'Material Icons'; 
+src:url("../font/material-design-icons/Material-Design-Icons.woff2") format('woff2');
+}
+
+.material-icons {
+font-family: 'Material Icons';
+font-weight: normal;
+font-style: normal; 
+-webkit-font-feature-settings: 'liga'; 
+}
