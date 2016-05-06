@@ -321,68 +321,6 @@
 			}
 		}
 	}
-
-	function getProvincia()
-	{
-		$.ajax({
-			type:"GET",
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getProvincia.php",
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				successGetProvincia(r);
-			},
-			error: function(msg)
-			{
-				toasty('Se ha generado un error al buscar las provincias','error');
-			}
-		});
-	}
-
-	function successGetProvincia(r)
-	{
-		var htmlProvincias = `<select id="selProvincia" onchange="getLocalidad()">`;
-		for(var i = 0; i < r.length; i++)
-		{
-			var val = r[i].val;
-			var name = r[i].name;
-			htmlProvincias += `<option value="${val}">${name}</option>`;
-		}
-		htmlProvincias += `</select><label>Provincia</label>`;
-		
-		$('#divProvincia').html(htmlProvincias);
-		$('select').material_select();
-	}
-	
-	function getLocalidad()
-	{
-		var valProvincia = $('#selProvincia').val();
-		if(valProvincia != 0)
-		{
-			var param = {
-				"provincia":valProvincia
-			}
-			
-			$.ajax({
-				type:"POST",
-				url:"http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidad.php",
-				data:param,
-				success: function(response)
-				{
-					var r = JSON.parse(response);
-					successGetLocalidad(r);
-				},
-				error: function(msg)
-				{
-					toasty('Se produjo un error al traer las localidades','error');
-				}
-			});
-		}
-		else
-		{
-			toasty('Seleccione una provincia','error');
-		}
-	}
 	
 	function successGetLocalidad(r)
 	{
@@ -524,7 +462,6 @@
 
 	$(document).ready(function(){
 		getDataLocalidad();
-		//getProvincia();
 		getDatos();
 	});
 
