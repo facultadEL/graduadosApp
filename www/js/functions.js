@@ -69,3 +69,10 @@ function toasty(text,style)
 	$('#toast-container').css('right','auto');
 	$('#toast-container').css('bottom','50%');
 }
+
+function logout()
+{
+	var storage = window.localStorage;
+	storage.removeItem('id');
+	window.location.href = 'index.html';
+}
