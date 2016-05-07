@@ -120,6 +120,9 @@
 							}
 							else
 							{
+								var storage = window.localStorage;
+								var id = resp[0].id;
+								storage.setItem('id',id);
 								window.location.href="inicio.html";
 							}
 						//}, 1000);
