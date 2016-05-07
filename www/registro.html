@@ -499,6 +499,7 @@
 					$('.autocomplete-option').click(function()
 					{
 						$input.val($(this).text().trim());
+						getIdLocalidad($(this).text().trim());
 						$('.autocomplete-option').addClass('hide');
 					});
 				}
@@ -508,6 +509,13 @@
 				}
 			}
 		});
+	}
+
+	function getIdLocalidad(name)
+	{
+		var vName = name.split(' - ');
+		var localidad = vName[0];
+		var provincia = vName[1];
 	}
 
 	function getDataLocalidad()
