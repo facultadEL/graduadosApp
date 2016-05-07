@@ -70,6 +70,16 @@ function toasty(text,style)
 	$('#toast-container').css('bottom','50%');
 }
 
+function checkId()
+{
+	var storage = window.localStorage;
+	var id = storage.getItem('id');
+	if(id == undefined)
+	{
+		logout();
+	}
+}
+
 function logout()
 {
 	var storage = window.localStorage;

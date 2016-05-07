@@ -13,51 +13,120 @@
 <body>
 
 
-    <div class="container-fluid">
-	    <div class="navbar-fixed">
-	        <nav>
-	            <div class="nav-wrapper nav-bar-fixed blue darken-4">
-	                <a href="registro.html" class="brand-logo center">Restaurar Contraseña</a>
-	            </div>
-	        </nav>
-	    </div>
-    </div>
-    <div class="container">
-		
-        <div class="card-panel blue lighten-5">
+	<div class="container-fluid">
+		<div class="navbar-fixed">
+			<nav>
+				<div class="nav-wrapper nav-bar-fixed blue darken-4">
+					<ul class="left">
+						<li><a href="index.html"><i class="material-icons" style="-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);">trending_flat</i></a></li>
+					</ul>
+					<a href="registro.html" class="brand-logo center">Restaurar Contraseña</a>
+				</div>
+			</nav>
+		</div>
+	</div>
+	<div class="container">
+		<div class="preloader-wrapper active" id="loader">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card-panel blue lighten-5">
 
-            <div class="row">
+			<div class="row">
 
-                <form class="col s12" id="form" onsubmit="">
-                    
-                    
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="email" type="email" onkeydown="">
-                            <label for="email">Ingrese usuario o email</label>
-                        </div>
-                    </div>
-                    
-                    <div class="center-align">
-                        <button class="btn waves-effect light-blue darken-3" type="submit" name="action">Restaurar
-                            <i class="material-icons right">done</i>
-                        </button>
-                    </div>
-                </form>
-            </div>
+				<form class="col s12" id="form" onsubmit="return restorePass();">
+					
+					
+					<div class="row">
+						<div class="input-field col s12">
+							<input id="email" type="text" onkeydown="">
+							<label for="email">Ingrese usuario o email</label>
+						</div>
+					</div>
+					
+					<div class="center-align">
+						<button class="btn waves-effect light-blue darken-3" type="submit" name="action">Restaurar
+							<i class="material-icons right">done</i>
+						</button>
+					</div>
+				</form>
+			</div>
 
-        </div>
-        <div class="footer-copyright right-align">
-            <div class="container">
-                <i>© 2016 UTN FRVM</i>
-            </div>
-        </div>
-    </div>
+		</div>
+		<div class="footer-copyright right-align">
+			<div class="container">
+				<i>© 2016 UTN FRVM</i>
+			</div>
+		</div>
+	</div>
 
 
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
+	<script>
+		
+	function restorePass()
+	{
+		
+		var userMail = $('#email').val().trim();
+		if(userMail != '')
+		{
+			$('#loader').show();
+			var param = {
+				"userMail":userMail
+			};
+			
+			$.ajax({
+				type:"POST",
+				data: param,
+				url: "http://extension.frvm.utn.edu.ar/graduadosApi/restorePass.php",
+				success: function(response)
+				{
+					$('#loader').hide();
+					var r = JSON.parse(response);
+					if(r[0].success)
+					{
+						toasty('Se le ha enviado un mail con una contraseña temporal','success');
+						setTimeout(function()
+						{
+							window.location.href="index.html";
+						}, 1000);
+					}
+					else
+					{
+						toasty('No se ha encontrado ningún mail o usuario con ese nombre','error');
+					}
+				},
+				error: function(msg)
+				{
+					$('#loader').hide();
+					toasty('Se produjo un error al intentar enviar los datos de ingreso. Pruebe nuevamente en un instante','error');
+				}
+			});
+		}
+		else
+		{
+			toasty('Ingrese un usuario o mail','error');
+		}
+		
+		return false;
+	}
+	
+	$(document).ready(function(){
+		$('#loader').hide();
+	});
+	
+	</script>
 </body>
 </html>
