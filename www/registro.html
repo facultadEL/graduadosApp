@@ -68,6 +68,7 @@
                     </div>
 					<div class="row">
 						<div class="input-field col s12">
+							<input type="hidden" id="idLocalidad" value=""/>
 							<label class="active">Localidad</label>
 							<input type="text" id="autocompleteState" class="autocomplete inputFields">
 						</div>
@@ -249,7 +250,8 @@
 			"password":($('#password').val()),
 			"celId":($('#celId').val()),
 			"fijoId":($('#fijoId').val()),
-			"birthDate":birthDate
+			"birthDate":birthDate,
+			"localidadId":($('#idLocalidad').val())
 		}
 		$('#loader').show();
 		$.ajax({
@@ -516,6 +518,33 @@
 		var vName = name.split(' - ');
 		var localidad = vName[0];
 		var provincia = vName[1];
+		
+		var param = {
+			"localidad":localidad,
+			"provincia":provincia
+		};
+		
+		$.ajax({
+			type:"POST",
+			data:param,
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidadId.php",
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				if(r.length > 0)
+				{
+					$('#idLocalidad').val(r[0].id);
+				}
+				else
+				{
+					$('#autocompleteState').val('');
+				}
+			},
+			error: function(msg)
+			{
+				console.log(msg);
+			}
+		});
 	}
 
 	function getDataLocalidad()
