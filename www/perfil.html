@@ -151,11 +151,11 @@
 			</form>
 		</div>
 		<div class="fixed-action-btn vertical" style="bottom: 45px; right: 24px;">
-			<a class="btn-floating blue darken-4">
-				<i class="large material-icons">mode_edit</i>
+			<a class="btn-floating btn-large blue darken-4" onclick="activate('edit')">
+				<i class="large material-icons" id="iconEdit">mode_edit</i>
 			</a>
 			<ul>
-				<li><a class="btn-floating red"><i class="material-icons">cancel</i></a></li>
+				<li><a class="btn-floating red" onclick="activate('cancel')" id="cancelButton"><i class="material-icons">cancel</i></a></li>
 			</ul>
 		</div>
 
@@ -178,19 +178,44 @@
 <script>
 
 var habilitar = false;
-
-function activate()
+var firstClick = false;
+function activate(source)
 {
-	if(!habilitar)
+	var htmlIcon = '';
+	if(source == 'edit')
 	{
-		$('#enableButton').html(`Deshabilitar <i class="material-icons right">mode_edit</i>`);
+		htmlIcon = $('#iconEdit').html();
+	}
+
+	if(htmlIcon != 'done')
+	{
+		if(!habilitar)
+		{
+			//$('#enableButton').html(`Deshabilitar <i class="material-icons right">mode_edit</i>`);
+			$('#iconEdit').html('done');
+			$('.fixed-action-btn').openFAB();
+			firstClick = true;
+		}
+		else
+		{
+			$('#iconEdit').html('mode_edit');
+			$('.fixed-action-btn').closeFAB();
+			//$('#enableButton').html(`Habilitar <i class="material-icons right">mode_edit</i>`);
+		}
+		habilitar = !habilitar;
+		checkEnable();
 	}
 	else
 	{
-		$('#enableButton').html(`Habilitar <i class="material-icons right">mode_edit</i>`);
+		if($('#cancelButton').css('opacity') == '0')
+		{
+			$('.fixed-action-btn').openFAB();
+		}
+		else
+		{
+			$('#form').submit();
+		}
 	}
-	habilitar = !habilitar;
-	checkEnable();
 }
 
 function checkEnable()
