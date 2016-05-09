@@ -12,44 +12,73 @@
 </head>
 <body>
 
-
-<div class="container-fluid">
-	<div class="navbar-fixed">
-		<nav>
-			<div class="nav-wrapper nav-bar-fixed blue darken-4">
-				<a href="perfil.html" class="brand-logo center">Perfil</a>
-			</div>
-		</nav>
+<nav>
+	<div class="nav-wrapper blue darken-4">
+		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
+		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul class="left hide-on-med-and-down">
+			<li><a href="perfil.html"><strong><i class="material-icons">perm_identity</i></strong></a></li>
+		</ul>
+		<ul class="right hide-on-med-and-down">
+			<li><a href="cursos.html">Cursos</a></li>
+			<li><a href="posgrados.html">Posgrados</a></li>
+			<li><a href="empleo.html">Empleo</a></li>
+			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
+		</ul>
+		<ul class="side-nav" id="mobile-demo">
+			<li><a href="perfil.html"><strong>Perfil</strong></a></li>
+			<li><a href="cursos.html">Cursos</a></li>
+			<li><a href="posgrados.html">Posgrados</a></li>
+			<li><a href="empleo.html">Empleo</a></li>
+			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+		</ul>
 	</div>
-</div>
+</nav>
 <div class="container">
+	<div class="preloader-wrapper active" id="loader">
+		<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div>
+	<div class="center-align">
+		<button class="btn waves-effect light-blue darken-3" type="button" onclick="activate()" id="enableButton" name="action">Habilitar
+			<i class="material-icons right">mode_edit</i>
+		</button>
+	</div>
 	<div class="card-panel blue lighten-5">
 
 		<div class="row">
 
-			<form class="col s12" id="form" onsubmit="">
-
+			<form class="col s12" id="form" onsubmit="return controlSubmit();">
 				<h6 class="black-text">Datos personales</h6>
 				<div class="divider"></div>
 				<div class="row">
 					<div class="input-field col s6">
 						<input type="hidden" id="id" />
-						<input id="first_name" type="text" onkeydown="">
+						<input id="first_name" type="text" onkeydown="" required>
 						<label for="first_name">Nombre</label>
 					</div>
 					<div class="input-field col s6">
-						<input id="last_name" type="text" onkeydown="">
+						<input id="last_name" type="text" onkeydown="" required>
 						<label for="last_name">Apellido</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s6">
-						<input id="dni" type="number" onkeydown="" onblur="" placeholder="Sin puntos">
+						<input id="dni" type="number" onkeydown="" onblur="" placeholder="Sin puntos" required>
 						<label for="dni">DNI</label>
 					</div>
 					<div class="input-field col s6">
 						<!--<input id="loc" type="text" onkeydown="sacarColor(this)">-->
-						<input type="date" id="fechanac" class="datepicker" placeholder="dd/mm/aaa">
+						<input type="date" id="fechanac" class="datepicker" placeholder="dd/mm/aaaa" required>
 						<label for="fechanac">Fecha Nac.</label>
 					</div>
 				</div>
@@ -57,7 +86,7 @@
 					<div class="input-field col s12">
 						<input type="hidden" id="idLocalidad" value=""/>
 						<label class="active">Localidad</label>
-						<input type="text" id="autocompleteState" class="autocomplete inputFields">
+						<input type="text" id="autocompleteState" class="autocomplete inputFields" required>
 					</div>
 				</div>
 
@@ -65,31 +94,31 @@
 				<div class="divider"></div>
 				<div class="row">
 					<div class="input-field col s12">
-						<input id="email" type="email" onkeydown="">
+						<input id="email" type="email" onkeydown="" required>
 						<label for="email">Correo</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s6">
 						<input type="hidden" id="carCId" />
-						<input id="carCel" type="text" onkeydown="" placeholder="Sin 0">
+						<input id="carCel" type="text" onkeydown="" placeholder="Sin 0" required>
 						<label for="carCel">Caracter&iacute;stica</label>
 					</div>
 					<div class="input-field col s6">
 						<input type="hidden" id="celId" />
-						<input id="cel" type="text" onkeydown="" placeholder="Sin 15">
+						<input id="cel" type="text" onkeydown="" placeholder="Sin 15" required>
 						<label for="cel">Celular</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s6">
 						<input type="hidden" id="carTId" />
-						<input id="carFijo" type="text" onkeydown="" placeholder="Sin 0">
+						<input id="carFijo" type="text" onkeydown="" placeholder="Sin 0" required>
 						<label for="carFijo">Caracter&iacute;stica</label>
 					</div>
 					<div class="input-field col s6">
 						<input type="hidden" id="fijoId" />
-						<input id="fijo" type="text" onkeydown="" placeholder="  ">
+						<input id="fijo" type="text" onkeydown="" placeholder="  " required>
 						<label for="fijo">Tel&eacute;fono fijo</label>
 					</div>
 				</div>
@@ -98,7 +127,7 @@
 				<div class="divider"></div>
 				<div class="row">
 					<div class="input-field col s12">
-						<input id="username" type="text" onkeydown="sacarColor(this)">
+						<input id="username" type="text" onkeydown="sacarColor(this)" required>
 						<label for="username">Nombre Usuario</label>
 					</div>
 				</div>
@@ -114,7 +143,7 @@
 				</div>
 
 				<div class="center-align">
-					<button class="btn waves-effect light-blue darken-3" type="submit" name="action">Registrarme
+					<button class="btn waves-effect light-blue darken-3" type="submit" name="action">Modificar
 						<i class="material-icons right">done</i>
 					</button>
 				</div>
@@ -134,6 +163,232 @@
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
+<script>
 
+var habilitar = false;
+
+function activate()
+{
+	if(!habilitar)
+	{
+		$('#enableButton').html(`Deshabilitar <i class="material-icons right">mode_edit</i>`);
+	}
+	else
+	{
+		$('#enableButton').html(`Habilitar <i class="material-icons right">mode_edit</i>`);
+	}
+	habilitar = !habilitar;
+	checkEnable();
+}
+
+function checkEnable()
+{
+	var disable = !habilitar;
+	$('#first_name').prop('disabled',disable);
+	$('#last_name').prop('disabled',disable);
+	$('#dni').prop('disabled',disable);
+	$('#fechanac').prop('disabled',disable);
+	$('#autocompleteState').prop('disabled',disable);
+	$('#email').prop('disabled',disable);
+	$('#carCel').prop('disabled',disable);
+	$('#cel').prop('disabled',disable);
+	$('#carFijo').prop('disabled',disable);
+	$('#fijo').prop('disabled',disable);
+	$('#username').prop('disabled',disable);
+	$('#password').prop('disabled',disable);
+	$('#passwordRep').prop('disabled',disable);
+}
+
+function getData()
+{
+	var storage = window.localStorage;
+	var id = storage.getItem('id');
+	
+	var param = {
+		"id":id
+	}
+	
+	$.ajax({
+		type:"POST",
+		data:param,
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetData(r[0]);
+		},
+		error: function(msg)
+		{
+			toasty('No se pudieron traer los datos','error');
+		}
+	});
+}
+
+function successGetData(data)
+{
+	if(data.primerLogin == 't')
+	{
+		passRequired = true;
+		$('#password').prop('required',true);
+	}
+	else
+	{
+		passRequired = false;
+		$('#password').prop('required',false);
+	}
+
+	$('#id').val(data.id);
+	$('#first_name').val(data.nombre);
+	$('#first_name').focus();
+	$('#last_name').val(data.apellido);
+	$('#last_name').focus();
+	$('#dni').val(data.dni);
+	$('#dni').focus();
+	if(data.fechaNac != undefined)
+	{
+		var f = unformatDate(data.fechaNac);
+		$('#fechanac').val(f);
+	}
+	$('#autocompleteState').val(data.localidad);
+	$('#autocompleteState').focus();
+	$('#email').val(data.email);
+	$('#email').focus();
+	$('#celId').val(data.celId);
+	$('#carCel').val(data.caracCel);
+	$('#carCel').focus();
+	$('#cel').val(data.cel);
+	$('#cel').focus();
+	$('#fijoId').val(data.fijoId);
+	$('#carFijo').val(data.caracFijo);
+	$('#carFijo').focus();
+	$('#fijo').val(data.fijo);
+	$('#fijo').focus();
+	$('#username').val(data.username);
+	$('#username').focus();
+	$('#username').blur();
+	$('#first_name').focus();
+	checkEnable();
+}
+	
+function unformatDate(d)
+{
+	var vD = d.split('-');
+	var year = ", "+vD[0];
+	var day = parseInt(vD[2]);
+	
+	var month = "";
+	switch(vD[1])
+	{
+		case "01": month = ' January'; break;
+		case "02": month = ' February'; break;
+		case "03": month = ' March'; break;
+		case "04": month = ' April'; break;
+		case "05": month = ' May'; break;
+		case "06": month = ' June'; break;
+		case "07": month = ' July'; break;
+		case "08": month = ' August'; break;
+		case "09": month = ' September'; break;
+		case "10": month = ' October'; break;
+		case "11": month = ' November'; break;
+		case "12": month = ' December'; break;
+	}
+	
+	return `${day}${month}${year}`;
+	
+}
+
+function controlSubmit()
+{
+	if(!habilitar) return false;
+	var birthDate = formatDate($('#fechanac').val());
+
+	var param = {
+		"id":($('#id').val()),
+		"nombre":($('#first_name').val()),
+		"apellido":($('#last_name').val()),
+		"dni":($('#dni').val()),
+		"localidad":($('#loc').val()),
+		"email":($('#email').val()),
+		"caracCel":($('#carCel').val()),
+		"cel":($('#cel').val()),
+		"caracFijo":($('#carFijo').val()),
+		"fijo":($('#fijo').val()),
+		"username":($('#username').val()),
+		"passRequired": passRequired,
+		"password":($('#password').val()),
+		"celId":($('#celId').val()),
+		"fijoId":($('#fijoId').val()),
+		"birthDate":birthDate,
+		"localidadId":($('#idLocalidad').val())
+	}
+	$('#loader').show();
+	$.ajax({
+		type:"POST",
+		data: param,
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
+		success: function(response)
+		{
+			$('#loader').hide();
+			var r = JSON.parse(response);
+			if(r[0].success)
+			{
+				toasty('Datos guardados correctamente','success');
+			}
+			else
+			{
+				alert("No se pudo guardar");
+			}
+		},
+		error: function(msg)
+		{
+			alert("Hubo un error al guardar los datos");
+		}
+	});
+
+	return false;
+}
+
+function sacarColor(me)
+{
+	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+}
+
+function formatDate(date)
+{
+	var vDate = date.split(',');
+	var year = vDate[1].trim();
+	var monthName = vDate[0].split(' ')[1].toLowerCase();
+	var day = vDate[0].split(' ')[0];
+	var month = 0;
+	switch(monthName)
+	{
+		case 'january': month = 1; break;
+		case 'february': month = 2; break;
+		case 'march': month = 3; break;
+		case 'april': month = 4; break;
+		case 'may': month = 5; break;
+		case 'june': month = 6; break;
+		case 'july': month = 7; break;
+		case 'august': month = 8; break;
+		case 'september': month = 9; break;
+		case 'october': month = 10; break;
+		case 'november': month = 11; break;
+		case 'december': month = 12; break;
+	}
+	
+	return `${year}-${month}-${day}`;
+}
+
+$(document).ready(function (){
+	$('#loader').hide();
+	$(".button-collapse").sideNav();
+	$('.datepicker').pickadate({
+		selectMonths: true, // Creates a dropdown to control month
+		selectYears: 100 // Creates a dropdown of 15 years to control year
+	});
+	getData();
+});
+	
+</script>
 </body>
 </html>
