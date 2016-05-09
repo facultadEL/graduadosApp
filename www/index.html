@@ -108,24 +108,19 @@
 				{
 					if(resp[0].success)
 					{
-						//toasty('Ingreso correcto','success');
-						//var t = this;
-						//t.f = resp[0].first;
-						//setTimeout(function()
-						//{
-							//if(t.f == 't')
-							if(resp[0].first == 't')
-							{
-								window.location.href="registro.html";
-							}
-							else
-							{
-								var storage = window.localStorage;
-								var id = resp[0].id;
-								storage.setItem('id',id);
-								window.location.href="inicio.html";
-							}
-						//}, 1000);
+						var storage = window.localStorage;
+						var id = resp[0].id;
+						storage.setItem('id',id);
+						
+						if(resp[0].first == 't')
+						{
+							
+							window.location.href="registro.html";
+						}
+						else
+						{
+							window.location.href="inicio.html";
+						}
 					}
 				}
 				else
