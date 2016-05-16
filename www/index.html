@@ -108,18 +108,25 @@
 				{
 					if(resp[0].success)
 					{
-						var storage = window.localStorage;
-						var id = resp[0].id;
-						storage.setItem('id',id);
-						
-						if(resp[0].first == 't')
+						if(resp[0].habilitado == 't')
 						{
+							var storage = window.localStorage;
+							var id = resp[0].id;
+							storage.setItem('id',id);
 							
-							window.location.href="registro.html";
+							if(resp[0].first == 't')
+							{
+								
+								window.location.href="registro.html";
+							}
+							else
+							{
+								window.location.href="inicio.html";
+							}
 						}
 						else
 						{
-							window.location.href="inicio.html";
+							toasty('Su usuario no se encuentra habilitado','error');
 						}
 					}
 				}
