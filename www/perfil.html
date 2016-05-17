@@ -17,6 +17,7 @@
 			<li><a href="perfil.html"><strong><i class="material-icons">perm_identity</i></strong></a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
 			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
 			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
@@ -24,6 +25,7 @@
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li><a href="perfil.html"><strong>Perfil</strong></a></li>
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
 			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
 			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
@@ -468,6 +470,21 @@ function successGetRegional(data, val)
 	$('select').material_select();
 }
 
+function successGetCantGraduados()
+{
+	var storage = window.localStorage;
+	var cant = storage.getItem('cantidad');
+	if(parseInt(cant) > 0)
+	{
+		$('.cantGraduados').html(cant);
+	}
+	else
+	{
+		$('.cantGraduados').hide();
+	}
+}
+
+
 $(document).ready(function (){
 	$('#loader').hide();
 	$(".button-collapse").sideNav();
@@ -484,12 +501,14 @@ $(document).ready(function (){
 		cH = 'cursosAdmin.html';
 		pH = 'posgradosAdmin.html';
 		eH = 'empleoAdmin.html';
+		successGetCantGraduados();
 	}
 	else
 	{
 		cH = 'cursos.html';
 		pH = 'posgrados.html';
 		eH = 'empleo.html';
+		$('.hideNotAdmin').hide();
 	}
 	
 	$('.cursosHref').prop('href',cH);
