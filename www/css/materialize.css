@@ -3229,7 +3229,7 @@ span.badge.new {
 }
 
 span.badge.new:after {
-  content: " new";
+  content: " nuevos";
 }
 
 nav ul a span.badge {

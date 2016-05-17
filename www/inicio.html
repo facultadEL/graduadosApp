@@ -74,7 +74,14 @@ function getCantGraduados()
 function successGetCantGraduados(data)
 {
 	var cant = data[0].cantidad;
-	$('.cantGraduados').html(cant);
+	if(parseInt(cant) > 0)
+	{
+		$('.cantGraduados').html(cant);
+	}
+	else
+	{
+		$('.cantGraduados').hide();
+	}
 }
 
 $(document).ready(function()
