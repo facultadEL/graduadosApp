@@ -114,3 +114,19 @@ main {
   background: #292929;
 
 }
+
+#presentacion { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000; 
+    background:#0277bd ; 
+    width: 100%; 
+    height: 100%; 
+} 
+
+#imgPresentacion {
+  position: fixed;
+  top: 40%;
+  width: 100%
+}
