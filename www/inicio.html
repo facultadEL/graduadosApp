@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!--<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-	<!--<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>-->
 	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -19,6 +17,7 @@
 			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
 			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
 			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
@@ -26,6 +25,7 @@
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li><a href="perfil.html">Perfil</a></li>
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
 			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
 			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
@@ -47,6 +47,36 @@
 <script src="js/functions.js"></script>
 <script>
 
+function getCantGraduados()
+{
+	var storage = window.localStorage;
+	var id = storage.getItem('id');
+	var param = {
+		"id":id
+	};
+	
+	$.ajax({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getCantGraduadosHabilitar.php",
+		data:param,
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetCantGraduados(r);
+		},
+		error: function(msg)
+		{
+			alert('No se pudo traer la cantidad de graduados');
+		}
+	});
+}
+
+function successGetCantGraduados(data)
+{
+	var cant = data[0].cantidad;
+	$('.cantGraduados').html(cant);
+}
+
 $(document).ready(function()
 {
 	$(".button-collapse").sideNav();
@@ -54,16 +84,17 @@ $(document).ready(function()
 	var cH,pH,eH;
 	if(checkAdministrador())
 	{
-		alert('Hola Luci soy Admin');
 		cH = 'cursosAdmin.html';
 		pH = 'posgradosAdmin.html';
 		eH = 'empleoAdmin.html';
+		getCantGraduados();
 	}
 	else
 	{
 		cH = 'cursos.html';
 		pH = 'posgrados.html';
 		eH = 'empleo.html';
+		$('.hideNotAdmin').hide();
 	}
 	
 	$('.cursosHref').prop('href',cH);

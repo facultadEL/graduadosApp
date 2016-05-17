@@ -46,11 +46,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="center-align">
+	<!--div class="center-align">
 		<button class="btn waves-effect light-blue darken-3" type="button" onclick="activate()" id="enableButton" name="action">Habilitar
 			<i class="material-icons right">mode_edit</i>
 		</button>
-	</div>
+	</div-->
 	<div class="card-panel blue lighten-5">
 
 		<div class="row">
@@ -85,6 +85,13 @@
 						<input type="hidden" id="idLocalidad" value=""/>
 						<label class="active">Localidad</label>
 						<input type="text" id="autocompleteState" class="autocomplete inputFields" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select id="regional">
+						</select>
+						<label>Regional</label>
 					</div>
 				</div>
 
@@ -176,6 +183,7 @@
 
 var habilitar = false;
 var firstClick = false;
+var regional;
 function activate(source)
 {
 	var htmlIcon = '';
@@ -286,6 +294,7 @@ function successGetData(data)
 	}
 	$('#autocompleteState').val(data.localidad);
 	$('#autocompleteState').focus();
+	successGetRegional(regional,data.regional);
 	$('#email').val(data.email);
 	$('#email').focus();
 	$('#celId').val(data.celId);
@@ -354,7 +363,8 @@ function controlSubmit()
 		"celId":($('#celId').val()),
 		"fijoId":($('#fijoId').val()),
 		"birthDate":birthDate,
-		"localidadId":($('#idLocalidad').val())
+		"localidadId":($('#idLocalidad').val()),
+		"regional":($('#regional').val())
 	}
 	$('#loader').show();
 	$.ajax({
@@ -414,6 +424,50 @@ function formatDate(date)
 	return `${year}-${month}-${day}`;
 }
 
+function getRegional()
+{
+	$.ajax({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRegional.php",
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			regional = r;
+		},
+		error: function(msg)
+		{
+			alert('Error al traer regionales');
+		}
+	});
+}
+
+function successGetRegional(data, val)
+{
+	if(data == undefined)
+	{
+		return;
+	}
+	
+	val = (val == undefined) ? 0 : val;
+	$('select').material_select('destroy');
+	regional = data;
+	htmlOptions = `<option value="0" disabled selected>Elija una regional</option>`;
+	
+	for(var i = 0; i < data.length; i++)
+	{
+		var id = data[i].id;
+		var selected = '';
+		if(id == val)
+		{
+			selected = ' selected ';
+		}
+		htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
+	}
+	
+	$('#regional').html(htmlOptions);
+	$('select').material_select();
+}
+
 $(document).ready(function (){
 	$('#loader').hide();
 	$(".button-collapse").sideNav();
@@ -421,6 +475,7 @@ $(document).ready(function (){
 		selectMonths: true, // Creates a dropdown to control month
 		selectYears: 100 // Creates a dropdown of 15 years to control year
 	});
+	getRegional();
 	getData();
 	
 	var cH,pH,eH;

@@ -73,6 +73,13 @@
 							<input type="text" id="autocompleteState" class="autocomplete inputFields" required>
 						</div>
 					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<select id="regional">
+							</select>
+							<label>Regional</label>
+						</div>
+					</div>
 
                     <h6 class="black-text">Contacto</h6>
                     <div class="divider"></div>
@@ -150,6 +157,7 @@
 	<script defer>
 
 	var passRequired = false;
+	var regional;
 
 	function controlVacio(nombreSelector)
 	{
@@ -201,6 +209,7 @@
 		if(!controlVacio('#autocompleteState')) return false;
 		if(!controlVacio('#email')) return false;
 		if(!controlVacio('#username')) return false;
+		if($('#regional').val() == "0") return false;
 		if(passRequired)
 		{
 			if(!controlVacio('#password')) return false;
@@ -225,7 +234,8 @@
 			"celId":($('#celId').val()),
 			"fijoId":($('#fijoId').val()),
 			"birthDate":birthDate,
-			"localidadId":($('#idLocalidad').val())
+			"localidadId":($('#idLocalidad').val()),
+			"regional":($('#regional').val())
 		}
 		$('#loader').show();
 		$.ajax({
@@ -352,6 +362,7 @@
 		}
 		$('#autocompleteState').val(data.localidad);
 		$('#autocompleteState').focus();
+		successGetRegional(regional,data.regional);
 		$('#email').val(data.email);
 		$('#email').focus();
 		$('#celId').val(data.celId);
@@ -566,9 +577,54 @@
 		});
 	}
 
+	function getRegional()
+	{
+		$.ajax({
+			type:"POST",
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRegional.php",
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				successGetRegional(r);
+			},
+			error: function(msg)
+			{
+				alert('Error al traer regionales');
+			}
+		});
+	}
+	
+	function successGetRegional(data, val)
+	{
+		if(data == undefined)
+		{
+			return;
+		}
+		
+		val = (val == undefined) ? 0 : val;
+		$('select').material_select('destroy');
+		regional = data;
+		htmlOptions = `<option value="0" disabled selected>Elija una regional</option>`;
+		
+		for(var i = 0; i < data.length; i++)
+		{
+			var id = data[i].id;
+			var selected = '';
+			if(id == val)
+			{
+				selected = ' selected ';
+			}
+			htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
+		}
+		
+		$('#regional').html(htmlOptions);
+		$('select').material_select();
+	}
+
 	$(document).ready(function(){
 		$('#loader').hide();
 		getDataLocalidad();
+		getRegional();
 		getDatos();
 		$('.datepicker').pickadate({
 			selectMonths: true, // Creates a dropdown to control month
