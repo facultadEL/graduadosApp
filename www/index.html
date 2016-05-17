@@ -159,7 +159,18 @@
 
 	$(document).ready(function(){
 		$('#loader').hide();
-		setTimeout(initialize, 1500);
+		var storage = window.localStorage;
+		var logout = storage.getItem('logout');
+		if(logout == null)
+		{
+			setTimeout(initialize, 1500);
+		}
+		else
+		{
+			storage.removeItem('logout');
+			$('#presentacion').hide();
+			initialize();
+		}
 	});
 
 	</script>
