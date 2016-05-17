@@ -112,11 +112,11 @@
 						{
 							var storage = window.localStorage;
 							var id = resp[0].id;
+							var administrador = resp[0].administrador;
 							storage.setItem('id',id);
-							
+							storage.setItem('administrador',administrador);
 							if(resp[0].first == 't')
 							{
-								
 								window.location.href="registro.html";
 							}
 							else

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+	<title>Cursos</title>
+</head>
+<body>
+<nav>
+	<div class="nav-wrapper blue darken-4">
+		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
+		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul class="left hide-on-med-and-down">
+			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
+		</ul>
+		<ul class="right hide-on-med-and-down">
+			<li><a href="cursosAdmin.html">Cursos</a></li>
+			<li><a href="posgradosAdmin.html">Posgrados</a></li>
+			<li><a href="empleoAdmin.html">Empleo</a></li>
+			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
+		</ul>
+		<ul class="side-nav" id="mobile-demo">
+			<li><a href="perfil.html">Perfil</a></li>
+			<li><a href="cursosAdmin.html">Cursos</a></li>
+			<li><a href="posgradosAdmin.html">Posgrados</a></li>
+			<li><a href="empleoAdmin.html">Empleo</a></li>
+			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+		</ul>
+	</div>
+</nav>
+<div class="container">
+	<h4>Form para crear cursos</h4>
+	
+	<div class="footer-copyright right-align">
+		<div class="container">
+			<i>© 2016 UTN FRVM</i>
+		</div>
+	</div>
+</div>
+  <script src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/functions.js"></script>
+  <script>
+
+	  $(document).ready(function()
+	  {
+		  $(".button-collapse").sideNav();
+	  });
+
+  </script>
+
+</body>
+</html>

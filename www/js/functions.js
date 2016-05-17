@@ -80,9 +80,24 @@ function checkId()
 	}
 }
 
+function checkAdministrador()
+{
+	var storage = window.localStorage;
+	var administrador = storage.getItem('administrador');
+	if(administrador == 't')
+	{
+		return true;
+	}
+	else
+	{
+		return false;	
+	}
+}
+
 function logout()
 {
 	var storage = window.localStorage;
 	storage.removeItem('id');
+	storage.removeItem('administrador');
 	window.location.href = 'index.html';
 }
