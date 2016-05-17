@@ -99,6 +99,7 @@ function logout()
 	var storage = window.localStorage;
 	storage.removeItem('id');
 	storage.removeItem('administrador');
+	storage.removeItem('cantidad');
 	storage.setItem('logout','t');
 	window.location.href = 'index.html';
 }
