@@ -35,15 +35,14 @@
 	</div>
 </nav>
 <div class="container">
-	<h4>Form para cargar empleos</h4>
-    <ul class="collection with-header">
-        <li class="collection-header"><h4>Graduados para activar</h4></li>
-        <li class="collection-item"><div><span for="filled-in-box">Alvin</span><div class="secondary-content"><input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" /><label for="filled-in-box"></label></div></div></li>
-        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+    <ul class="collection" id="graduadosUl">
+		
     </ul>
+	<div class="fixed-action-btn vertical" style="bottom: 45px; right: 24px;">
+		<a class="btn-floating btn-large blue darken-4" onclick="habilitar()">
+			<i class="material-icons" id="iconEdit">done</i>
+		</a>
+	</div>
 	<div class="footer-copyright right-align">
 		<div class="container">
 			<i>© 2016 UTN FRVM</i>
@@ -54,7 +53,7 @@
 <script src="js/materialize.js"></script>
 <script src="js/functions.js"></script>
 <script>
-
+var graduados;
 function setCantidad()
 {
 	var storage = window.localStorage;
@@ -69,10 +68,106 @@ function setCantidad()
 	}
 }
 
+function getGraduados()
+{
+	var storage = window.localStorage;
+	var id = storage.getItem('id');
+	
+	var param = {
+		"id":id
+	};
+	
+	$.ajax({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getGraduadosHabilitar.php",
+		data: param,
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetGraduados(r);
+		},
+		error: function(msg)
+		{
+			toasty('Error al traer graduados','error');
+		}
+	});
+}
+
+function successGetGraduados(data)
+{
+	graduados = data;
+	var htmlGrad = '';
+	var dLength = data.length;
+	for(var i = 0; i < dLength; i++)
+	{
+		var g = data[i];
+		var text = `${g.apellido}, ${g.nombre} - ${g.dni}`;
+		if(text.length > 40)
+		{
+			if(g.nombre.length > 6)
+			{
+				var n = g.nombre.substring(0,6) + '...';
+				text = `${g.apellido}, ${n} - ${g.dni}`
+			}
+		}
+		htmlGrad += `<li class="collection-item"><div><label for="gradCheck-${g.id}" id="gradLabel">${text}</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="gradCheck-${g.id}" /><label for="gradCheck-${g.id}" id="checkGrad"></label></div></div></li>`;
+	}
+	
+	$('#graduadosUl').html(htmlGrad);	
+}
+
+function habilitar()
+{
+	var data = graduados;
+	var dLength = data.length;
+	var count = 0;
+	var idHabilitar = '';
+	for(var i = 0; i < dLength; i++)
+	{
+		var g = data[i];
+		var name = `#gradCheck-${g.id}`;
+		if($(name).is(':checked'))
+		{
+			count++;
+			idHabilitar += `${g.id}/--/`;
+		}
+	}
+	
+	if(count > 0)
+	{
+		var param = {
+			"idHabilitar":idHabilitar
+		};
+		
+		$.ajax({
+			type:"POST",
+			data:param,
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/habilitarGraduado.php",
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				if(r[0].success == 't')
+				{
+					getGraduados();
+				}
+				else
+				{
+					toasty('Hubo un problema al habilitar los graduados','error');
+				}
+			}
+		});
+	}
+	else
+	{
+		toasty('Seleccione al menos un graduado','error');
+	}
+}
+
 $(document).ready(function()
 {
 	$(".button-collapse").sideNav();
     setCantidad();
+	getGraduados();
 });
 
 </script>
