@@ -47,13 +47,8 @@
                         
                         <div class="input-field col s12">
                         	<input type="hidden" id="id" />
-                              <select required>
-                                    <option value="" disabled selected>Seleccione el nombre de una empresa</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
-                                <label>Nombre Empresa</label>                           
+                            <input id="empresa" type="text" class="validate" onkeydown="sacarColor(this)" placeholder="Ingrese el nombre de la empresa" required>
+                            <label for="empresa">Empresa:</label>                         
                         </div>
                     </div>
                     
@@ -82,12 +77,13 @@
             </div>
         
 	
-	<div class="footer-copyright right-align">
+	
+</div>
+<div class="footer-copyright right-align">
 		<div class="container">
 			<i>© 2016 UTN FRVM</i>
 		</div>
 	</div>
-</div>
   <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
