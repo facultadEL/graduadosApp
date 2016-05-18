@@ -116,39 +116,17 @@
 	
 	function controlSubmit()
 	{
-		if(!controlVacio('#first_name')) return false;
-		if(!controlVacio('#last_name')) return false;
-		if(!controlVacio('#dni')) return false;
-		if(!controlVacio('#autocompleteState')) return false;
-		if(!controlVacio('#email')) return false;
-		if(!controlVacio('#username')) return false;
-		if($('#regional').val() == "0") return false;
-		if(passRequired)
-		{
-			if(!controlVacio('#password')) return false;
-		}
+		if(!controlVacio('#url')) return false;
+		if(!controlVacio('#detalle')) return false;
+		
 
-		var birthDate = formatDate($('#fechanac').val());
+		
 
 		var param = {
-			"id":($('#id').val()),
-			"nombre":($('#first_name').val()),
-			"apellido":($('#last_name').val()),
-			"dni":($('#dni').val()),
-			"localidad":($('#loc').val()),
-			"email":($('#email').val()),
-			"caracCel":($('#carCel').val()),
-			"cel":($('#cel').val()),
-			"caracFijo":($('#carFijo').val()),
-			"fijo":($('#fijo').val()),
-			"username":($('#username').val()),
-			"passRequired": passRequired,
-			"password":($('#password').val()),
-			"celId":($('#celId').val()),
-			"fijoId":($('#fijoId').val()),
-			"birthDate":birthDate,
-			"localidadId":($('#idLocalidad').val()),
-			"regional":($('#regional').val())
+			//"id":($('#id').val()),
+			"url":($('#url').val()),
+			"detalle":($('#detalle').val()),
+			
 		}
 		$('#loader').show();
 		$.ajax({
