@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+	<title>Cursos</title>
+</head>
+<body>
+<nav>
+	<div class="nav-wrapper blue darken-4">
+		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
+		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul class="left hide-on-med-and-down">
+			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
+		</ul>
+		<ul class="right hide-on-med-and-down">
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
+			<li><a href="cursosAdmin.html"><strong>Cursos</strong></a></li>
+			<li><a href="posgradosAdmin.html">Posgrados</a></li>
+			<li><a href="empleoAdmin.html">Empleo</a></li>
+            <li><a href="descuentosAdmin.html">Descuentos</a></li>
+			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
+		</ul>
+		<ul class="side-nav" id="mobile-demo">
+			<li><a href="perfil.html">Perfil</a></li>
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
+			<li><a href="cursosAdmin.html"><strong>Cursos</strong></a></li>
+			<li><a href="posgradosAdmin.html">Posgrados</a></li>
+			<li><a href="empleoAdmin.html">Empleo</a></li>
+            <li><a href="descuentosAdmin.html">Descuentos</a></li>
+			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+		</ul>
+	</div>
+</nav>
+<div class="container">
+	<div class="card-panel blue lighten-5">
+
+            <div class="row">
+
+                <form class="col s12" id="form" onsubmit="return controlSubmit();">
+
+                    <h6 class="black-text">Cargar un nuevo descuento</h6>
+                    <div class="divider"></div> <br>
+                    <div class="row">
+                        
+                        <div class="input-field col s12">
+                        	<input type="hidden" id="id" />
+                              <select required>
+                                    <option value="" disabled selected>Seleccione el nombre de una empresa</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                                <label>Nombre Empresa</label>                           
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="url" type="text" class="validate" onkeydown="sacarColor(this)" placeholder="Dirección de la página de la empresa" required>
+                            <label for="url">URL:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+
+                            <div class="input-field col s12">
+                                <textarea id="detalle" class="materialize-textarea validate" length="120" onkeydown="sacarColor(this)" placeholder="Descripción del beneficio" required></textarea>
+                                <label for="detalle">Detalle Descuento:</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="center-align">
+                        <button class="btn waves-effect light-blue darken-3" type="submit" name="action">Registrar Descuento
+                            <i class="material-icons right">done</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        
+	
+	<div class="footer-copyright right-align">
+		<div class="container">
+			<i>© 2016 UTN FRVM</i>
+		</div>
+	</div>
+</div>
+  <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script defer>
+
+	var passRequired = false;
+	var regional;
+
+	function controlVacio(nombreSelector)
+	{
+		if($.trim($(nombreSelector).val()) == '')
+		{
+			$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
+			$(nombreSelector).focus();
+			return false;
+		}
+		return true;
+	}
+
+	function sacarColor(me)
+	{
+		$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+	}
+
+	
+	function controlSubmit()
+	{
+		if(!controlVacio('#first_name')) return false;
+		if(!controlVacio('#last_name')) return false;
+		if(!controlVacio('#dni')) return false;
+		if(!controlVacio('#autocompleteState')) return false;
+		if(!controlVacio('#email')) return false;
+		if(!controlVacio('#username')) return false;
+		if($('#regional').val() == "0") return false;
+		if(passRequired)
+		{
+			if(!controlVacio('#password')) return false;
+		}
+
+		var birthDate = formatDate($('#fechanac').val());
+
+		var param = {
+			"id":($('#id').val()),
+			"nombre":($('#first_name').val()),
+			"apellido":($('#last_name').val()),
+			"dni":($('#dni').val()),
+			"localidad":($('#loc').val()),
+			"email":($('#email').val()),
+			"caracCel":($('#carCel').val()),
+			"cel":($('#cel').val()),
+			"caracFijo":($('#carFijo').val()),
+			"fijo":($('#fijo').val()),
+			"username":($('#username').val()),
+			"passRequired": passRequired,
+			"password":($('#password').val()),
+			"celId":($('#celId').val()),
+			"fijoId":($('#fijoId').val()),
+			"birthDate":birthDate,
+			"localidadId":($('#idLocalidad').val()),
+			"regional":($('#regional').val())
+		}
+		$('#loader').show();
+		$.ajax({
+			type:"POST",
+			data: param,
+			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
+			success: function(response)
+			{
+				$('#loader').hide();
+				var r = JSON.parse(response);
+				if(r[0].success)
+				{
+					if(r[0].created)
+					{
+						window.location.href="index.html";
+					}
+					else
+					{
+						var storage = window.localStorage;
+						storage.setItem('id', $('#id').val());
+						window.location.href="inicio.html";
+					}
+				}
+				else
+				{
+					alert("No se pudo guardar");
+				}
+			},
+			error: function(msg)
+			{
+				alert("Hubo un error al guardar los datos");
+			}
+		});
+
+		return false;
+	}
+
+	function getDatos()
+	{
+		
+		var storage = window.localStorage;
+		var id = storage.getItem('id');
+		var param = {};
+		if(id != undefined)
+		{
+			param = {
+				"id":id	
+			};
+		}
+		else
+		{
+			param = {
+				"id": -1
+			}
+		}
+		
+		$.ajax({
+			type:"GET",
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
+			data: param,
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				successGetDatos(r[0]);
+			},
+			error: function(msg)
+			{
+				alert(`Hubo un error al buscar los datos. Error: ${msg}`);
+			}
+		});
+	}
+
+	$(document).ready(function(){
+		
+            $('input#url, textarea').characterCounter();
+      
+            $('select').material_select();
+
+	});
+
+	</script>
+
+</body>
+</html>
