@@ -80,10 +80,34 @@ function getGraduados()
 	});
 }
 
+function checkAll()
+{
+	var check;
+	if($('#todosCheck').is(':checked'))
+	{
+		check = true;
+	}
+	else
+	{
+		check = false;
+	}
+	
+	var data = graduados;
+	var dLength = data.length;
+	
+	for(var i = 0; i < dLength; i++)
+	{
+		var g = data[i];
+		var name = `#gradCheck-${g.id}`;
+		$(name).prop('checked',check);
+	}
+	
+}
+
 function successGetGraduados(data)
 {
 	graduados = data;
-	var htmlGrad = '';
+	var htmlGrad = '<li class="collection-item" id="liTodos"><div><label for="todosCheck" id="gradLabel">Todos</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="todosCheck" onclick="checkAll()" /><label for="todosCheck" id="checkGrad"></label></div></div></li>';
 	var dLength = data.length;
 	for(var i = 0; i < dLength; i++)
 	{
@@ -123,7 +147,7 @@ function habilitar()
 	if(count > 0)
 	{
 		var param = {
-			"idHabilitar":idHabilitar
+			"idHabilitar":idHabilitar,
 		};
 		
 		$.ajax({
@@ -135,6 +159,7 @@ function habilitar()
 				var r = JSON.parse(response);
 				if(r[0].success == 't')
 				{
+					initializeCantidad(r[0].cant);
 					getGraduados();
 				}
 				else

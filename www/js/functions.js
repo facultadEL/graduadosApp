@@ -109,6 +109,13 @@ function setCantidad()
 	}
 }
 
+function initializeCantidad(cant)
+{
+	var storage = window.localStorage;
+	storage.setItem('cantidad',cant);
+	setCantidad();
+}
+
 function logout()
 {
 	var storage = window.localStorage;
