@@ -14,9 +14,9 @@
 		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 		<ul class="left hide-on-med-and-down">
 			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 			<li><a href="cursosAdmin.html"><strong>Cursos</strong></a></li>
 			<li><a href="posgradosAdmin.html">Posgrados</a></li>
 			<li><a href="empleoAdmin.html">Empleo</a></li>
@@ -90,9 +90,6 @@
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script defer>
 
-	var passRequired = false;
-	var regional;
-
 	function controlVacio(nombreSelector)
 	{
 		if($.trim($(nombreSelector).val()) == '')
@@ -115,36 +112,27 @@
 		if(!controlVacio('#url')) return false;
 		if(!controlVacio('#detalle')) return false;
 		
-
+		var storage = window.localStorage;
+		var id = storage.getItem('id');
 		
-
 		var param = {
-			//"id":($('#id').val()),
+			"id":id,
 			"url":($('#url').val()),
-			"detalle":($('#detalle').val()),
-			
+			"detalle":($('#detalle').val())
 		}
+		
 		$('#loader').show();
 		$.ajax({
 			type:"POST",
 			data: param,
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
+			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDescuento.php",
 			success: function(response)
 			{
 				$('#loader').hide();
 				var r = JSON.parse(response);
 				if(r[0].success)
 				{
-					if(r[0].created)
-					{
-						window.location.href="index.html";
-					}
-					else
-					{
-						var storage = window.localStorage;
-						storage.setItem('id', $('#id').val());
-						window.location.href="inicio.html";
-					}
+					alert("Se guardo correcto");
 				}
 				else
 				{
@@ -160,46 +148,12 @@
 		return false;
 	}
 
-	function getDatos()
-	{
-		
-		var storage = window.localStorage;
-		var id = storage.getItem('id');
-		var param = {};
-		if(id != undefined)
-		{
-			param = {
-				"id":id	
-			};
-		}
-		else
-		{
-			param = {
-				"id": -1
-			}
-		}
-		
-		$.ajax({
-			type:"GET",
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
-			data: param,
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				successGetDatos(r[0]);
-			},
-			error: function(msg)
-			{
-				alert(`Hubo un error al buscar los datos. Error: ${msg}`);
-			}
-		});
-	}
-
 	$(document).ready(function(){
 		
             $('input#url, textarea').characterCounter();
       
             $('select').material_select();
+			setCantidad();
 
 	});
 

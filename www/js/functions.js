@@ -94,6 +94,21 @@ function checkAdministrador()
 	}
 }
 
+//Trae la cantidad de graduados a la espera de ser habilitados
+function setCantidad()
+{
+	var storage = window.localStorage;
+	var cant = storage.getItem('cantidad');
+	if(parseInt(cant) > 0)
+	{
+		$('.cantGraduados').html(cant);
+	}
+	else
+	{
+		$('.cantGraduados').hide();
+	}
+}
+
 function logout()
 {
 	var storage = window.localStorage;

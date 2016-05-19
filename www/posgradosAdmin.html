@@ -15,9 +15,9 @@
 		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 		<ul class="left hide-on-med-and-down">
 			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
+			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
 			<li><a href="cursosAdmin.html">Cursos</a></li>
 			<li><a href="posgradosAdmin.html"><strong>Posgrados</strong></a></li>
 			<li><a href="empleoAdmin.html">Empleo</a></li>
@@ -49,20 +49,6 @@
 <script src="js/materialize.js"></script>
 <script src="js/functions.js"></script>
 <script>
-
-function setCantidad()
-{
-	var storage = window.localStorage;
-	var cant = storage.getItem('cantidad');
-	if(parseInt(cant) > 0)
-	{
-		$('.cantGraduados').html(cant);
-	}
-	else
-	{
-		$('.cantGraduados').hide();
-	}
-}
 
 $(document).ready(function()
 {
