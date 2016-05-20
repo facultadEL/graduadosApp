@@ -16,38 +16,27 @@
 			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
-			<li><a href="cursos.html"><strong>Cursos</strong></a></li>
+			<li><a href="cursos.html">Cursos</a></li>
 			<li><a href="posgrados.html">Posgrados</a></li>
 			<li><a href="empleo.html">Empleo</a></li>
-            <li><a href="descuentos.html">Descuentos</a></li>
+            <li><a href="descuentos.html"><strong>Descuentos</strong></a></li>
 			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li><a href="perfil.html">Perfil</a></li>
-			<li><a href="cursos.html"><strong>Cursos</strong></a></li>
+			<li><a href="cursos.html">Cursos</a></li>
 			<li><a href="posgrados.html">Posgrados</a></li>
 			<li><a href="empleo.html">Empleo</a></li>
-            <li><a href="descuentos.html">Descuentos</a></li>
+            <li><a href="descuentos.html"><strong>Descuentos</strong></a></li>
 			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
 		</ul>
 	</div>
 </nav>
 <div class="container">
-    <h4>Cursos 2016</h4>
-    <ul class="collapsible" data-collapsible="accordion">
-        <li>
-            <div class="collapsible-header"><i class="material-icons">reorder</i>Curso 1</div>
-            <div class="collapsible-body"><p>Descripción del curso 1</p></div>
-        </li>
-        <li>
-            <div class="collapsible-header"><i class="material-icons">reorder</i>Curso 2</div>
-            <div class="collapsible-body"><p>Descripción del curso 2</p></div>
-        </li>
-        <li>
-            <div class="collapsible-header"><i class="material-icons">reorder</i>Curso 3</div>
-            <div class="collapsible-body"><p>Descripción del curso 3</p></div>
-        </li>
-    </ul>
+    <h4>Descuentos</h4>
+    
+    <ul class="collection" id="ulDescuentos">
+	</ul>
     <div class="footer-copyright right-align">
         <div class="container">
             <i>© 2016 UTN FRVM</i>
@@ -59,8 +48,56 @@
   <script src="js/functions.js"></script>
   <script>
 
+	function getDescuento()
+	{
+		var storage = window.localStorage;
+		var id = storage.getItem('id');
+		  
+		var param = {
+			"id":id
+		};
+		
+		$.ajax({
+			type:"POST",
+			url: "http://extension.frvm.utn.edu.ar/graduadosApi/getDescuento.php",
+			data: param,
+			success: function(response)
+			{
+				var r = JSON.parse(response);
+				successGetDescuento(r);
+			},
+			error: function(msg)
+			{
+				toasty('Error al traer los descuentos','error');
+			}
+		});
+	}
+	  
+	function successGetDescuento(data)
+	{
+		var htmlDescuentos = '';
+		var l = data.length;
+		for(var i = 0; i < l; i++)
+		{
+			var d = data[i];
+			htmlDescuentos += `<li class="collection-item avatar">
+				<img src="${d.imagen}" alt="" class="circle">
+				<span class="title">${d.titulo} - <a href="${d.url}">${d.empresa}</a></span>
+				<p>${d.detalle} <br>
+					Esta es la segunda linea
+				</p>
+				<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+			</li>`;
+		}
+		
+		$('#ulDescuentos').html(htmlDescuentos);
+		
+	}
+
       $(document).ready(function()
       {
+		  
+		  getDescuento();
           $(".button-collapse").sideNav();
       });
 
