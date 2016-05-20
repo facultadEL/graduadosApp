@@ -186,19 +186,19 @@
 			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDescuento.php",
 			success: function(response)
 			{
-				console.log(response);
+				
 				$('#loader').hide();
-				/*
 				var r = JSON.parse(response);
 				if(r[0].success)
 				{
-					alert("Se guardo correcto");
+					alert("Se guardo correctamente");
+					reset();
 				}
 				else
 				{
 					alert("No se pudo guardar");
 				}
-				*/
+				
 			},
 			error: function(msg)
 			{
@@ -208,6 +208,14 @@
 		});
 
 		return false;
+	}
+
+	function reset()
+	{
+		$('#hideNotFound').hide();
+		$('#rowNuevaImagen').hide();
+		$('#idEmpresa').val('-1');
+		controlImage(-1);
 	}
 
 	function successGetEmpresa(r)
