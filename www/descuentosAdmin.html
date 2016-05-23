@@ -117,6 +117,7 @@
 	<script defer>
 
 	var validExt = ['jpg','png','jpeg'];
+	var lastName = 'none';
 
 	function controlVacio(nombreSelector)
 	{
@@ -216,6 +217,10 @@
 		$('#rowNuevaImagen').hide();
 		$('#idEmpresa').val('-1');
 		controlImage(-1);
+		$('#empresa').val('');
+		$('#titulo').val('');
+		$('#url').val('');
+		$('#detalle').val('');
 	}
 
 	function successGetEmpresa(r)
@@ -344,24 +349,28 @@
 	{
 		name = (name == undefined) ? $('#empresa').val() : name;
 		
-		var param = {
-			"name": name
-		};
-		
-		$.ajax({
-			type:"POST",
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDatosEmpresaByNombre.php",
-			data: param,
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				successGetDatosEmpresa(r[0]);
-			},
-			error: function(msg)
-			{
-				toasty('Hubo un error al traer los datos de la empresa','error');
-			}
-		})
+		if(name != lastName)
+		{
+			lastName = name;
+			var param = {
+				"name": name
+			};
+			
+			$.ajax({
+				type:"POST",
+				url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDatosEmpresaByNombre.php",
+				data: param,
+				success: function(response)
+				{
+					var r = JSON.parse(response);
+					successGetDatosEmpresa(r[0]);
+				},
+				error: function(msg)
+				{
+					toasty('Hubo un error al traer los datos de la empresa','error');
+				}
+			});
+		}
 	}
 	
 	function successGetDatosEmpresa(data)

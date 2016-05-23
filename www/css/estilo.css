@@ -150,3 +150,28 @@ main {
 #liTodos{
 	background-color: lightgray;
 }
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  font-size: 28px;
+  color: #26a69a;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before, .change:before {
+   content: "\2605";
+   position: absolute;
+}
+
+.activeRate {
+	color: #26a69a;
+}
+
+.rating.hide-on-large-only{
+	margin-left: -8px;
+}
