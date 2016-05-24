@@ -213,7 +213,7 @@ function controlBack(source)
 				}
 				else
 				{
-					window.location.href = "inicio.html";	
+					window.location.href = "inicio.html";
 				}
 				// Handle the back (or forward) buttons here
 				// Will NOT handle refresh, use onbeforeunload for this.

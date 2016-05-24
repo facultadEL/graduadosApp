@@ -24,8 +24,6 @@
 			</div>
 		</div>
 	</div>
-    <h4>Descuentos</h4>
-    
     <ul class="collection" id="ulDescuentos">
 	</ul>
 	<div id="modalComentario" class="modal">
@@ -36,7 +34,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="saveRate()">Puntuar</a>
+			<a class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="saveRate()">Puntuar</a>
 		</div>
 	</div>
 </div>
@@ -55,6 +53,7 @@ var paramDiscount = {};
 
 function getDescuento()
 {
+	$('#loader').show();
 	var param = {
 		"id":getItem('id')
 	};
@@ -82,7 +81,7 @@ function saveRate()
 	paramDiscount.id = getItem('id');
 	
 	$.ajax({
-		type:'POST',
+		type:"POST",
 		data: paramDiscount,
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/rateDescuento.php",
 		success: function(response)
@@ -97,18 +96,21 @@ function saveRate()
 			$('#loader').hide();
 			toasty('No se pudo guardar el puntaje','error');
 		}
-	}) 
+	});
 }
 
 function setRate(id,puntaje)
 {
 	for(var i = 1; i <= 5; i++)
 	{
+		var name = `#rate${id}-${i}`;
+		var nameMob = `#rateM${id}-${i}`;
+		
+		$(name).removeClass('change');
+		$(nameMob).removeClass('change');
+		
 		if(i <= puntaje)
-		{
-			var name = `#rate${id}-${i}`;
-			var nameMob = `#rateM${id}-${i}`;
-			
+		{	
 			$(name).toggleClass('change');
 			$(nameMob).toggleClass('change');
 		}
@@ -161,7 +163,7 @@ function successGetDescuento(data)
 			</a>
 		</li>`;
 	}
-	
+	$('#loader').hide();
 	$('#ulDescuentos').html(htmlDescuentos);
 	
 }
