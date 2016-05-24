@@ -166,6 +166,8 @@ function checkMenu()
 function successGetCantGraduados()
 {
 	var cant = getItem('cantidad');
+	if(cant == null) return;
+		
 	if(parseInt(cant) > 0)
 	{
 		$('.cantGraduados').show();
