@@ -75,7 +75,7 @@ function successGetGraduados(data)
 	{
 		var g = data[i];
 		var text = `${g.apellido}, ${g.nombre} - ${g.dni}`;
-		if(text.length > 40)
+		if(text.length > 35)
 		{
 			if(g.nombre.length > 6)
 			{
