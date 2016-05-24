@@ -4,6 +4,7 @@ body {
 		flex-direction: column;
 }
 
+
 main {
 		flex: 1 0 auto;
 }
@@ -175,3 +176,6 @@ main {
 .rating.hide-on-large-only{
 	margin-left: -8px;
 }
+
+
+#subnavbar{height:30px;}
