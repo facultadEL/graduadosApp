@@ -173,9 +173,11 @@ main {
 	color: #26a69a;
 }
 
-.rating.hide-on-large-only{
+.rating.hide-on-large-only {
 	margin-left: -8px;
 }
 
 
-#subnavbar{height:30px;}
+#subnavbar, #navsubnavbar {
+	height:30px;
+}

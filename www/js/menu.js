@@ -24,3 +24,14 @@ document.write(`<div class="navbar-fixed"><nav id="nav">
 		</ul>
 	</div>
 </nav></div>`);
+
+function showSubNavBar(menu)
+{
+    document.write(`<div class="navbar-fixed" id="subnavbar">
+	<nav id="navsubnavbar">
+		<div class="nav-wrapper teal lighten-1">
+		    <a href="" class="brand-logo center"><h6  style="color:white">${menu}</h6></a>
+        </div>
+    </nav>
+    </div>`);
+}
