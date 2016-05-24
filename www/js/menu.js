@@ -1,4 +1,4 @@
-document.write(`<nav id="nav">
+document.write(`<div class="navbar-fixed"><nav id="nav">
 	<div class="nav-wrapper blue darken-4">
 		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
 		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -23,4 +23,4 @@ document.write(`<nav id="nav">
 			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
 		</ul>
 	</div>
-</nav>`);
+</nav></div>`);

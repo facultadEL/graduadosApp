@@ -204,7 +204,7 @@ function controlBack(source)
 		if (typeof history.pushState === "function") {
 			history.pushState("jibberish", null, null);
 			window.onpopstate = function () {
-				if(source == 'inicio')
+				if(source == 'inicio' || source == 'index')
 				{
 					history.pushState('newjibberish', null, null);
 					navigator.app.exitApp();
@@ -220,16 +220,14 @@ function controlBack(source)
 		else {
 			var ignoreHashChange = true;
 			window.onhashchange = function () {
-				if (!ignoreHashChange) {
-					ignoreHashChange = true;
-					window.location.hash = Math.random();
-					// Detect and redirect change here
-					// Works in older FF and IE9
-					// * it does mess with your hash symbol (anchor?) pound sign
-					// delimiter on the end of the URL
+				if(source == 'inicio' || source == 'index')
+				{
+					history.pushState('newjibberish', null, null);
+					navigator.app.exitApp();
 				}
-				else {
-					ignoreHashChange = false;   
+				else
+				{
+					window.location.href = "inicio.html";	
 				}
 			};
 		}
