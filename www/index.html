@@ -131,7 +131,7 @@ function doLogin()
 		error: function(msg)
 		{
 			$('#loader').hide();
-			alert(`Se ha producido un error en el logueo. Error: ${msg}`);
+			toasty(`Se ha producido un error de conexión.`,'error');
 		}
 	});
 

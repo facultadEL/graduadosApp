@@ -39,7 +39,7 @@ function getCantGraduados()
 		},
 		error: function(msg)
 		{
-			alert('No se pudo traer la cantidad de graduados');
+			toasty('No se pudo traer la cantidad de graduados','error');
 		}
 	});
 }

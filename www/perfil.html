@@ -333,12 +333,12 @@ function controlSubmit()
 			}
 			else
 			{
-				alert("No se pudo guardar");
+				toasty("No se pudo guardar",'error');
 			}
 		},
 		error: function(msg)
 		{
-			alert("Hubo un error al guardar los datos");
+			toasty("Hubo un error de conexion",'error');
 		}
 	});
 
@@ -388,7 +388,7 @@ function getRegional()
 		},
 		error: function(msg)
 		{
-			alert('Error al traer regionales');
+			toasty('Error al traer regionales','error');
 		}
 	});
 }

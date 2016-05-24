@@ -256,12 +256,12 @@ function controlSubmit()
 			}
 			else
 			{
-				alert("No se pudo guardar");
+				toasty("No se pudo guardar",'error');
 			}
 		},
 		error: function(msg)
 		{
-			alert("Hubo un error al guardar los datos");
+			toasty("Hubo un error de conexión",'error');
 		}
 	});
 
@@ -293,7 +293,7 @@ function getDatos()
 		},
 		error: function(msg)
 		{
-			alert(`Hubo un error al buscar los datos. Error: ${msg}`);
+			toasty(`Hubo un error al buscar los datos. Problema de conexión`,'error');
 		}
 	});
 }
@@ -405,7 +405,7 @@ function checkDni()
 				},
 				error: function(msg)
 				{
-					alert("Se ha generado un error al ir a buscar los datos por DNI");
+					toasty("Se ha generado un error al ir a buscar los datos por DNI. Problema de conexión",'error');
 				}
 			});
 		}
@@ -556,7 +556,7 @@ function getDataLocalidad()
 		},
 		error: function(msg)
 		{
-			alert('Error al traer localidades');
+			toasty('Error al traer localidades.Problema de conexión','error');
 		}
 	});
 }
@@ -573,7 +573,7 @@ function getRegional()
 		},
 		error: function(msg)
 		{
-			alert('Error al traer regionales');
+			toasty('Error al traer regionales.Problema de conexión','error');
 		}
 	});
 }

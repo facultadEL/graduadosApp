@@ -128,6 +128,10 @@ function habilitar()
 				{
 					toasty('Hubo un problema al habilitar los graduados','error');
 				}
+			},
+			error: function(msg)
+			{
+				toasty('Hubo un problema de conexión','error');
 			}
 		});
 	}
