@@ -8,8 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-
-
     <div class="container-fluid">
 	    <div class="navbar-fixed">
 	        <nav>
@@ -275,7 +273,7 @@ function getDatos()
 	id = getItem('id');
 	var param = {};
 	param.id = (id != undefined) ? id : -1;
-	if(id == -1)
+	if(id == -1 || id == null)
 	{
 		return;
 	}
@@ -608,7 +606,6 @@ function successGetRegional(data, val)
 }
 
 $(document).ready(function(){
-	checkMenu();
 	$('#loader').hide();
 	getDataLocalidad();
 	getRegional();
