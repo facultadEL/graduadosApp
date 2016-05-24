@@ -180,4 +180,5 @@ main {
 
 #subnavbar, #navsubnavbar {
 	height:30px;
+	z-index: 100;
 }
