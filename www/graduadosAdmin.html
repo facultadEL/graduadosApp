@@ -8,32 +8,7 @@
 	<title>Graduados</title>
 </head>
 <body>
-<nav>
-	<div class="nav-wrapper blue darken-4">
-		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
-		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
-			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html"><strong>Graduados</strong> <span class="new badge cantGraduados">0</span></a></li>
-		</ul>
-		<ul class="right hide-on-med-and-down">
-			<li><a href="cursosAdmin.html">Cursos</a></li>
-			<li><a href="posgradosAdmin.html">Posgrados</a></li>
-			<li><a href="empleoAdmin.html">Empleo</a></li>
-			<li><a href="descuentosAdmin.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
-		</ul>
-		<ul class="side-nav" id="mobile-demo">
-			<li><a href="perfil.html">Perfil</a></li>
-            <li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html"><strong>Graduados</strong> <span class="new badge cantGraduados">0</span></a></li>
-			<li><a href="cursosAdmin.html">Cursos</a></li>
-			<li><a href="posgradosAdmin.html">Posgrados</a></li>
-			<li><a href="empleoAdmin.html">Empleo</a></li>
-			<li><a href="descuentosAdmin.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
-		</ul>
-	</div>
-</nav>
+<script src="js/menu.js"></script>
 <div class="container">
     <ul class="collection" id="graduadosUl">
 		
@@ -57,13 +32,10 @@ var graduados;
 
 function getGraduados()
 {
-	var storage = window.localStorage;
-	var id = storage.getItem('id');
-	
 	var param = {
-		"id":id
+		"id":getItem('id')
 	};
-	
+		
 	$.ajax({
 		type:"POST",
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getGraduadosHabilitar.php",
@@ -82,16 +54,7 @@ function getGraduados()
 
 function checkAll()
 {
-	var check;
-	if($('#todosCheck').is(':checked'))
-	{
-		check = true;
-	}
-	else
-	{
-		check = false;
-	}
-	
+	var check = ($('#todosCheck').is(':checked')) ? true : false;
 	var data = graduados;
 	var dLength = data.length;
 	
@@ -101,7 +64,6 @@ function checkAll()
 		var name = `#gradCheck-${g.id}`;
 		$(name).prop('checked',check);
 	}
-	
 }
 
 function successGetGraduados(data)
@@ -166,6 +128,10 @@ function habilitar()
 				{
 					toasty('Hubo un problema al habilitar los graduados','error');
 				}
+			},
+			error: function(msg)
+			{
+				toasty('Hubo un problema de conexión','error');
 			}
 		});
 	}
@@ -177,11 +143,13 @@ function habilitar()
 
 $(document).ready(function()
 {
+	checkMenu();
 	$(".button-collapse").sideNav();
     setCantidad();
 	getGraduados();
 });
 
+controlBack('graduados');
 </script>
 </body>
 </html>

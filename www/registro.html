@@ -8,13 +8,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-
-
     <div class="container-fluid">
 	    <div class="navbar-fixed">
 	        <nav>
 	            <div class="nav-wrapper nav-bar-fixed blue darken-4">
-					<ul class="left">
+					<ul class="left" id="arrowUl">
 						<li><a href="index.html"><i class="material-icons" style="-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);">trending_flat</i></a></li>
 					</ul>
 	                <a href="registro.html" class="brand-logo center">Registro</a>
@@ -142,496 +140,482 @@
             </div>
 
         </div>
-        <div class="footer-copyright right-align">
-            <div class="container">
-                <i>© 2016 UTN FRVM</i>
-            </div>
-        </div>
-    </div>
+	</div>
+<div class="footer-copyright right-align">
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
+	</div>
+</div>
+    
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script defer>
 
+var passRequired = false;
+var regional;
 
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
-	<script defer>
-
-	var passRequired = false;
-	var regional;
-
-	function controlVacio(nombreSelector)
+function controlVacio(nombreSelector)
+{
+	if($.trim($(nombreSelector).val()) == '')
 	{
-		if($.trim($(nombreSelector).val()) == '')
-		{
-			$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
-			$(nombreSelector).focus();
-			return false;
-		}
-		return true;
+		$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
+		$(nombreSelector).focus();
+		return false;
+	}
+	return true;
+}
+
+function sacarColor(me)
+{
+	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+}
+
+function formatDate(date)
+{
+	var vDate = date.split(',');
+	var year = vDate[1].trim();
+	var monthName = vDate[0].split(' ')[1].toLowerCase();
+	var day = vDate[0].split(' ')[0];
+	var month = 0;
+	switch(monthName)
+	{
+		case 'january': month = 1; break;
+		case 'february': month = 2; break;
+		case 'march': month = 3; break;
+		case 'april': month = 4; break;
+		case 'may': month = 5; break;
+		case 'june': month = 6; break;
+		case 'july': month = 7; break;
+		case 'august': month = 8; break;
+		case 'september': month = 9; break;
+		case 'october': month = 10; break;
+		case 'november': month = 11; break;
+		case 'december': month = 12; break;
+	}
+	
+	return `${year}-${month}-${day}`;
+}
+
+function controlSubmit()
+{
+	if(!controlVacio('#first_name')) return false;
+	if(!controlVacio('#last_name')) return false;
+	if(!controlVacio('#dni')) return false;
+	if(!controlVacio('#autocompleteState')) return false;
+	if(!controlVacio('#email')) return false;
+	if(!controlVacio('#username')) return false;
+	if($('#regional').val() == "0") return false;
+	if(passRequired)
+	{
+		if(!controlVacio('#password')) return false;
 	}
 
-	function sacarColor(me)
-	{
-		$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+	var birthDate = formatDate($('#fechanac').val());
+
+	var param = {
+		"id":($('#id').val()),
+		"nombre":($('#first_name').val()),
+		"apellido":($('#last_name').val()),
+		"dni":($('#dni').val()),
+		"localidad":($('#loc').val()),
+		"email":($('#email').val()),
+		"caracCel":($('#carCel').val()),
+		"cel":($('#cel').val()),
+		"caracFijo":($('#carFijo').val()),
+		"fijo":($('#fijo').val()),
+		"username":($('#username').val()),
+		"passRequired": passRequired,
+		"password":($('#password').val()),
+		"celId":($('#celId').val()),
+		"fijoId":($('#fijoId').val()),
+		"birthDate":birthDate,
+		"localidadId":($('#idLocalidad').val()),
+		"regional":($('#regional').val())
 	}
-
-	function formatDate(date)
-	{
-		var vDate = date.split(',');
-		var year = vDate[1].trim();
-		var monthName = vDate[0].split(' ')[1].toLowerCase();
-		var day = vDate[0].split(' ')[0];
-		var month = 0;
-		switch(monthName)
+	$('#loader').show();
+	$.ajax({
+		type:"POST",
+		data: param,
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
+		success: function(response)
 		{
-			case 'january': month = 1; break;
-			case 'february': month = 2; break;
-			case 'march': month = 3; break;
-			case 'april': month = 4; break;
-			case 'may': month = 5; break;
-			case 'june': month = 6; break;
-			case 'july': month = 7; break;
-			case 'august': month = 8; break;
-			case 'september': month = 9; break;
-			case 'october': month = 10; break;
-			case 'november': month = 11; break;
-			case 'december': month = 12; break;
-		}
-		
-		return `${year}-${month}-${day}`;
-	}
-
-	function controlSubmit()
-	{
-		if(!controlVacio('#first_name')) return false;
-		if(!controlVacio('#last_name')) return false;
-		if(!controlVacio('#dni')) return false;
-		if(!controlVacio('#autocompleteState')) return false;
-		if(!controlVacio('#email')) return false;
-		if(!controlVacio('#username')) return false;
-		if($('#regional').val() == "0") return false;
-		if(passRequired)
-		{
-			if(!controlVacio('#password')) return false;
-		}
-
-		var birthDate = formatDate($('#fechanac').val());
-
-		var param = {
-			"id":($('#id').val()),
-			"nombre":($('#first_name').val()),
-			"apellido":($('#last_name').val()),
-			"dni":($('#dni').val()),
-			"localidad":($('#loc').val()),
-			"email":($('#email').val()),
-			"caracCel":($('#carCel').val()),
-			"cel":($('#cel').val()),
-			"caracFijo":($('#carFijo').val()),
-			"fijo":($('#fijo').val()),
-			"username":($('#username').val()),
-			"passRequired": passRequired,
-			"password":($('#password').val()),
-			"celId":($('#celId').val()),
-			"fijoId":($('#fijoId').val()),
-			"birthDate":birthDate,
-			"localidadId":($('#idLocalidad').val()),
-			"regional":($('#regional').val())
-		}
-		$('#loader').show();
-		$.ajax({
-			type:"POST",
-			data: param,
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
-			success: function(response)
+			$('#loader').hide();
+			var r = JSON.parse(response);
+			if(r[0].success)
 			{
-				$('#loader').hide();
-				var r = JSON.parse(response);
-				if(r[0].success)
+				if(r[0].created)
 				{
-					if(r[0].created)
+					window.location.href="index.html";
+				}
+				else
+				{
+					setItem('id', $('#id').val());
+					window.location.href="inicio.html";
+				}
+			}
+			else
+			{
+				toasty("No se pudo guardar",'error');
+			}
+		},
+		error: function(msg)
+		{
+			toasty("Hubo un error de conexión",'error');
+		}
+	});
+
+	return false;
+}
+
+function getDatos()
+{
+	id = getItem('id');
+	var param = {};
+	param.id = (id != undefined) ? id : -1;
+	if(id == -1 || id == null)
+	{
+		return;
+	}
+	else
+	{
+		$('#arrowUl').hide();
+	}
+	
+	$.ajax({
+		type:"GET",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
+		data: param,
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetDatos(r[0]);
+		},
+		error: function(msg)
+		{
+			toasty(`Hubo un error al buscar los datos. Problema de conexión`,'error');
+		}
+	});
+}
+
+function unformatDate(d)
+{
+	var vD = d.split('-');
+	var year = ", "+vD[0];
+	var day = parseInt(vD[2]);
+	
+	var month = "";
+	switch(vD[1])
+	{
+		case "01": month = ' January'; break;
+		case "02": month = ' February'; break;
+		case "03": month = ' March'; break;
+		case "04": month = ' April'; break;
+		case "05": month = ' May'; break;
+		case "06": month = ' June'; break;
+		case "07": month = ' July'; break;
+		case "08": month = ' August'; break;
+		case "09": month = ' September'; break;
+		case "10": month = ' October'; break;
+		case "11": month = ' November'; break;
+		case "12": month = ' December'; break;
+	}
+	
+	return `${day}${month}${year}`;
+}
+
+function successGetDatos(data)
+{
+	if(data.primerLogin == 't')
+	{
+		passRequired = true;
+		$('#password').prop('required',true);
+	}
+	else
+	{
+		passRequired = false;
+		$('#password').prop('required',false);
+	}
+
+	$('#id').val(data.id);
+	$('#first_name').val(data.nombre);
+	$('#first_name').focus();
+	$('#last_name').val(data.apellido);
+	$('#last_name').focus();
+	$('#dni').val(data.dni);
+	$('#dni').focus();
+	if(data.fechaNac != undefined)
+	{
+		var f = unformatDate(data.fechaNac);
+		$('#fechanac').val(f);
+	}
+	$('#autocompleteState').val(data.localidad);
+	$('#autocompleteState').focus();
+	successGetRegional(regional,data.regional);
+	$('#email').val(data.email);
+	$('#email').focus();
+	$('#celId').val(data.celId);
+	$('#carCel').val(data.caracCel);
+	$('#carCel').focus();
+	$('#cel').val(data.cel);
+	$('#cel').focus();
+	$('#fijoId').val(data.fijoId);
+	$('#carFijo').val(data.caracFijo);
+	$('#carFijo').focus();
+	$('#fijo').val(data.fijo);
+	$('#fijo').focus();
+	$('#username').val(data.username);
+	$('#username').focus();
+	$('#username').blur();
+
+	if(data.id == "-1")
+	{
+		$('#dni').focus();
+	}
+}
+
+function checkDni()
+{
+	var dni = $('#dni').val().trim();
+	if(dni != '')
+	{
+		if($('#id').val() == -1)
+		{
+			
+			var param = {
+				"dni":dni
+			};
+
+			$.ajax({
+				type:"POST",
+				data: param,
+				url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
+				success: function(response)
+				{
+					var r = JSON.parse(response);
+					if(r.length > 0)
 					{
-						window.location.href="index.html";
+						successGetDatos(r[0]);
 					}
 					else
 					{
-						var storage = window.localStorage;
-						storage.setItem('id', $('#id').val());
-						window.location.href="inicio.html";
+						$('#id').val('-1');
+						$('#first_name').focus();
 					}
-				}
-				else
+				},
+				error: function(msg)
 				{
-					alert("No se pudo guardar");
+					toasty("Se ha generado un error al ir a buscar los datos por DNI. Problema de conexión",'error');
 				}
-			},
-			error: function(msg)
-			{
-				alert("Hubo un error al guardar los datos");
-			}
-		});
-
-		return false;
-	}
-
-	function getDatos()
-	{
-		
-		var storage = window.localStorage;
-		var id = storage.getItem('id');
-		var param = {};
-		if(id != undefined)
-		{
-			param = {
-				"id":id	
-			};
-		}
-		else
-		{
-			param = {
-				"id": -1
-			}
-		}
-		
-		$.ajax({
-			type:"GET",
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
-			data: param,
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				successGetDatos(r[0]);
-			},
-			error: function(msg)
-			{
-				alert(`Hubo un error al buscar los datos. Error: ${msg}`);
-			}
-		});
-	}
-
-	function unformatDate(d)
-	{
-		var vD = d.split('-');
-		var year = ", "+vD[0];
-		var day = parseInt(vD[2]);
-		
-		var month = "";
-		switch(vD[1])
-		{
-			case "01": month = ' January'; break;
-			case "02": month = ' February'; break;
-			case "03": month = ' March'; break;
-			case "04": month = ' April'; break;
-			case "05": month = ' May'; break;
-			case "06": month = ' June'; break;
-			case "07": month = ' July'; break;
-			case "08": month = ' August'; break;
-			case "09": month = ' September'; break;
-			case "10": month = ' October'; break;
-			case "11": month = ' November'; break;
-			case "12": month = ' December'; break;
-		}
-		
-		return `${day}${month}${year}`;
-		
-	}
-
-	function successGetDatos(data)
-	{
-		if(data.primerLogin == 't')
-		{
-			passRequired = true;
-			$('#password').prop('required',true);
-		}
-		else
-		{
-			passRequired = false;
-			$('#password').prop('required',false);
-		}
-
-		$('#id').val(data.id);
-		$('#first_name').val(data.nombre);
-		$('#first_name').focus();
-		$('#last_name').val(data.apellido);
-		$('#last_name').focus();
-		$('#dni').val(data.dni);
-		$('#dni').focus();
-		if(data.fechaNac != undefined)
-		{
-			var f = unformatDate(data.fechaNac);
-			$('#fechanac').val(f);
-		}
-		$('#autocompleteState').val(data.localidad);
-		$('#autocompleteState').focus();
-		successGetRegional(regional,data.regional);
-		$('#email').val(data.email);
-		$('#email').focus();
-		$('#celId').val(data.celId);
-		$('#carCel').val(data.caracCel);
-		$('#carCel').focus();
-		$('#cel').val(data.cel);
-		$('#cel').focus();
-		$('#fijoId').val(data.fijoId);
-		$('#carFijo').val(data.caracFijo);
-		$('#carFijo').focus();
-		$('#fijo').val(data.fijo);
-		$('#fijo').focus();
-		$('#username').val(data.username);
-		$('#username').focus();
-		$('#username').blur();
-
-		if(data.id == "-1")
-		{
-			$('#dni').focus();
+			});
 		}
 	}
+}
 
-	function checkDni()
+function successGetLocalidad(r)
+{
+	var localidadData = [];
+	
+	for(var i = 0; i < r.length; i++)
 	{
-		var dni = $('#dni').val().trim();
-		if(dni != '')
-		{
-			if($('#id').val() == -1)
-			{
-				
-				var param = {
-					"dni":dni
-				};
-
-				$.ajax({
-					type:"POST",
-					data: param,
-					url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
-					success: function(response)
-					{
-						var r = JSON.parse(response);
-						if(r.length > 0)
-						{
-							successGetDatos(r[0]);
-						}
-						else
-						{
-							$('#id').val('-1');
-							$('#first_name').focus();
-						}
-					},
-					error: function(msg)
-					{
-						alert("Se ha generado un error al ir a buscar los datos por DNI");
-					}
-				});
-			}
-		}
+		var obj = {value:r[i].name};
+		localidadData.push(obj);
 	}
 	
-	function successGetLocalidad(r)
-	{
-		var localidadData = [];
-		
-		for(var i = 0; i < r.length; i++)
+	$('#autocompleteState').data('array', localidadData);
+	
+	var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea';
+	
+	$(input_selector).each(function() {
+		var $input = $(this);
+
+		if ($input.hasClass('autocomplete'))
 		{
-			var obj = {value:r[i].name};
-			localidadData.push(obj);
-		}
-		
-		$('#autocompleteState').data('array', localidadData);
-		
-		var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea';
-		
-		$(input_selector).each(function() {
-			var $input = $(this);
-
-			if ($input.hasClass('autocomplete'))
+			var $array = $input.data('array');
+			var $inputDiv = $input.closest('.input-field'); // Div to append on
+			if ($array !== '')
 			{
-				var $array = $input.data('array');
-				var $inputDiv = $input.closest('.input-field'); // Div to append on
-				if ($array !== '')
+				var $html = '<ul class="autocomplete-content hide" style="z-index:1;">';
+				for (var i = 0; i < $array.length; i++)
 				{
-					var $html = '<ul class="autocomplete-content hide" style="z-index:1;">';
-					for (var i = 0; i < $array.length; i++)
-					{
-						if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
-							$html += '<li class="autocomplete-option"><img src="' + $array[i]['path'] + '" class="' + $array[i]['class'] + '"><span>' + $array[i]['value'] + '</span></li>';
-						} else {
-							$html += '<li class="autocomplete-option"><span>' + $array[i]['value'] + '</span></li>';
-						}
+					if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
+						$html += '<li class="autocomplete-option"><img src="' + $array[i]['path'] + '" class="' + $array[i]['class'] + '"><span>' + $array[i]['value'] + '</span></li>';
+					} else {
+						$html += '<li class="autocomplete-option"><span>' + $array[i]['value'] + '</span></li>';
 					}
-					$html += '</ul>';
-					$inputDiv.append($html); // Set ul in body
-					// End create html element
+				}
+				$html += '</ul>';
+				$inputDiv.append($html); // Set ul in body
+				// End create html element
+				
+				var lengthWord = 0;
+				// Perform search
+				$(document).on('keyup', $input, function()
+				{
+					var quantity = 0;
+					var $val = $input.val().trim(),
+					$select = $('.autocomplete-content');
 					
-					var lengthWord = 0;
-					// Perform search
-					$(document).on('keyup', $input, function()
+					$select.css('width',$input.width());
+
+					var length = $val.length;
+					if ($val != '' && $val.length >= 3 && length > lengthWord)
 					{
-						var quantity = 0;
-						var $val = $input.val().trim(),
-						$select = $('.autocomplete-content');
-						
-						$select.css('width',$input.width());
-
-						var length = $val.length;
-						if ($val != '' && $val.length >= 3 && length > lengthWord)
+						$select.children('li').addClass('hide');
+						$select.children('li').filter(function()
 						{
-							lengthWord = length
-							$select.children('li').addClass('hide');
-							$select.children('li').filter(function()
+							$select.removeClass('hide');
+							
+							var check = true;
+							if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
 							{
-								$select.removeClass('hide'); // Show results
-
-								/*
-								if ($input.hasClass('highlight-matching')) {
-									highlight($val);
+								check = false;
+							}
+							if(check)
+							{
+								if(quantity < 5)
+								{
+									quantity++;
 								}
-								*/
-								var check = true;
-								if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
+								else
 								{
 									check = false;
-								}
-								if(check)
-								{
-									if(quantity < 5)
-									{
-										quantity++;
-									}
-									else
-									{
-										check = false;
-									}	
-								}
-								
-								return check ? $(this).text().toLowerCase().indexOf($val.toLowerCase()) !== -1 : false;
-							}).removeClass('hide');	
-						}
-						else
-						{
-							lengthWord = length;
-							$select.children('li').addClass('hide');
-						}
-					});
-
-					// Set input value
-					$('.autocomplete-option').click(function()
+								}	
+							}
+							
+							return check ? $(this).text().toLowerCase().indexOf($val.toLowerCase()) !== -1 : false;
+						}).removeClass('hide');	
+					}
+					else
 					{
-						$input.val($(this).text().trim());
-						getIdLocalidad($(this).text().trim());
-						$('.autocomplete-option').addClass('hide');
-					});
-				}
-				else
-				{
-					return false;
-				}
-			}
-		});
-	}
+						
+						$select.children('li').addClass('hide');
+					}
+					lengthWord = length;
+				});
 
-	function getIdLocalidad(name)
-	{
-		var vName = name.split(' - ');
-		var localidad = vName[0];
-		var provincia = vName[1];
-		
-		var param = {
-			"localidad":localidad,
-			"provincia":provincia
-		};
-		
-		$.ajax({
-			type:"POST",
-			data:param,
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidadId.php",
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				if(r.length > 0)
+				// Set input value
+				$('.autocomplete-option').click(function()
 				{
-					$('#idLocalidad').val(r[0].id);
-				}
-				else
-				{
-					$('#autocompleteState').val('');
-				}
-			},
-			error: function(msg)
-			{
-				console.log(msg);
+					$input.val($(this).text().trim());
+					getIdLocalidad($(this).text().trim());
+					$('.autocomplete-option').addClass('hide');
+				});
 			}
-		});
-	}
+			else
+			{
+				return false;
+			}
+		}
+	});
+}
 
-	function getDataLocalidad()
-	{
-		$.ajax({
-			type:'POST',
-			url: 'http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidad.php',
-			success: function(response)
+function getIdLocalidad(name)
+{
+	var vName = name.split(' - ');
+	var localidad = vName[0];
+	var provincia = vName[1];
+	
+	var param = {
+		"localidad":localidad,
+		"provincia":provincia
+	};
+	
+	$.ajax({
+		type:"POST",
+		data:param,
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidadId.php",
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			if(r.length > 0)
 			{
-				var r = JSON.parse(response);
-				successGetLocalidad(r);
-			},
-			error: function(msg)
-			{
-				alert('Error al traer localidades');
+				$('#idLocalidad').val(r[0].id);
 			}
-		});
-	}
+			else
+			{
+				$('#autocompleteState').val('');
+			}
+		},
+		error: function(msg)
+		{
+			console.log(msg);
+		}
+	});
+}
 
-	function getRegional()
+function getDataLocalidad()
+{
+	$.ajax({
+		type:'POST',
+		url: 'http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidad.php',
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetLocalidad(r);
+		},
+		error: function(msg)
+		{
+			toasty('Error al traer localidades.Problema de conexión','error');
+		}
+	});
+}
+
+function getRegional()
+{
+	$.ajax({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRegional.php",
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetRegional(r);
+		},
+		error: function(msg)
+		{
+			toasty('Error al traer regionales.Problema de conexión','error');
+		}
+	});
+}
+
+function successGetRegional(data, val)
+{
+	if(data == undefined)
 	{
-		$.ajax({
-			type:"POST",
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRegional.php",
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				successGetRegional(r);
-			},
-			error: function(msg)
-			{
-				alert('Error al traer regionales');
-			}
-		});
+		return;
 	}
 	
-	function successGetRegional(data, val)
+	val = (val == undefined) ? 0 : val;
+	$('select').material_select('destroy');
+	regional = data;
+	htmlOptions = `<option value="0" disabled selected>Elija una regional</option>`;
+	
+	for(var i = 0; i < data.length; i++)
 	{
-		if(data == undefined)
+		var id = data[i].id;
+		var selected = '';
+		if(id == val)
 		{
-			return;
+			selected = ' selected ';
 		}
-		
-		val = (val == undefined) ? 0 : val;
-		$('select').material_select('destroy');
-		regional = data;
-		htmlOptions = `<option value="0" disabled selected>Elija una regional</option>`;
-		
-		for(var i = 0; i < data.length; i++)
-		{
-			var id = data[i].id;
-			var selected = '';
-			if(id == val)
-			{
-				selected = ' selected ';
-			}
-			htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
-		}
-		
-		$('#regional').html(htmlOptions);
-		$('select').material_select();
+		htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
 	}
+	
+	$('#regional').html(htmlOptions);
+	$('select').material_select();
+}
 
-	$(document).ready(function(){
-		$('#loader').hide();
-		getDataLocalidad();
-		getRegional();
-		getDatos();
-		$('.datepicker').pickadate({
-			selectMonths: true, // Creates a dropdown to control month
-			selectYears: 100 // Creates a dropdown of 15 years to control year
-		});
+$(document).ready(function(){
+	$('#loader').hide();
+	getDataLocalidad();
+	getRegional();
+	getDatos();
+	$('.datepicker').pickadate({
+		selectMonths: true, // Creates a dropdown to control month
+		selectYears: 100 // Creates a dropdown of 15 years to control year
 	});
+});
 
-	</script>
+</script>
 </body>
 </html>

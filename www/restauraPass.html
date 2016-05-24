@@ -8,8 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-
-
 	<div class="container-fluid">
 		<div class="navbar-fixed">
 			<nav>
@@ -66,64 +64,61 @@
 		</div>
 	</div>
 
-
-	<!--Import jQuery before materialize.js-->
-	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="js/materialize.min.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
-	<script>
-		
-	function restorePass()
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script>
+	
+function restorePass()
+{
+	var userMail = $('#email').val().trim();
+	if(userMail != '')
 	{
+		$('#loader').show();
+		var param = {
+			"userMail":userMail
+		};
 		
-		var userMail = $('#email').val().trim();
-		if(userMail != '')
-		{
-			$('#loader').show();
-			var param = {
-				"userMail":userMail
-			};
-			
-			$.ajax({
-				type:"POST",
-				data: param,
-				url: "http://extension.frvm.utn.edu.ar/graduadosApi/restorePass.php",
-				success: function(response)
+		$.ajax({
+			type:"POST",
+			data: param,
+			url: "http://extension.frvm.utn.edu.ar/graduadosApi/restorePass.php",
+			success: function(response)
+			{
+				$('#loader').hide();
+				var r = JSON.parse(response);
+				if(r[0].success)
 				{
-					$('#loader').hide();
-					var r = JSON.parse(response);
-					if(r[0].success)
+					toasty('Se le ha enviado un mail con una contraseña temporal','success');
+					setTimeout(function()
 					{
-						toasty('Se le ha enviado un mail con una contraseña temporal','success');
-						setTimeout(function()
-						{
-							window.location.href="index.html";
-						}, 1000);
-					}
-					else
-					{
-						toasty('No se ha encontrado ningún mail o usuario con ese nombre','error');
-					}
-				},
-				error: function(msg)
-				{
-					$('#loader').hide();
-					toasty('Se produjo un error al intentar enviar los datos de ingreso. Pruebe nuevamente en un instante','error');
+						window.location.href="index.html";
+					}, 1000);
 				}
-			});
-		}
-		else
-		{
-			toasty('Ingrese un usuario o mail','error');
-		}
-		
-		return false;
+				else
+				{
+					toasty('No se ha encontrado ningún mail o usuario con ese nombre','error');
+				}
+			},
+			error: function(msg)
+			{
+				$('#loader').hide();
+				toasty('Se produjo un error al intentar enviar los datos de ingreso. Pruebe nuevamente en un instante','error');
+			}
+		});
+	}
+	else
+	{
+		toasty('Ingrese un usuario o mail','error');
 	}
 	
-	$(document).ready(function(){
-		$('#loader').hide();
-	});
-	
-	</script>
+	return false;
+}
+
+$(document).ready(function(){
+	$('#loader').hide();
+});
+
+</script>
 </body>
 </html>

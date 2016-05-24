@@ -5,35 +5,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
-	<title>Cursos</title>
+	<title>Descuentos</title>
 </head>
 <body>
-<nav>
-	<div class="nav-wrapper blue darken-4">
-		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
-		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
-			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
-		</ul>
-		<ul class="right hide-on-med-and-down">
-			<li><a href="cursosAdmin.html">Cursos</a></li>
-			<li><a href="posgradosAdmin.html">Posgrados</a></li>
-			<li><a href="empleoAdmin.html">Empleo</a></li>
-            <li><a href="descuentosAdmin.html"><strong>Descuentos</strong></a></li>
-			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
-		</ul>
-		<ul class="side-nav" id="mobile-demo">
-			<li><a href="perfil.html">Perfil</a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
-			<li><a href="cursosAdmin.html">Cursos</a></li>
-			<li><a href="posgradosAdmin.html">Posgrados</a></li>
-			<li><a href="empleoAdmin.html">Empleo</a></li>
-            <li><a href="descuentosAdmin.html"><strong>Descuentos</strong></a></li>
-			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
-		</ul>
-	</div>
-</nav>
+<script src="js/menu.js"></script>
 <div class="container">
 	<div class="preloader-wrapper active" id="loader">
     	<div class="spinner-layer spinner-blue-only">
@@ -56,12 +31,11 @@
                     <div class="divider"></div> <br>
                     <div class="row">
 						<div class="col s2" id="hideNotFound">
-              				<img src="" alt="" id="imagenEmpresa" class="circle responsive-img"> <!-- notice the "circle" class -->
+              				<img src="" alt="" id="imagenEmpresa" class="circle responsive-img">
             			</div>
                         <div class="input-field col s12" id="empresaRow">
                         	<input type="hidden" id="idEmpresa" name="idEmpresa" value="-1"/>
                         	<input type="hidden" id="id" name="id" value="-1"/>
-                            <!--<input id="empresa" type="text" class="validate" onkeydown="sacarColor(this)" placeholder="Ingrese el nombre de la empresa" required>-->
 							<input type="text" id="empresa" name="empresa" class="autocomplete inputFields" placeholder="Ingrese el nombre de la empresa" onblur="getDatosEmpresa()" required>
                             <label for="empresa">Empresa:</label>
                         </div>
@@ -101,320 +75,312 @@
                     </div>
                 </form>
             </div>
-        
-	
-	
+		</div>
 </div>
 <div class="footer-copyright right-align">
-		<div class="container">
-			<i>© 2016 UTN FRVM</i>
-		</div>
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
 	</div>
-  <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
-	<script defer>
+</div>
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script defer>
 
-	var validExt = ['jpg','png','jpeg'];
-	var lastName = 'none';
+var validExt = ['jpg','png','jpeg'];
+var lastName = 'none';
 
-	function controlVacio(nombreSelector)
+function controlVacio(nombreSelector)
+{
+	if($.trim($(nombreSelector).val()) == '')
 	{
-		if($.trim($(nombreSelector).val()) == '')
-		{
-			$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
-			$(nombreSelector).focus();
-			return false;
-		}
-		return true;
-	}
-
-	function sacarColor(me)
-	{
-		$(me).css('box-shadow','0px 0px 0px 0px #ccc');
-	}
-
-	function checkImage()
-	{
-		var ext = $('#image').val().split('.')[$('#image').val().split('.').length - 1];
-		if(validExt.indexOf(ext.toLowerCase()) == -1)
-		{
-			toasty('Debe cargar una imagen con extensión jpg, png o jpeg','error');
-			$('#image').val('');
-		}
-	}
-	
-	function controlSubmit()
-	{
-		if(!controlVacio('#titulo')) return false;
-		if(!controlVacio('#url')) return false;
-		if(!controlVacio('#detalle')) return false;
-		
-		var storage = window.localStorage;
-		var id = storage.getItem('id');
-		$('#id').val(id);
-		var param = {};
-		if($('#idEmpresa').val() == -1)
-		{
-			param = {
-				"id":id,
-				"url":($('#url').val()),
-				"detalle":($('#detalle').val()),
-				"image":($('#image')),
-				"empresa":($('#empresa').val()),
-				"idEmpresa":"-1",
-				"titulo":($('#titulo').val())
-			};
-		}
-		else
-		{
-			param = {
-				"id":id,
-				"idEmpresa":($('#idEmpresa').val()),
-				"url":($('#url').val()),
-				"detalle":($('#detalle').val()),
-				"titulo":($('#titulo').val())
-			};
-		}
-		var param = new FormData($("#form")[0]);
-		$('#loader').show();
-		$.ajax({
-			type:"POST",
-			data: param,
-			processData: false,
-			contentType: false,
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDescuento.php",
-			success: function(response)
-			{
-				
-				$('#loader').hide();
-				var r = JSON.parse(response);
-				if(r[0].success)
-				{
-					alert("Se guardo correctamente");
-					reset();
-				}
-				else
-				{
-					alert("No se pudo guardar");
-				}
-				
-			},
-			error: function(msg)
-			{
-				$('#loader').hide();
-				toasty("Hubo un error al guardar los datos. Intente nuevamente",'error');
-			}
-		});
-
+		$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
+		$(nombreSelector).focus();
 		return false;
 	}
+	return true;
+}
 
-	function reset()
+function sacarColor(me)
+{
+	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+}
+
+function checkImage()
+{
+	var ext = $('#image').val().split('.')[$('#image').val().split('.').length - 1];
+	if(validExt.indexOf(ext.toLowerCase()) == -1)
 	{
-		$('#hideNotFound').hide();
-		$('#rowNuevaImagen').hide();
-		$('#idEmpresa').val('-1');
+		toasty('Debe cargar una imagen con extensión jpg, png o jpeg','error');
 		$('#image').val('');
-		$('#empresa').val('');
-		$('#titulo').val('');
-		$('#url').val('');
-		$('#detalle').val('');
 	}
+}
 
-	function successGetEmpresa(r)
+function controlSubmit()
+{
+	if(!controlVacio('#titulo')) return false;
+	if(!controlVacio('#url')) return false;
+	if(!controlVacio('#detalle')) return false;
+	
+	var id = getItem('id');
+	$('#id').val(id);
+	var param = {};
+	/*
+	if($('#idEmpresa').val() == -1)
 	{
-		var empresaData = [];
-		
-		for(var i = 0; i < r.length; i++)
+		param = {
+			"id":id,
+			"url":($('#url').val()),
+			"detalle":($('#detalle').val()),
+			"image":($('#image')),
+			"empresa":($('#empresa').val()),
+			"idEmpresa":"-1",
+			"titulo":($('#titulo').val())
+		};
+	}
+	else
+	{
+		param = {
+			"id":id,
+			"idEmpresa":($('#idEmpresa').val()),
+			"url":($('#url').val()),
+			"detalle":($('#detalle').val()),
+			"titulo":($('#titulo').val())
+		};
+	}
+	*/
+	var param = new FormData($("#form")[0]);
+	$('#loader').show();
+	$.ajax({
+		type:"POST",
+		data: param,
+		processData: false,
+		contentType: false,
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDescuento.php",
+		success: function(response)
 		{
-			var obj = {value:r[i].name};
-			empresaData.push(obj);
-		}
-		
-		$('#empresa').data('array', empresaData);
-		
-		var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea';
-		
-		$(input_selector).each(function() {
-			var $input = $(this);
-
-			if ($input.hasClass('autocomplete'))
+			$('#loader').hide();
+			var r = JSON.parse(response);
+			if(r[0].success == 't')
 			{
-				var $array = $input.data('array');
-				var $inputDiv = $input.closest('.input-field'); // Div to append on
-				if ($array !== '')
-				{
-					var $html = '<ul class="autocomplete-content hide" style="z-index:1;">';
-					for (var i = 0; i < $array.length; i++)
-					{
-						if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
-							$html += '<li class="autocomplete-option"><img src="' + $array[i]['path'] + '" class="' + $array[i]['class'] + '"><span>' + $array[i]['value'] + '</span></li>';
-						} else {
-							$html += '<li class="autocomplete-option"><span>' + $array[i]['value'] + '</span></li>';
-						}
-					}
-					$html += '</ul>';
-					$inputDiv.append($html); // Set ul in body
-					// End create html element
-					
-					var lengthWord = 0;
-					// Perform search
-					$(document).on('keyup', $input, function()
-					{
-						var quantity = 0;
-						var $val = $input.val().trim(),
-						$select = $('.autocomplete-content');
-						
-						$select.css('width',$input.width());
-
-						var length = $val.length;
-						if ($val != '' && $val.length >= 3 && length > lengthWord)
-						{
-							lengthWord = length
-							$select.children('li').addClass('hide');
-							$select.children('li').filter(function()
-							{
-								$select.removeClass('hide'); // Show results
-
-								var check = true;
-								if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
-								{
-									check = false;
-								}
-								if(check)
-								{
-									if(quantity < 5)
-									{
-										quantity++;
-									}
-									else
-									{
-										check = false;
-									}	
-								}
-								
-								return check ? $(this).text().toLowerCase().indexOf($val.toLowerCase()) !== -1 : false;
-							}).removeClass('hide');	
-						}
-						else
-						{
-							lengthWord = length;
-							$select.children('li').addClass('hide');
-						}
-					});
-
-					$('.autocomplete-option').click(function()
-					{
-						$input.val($(this).text().trim());
-						getDatosEmpresa($(this).text().trim());
-						$('.autocomplete-option').addClass('hide');
-					});
-				}
-				else
-				{
-					return false;
-				}
+				toasty("El descuento se guardó correctamente",'success');
+				reset();
 			}
-		});
+			else
+			{
+				toasty("No se pudo guardar",'error');
+			}
+		},
+		error: function(msg)
+		{
+			$('#loader').hide();
+			toasty("Hubo un error de conexión. Intente nuevamente",'error');
+		}
+	});
+	return false;
+}
+
+function reset()
+{
+	$('#hideNotFound').hide();
+	$('#rowNuevaImagen').hide();
+	$('#idEmpresa').val('-1');
+	$('#image').val('');
+	$('#empresa').val('');
+	$('#titulo').val('');
+	$('#url').val('');
+	$('#detalle').val('');
+}
+
+function successGetEmpresa(r)
+{
+	var empresaData = [];
+	
+	for(var i = 0; i < r.length; i++)
+	{
+		var obj = {value:r[i].name};
+		empresaData.push(obj);
 	}
 	
-	function getEmpresa()
-	{
-		var storage = window.localStorage;
-		var id = storage.getItem('id');
-		
-		var param = {
-			"id":id
+	$('#empresa').data('array', empresaData);
+	
+	var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea';
+	
+	$(input_selector).each(function(){
+		var $input = $(this);
+
+		if ($input.hasClass('autocomplete'))
+		{
+			var $array = $input.data('array');
+			var $inputDiv = $input.closest('.input-field'); // Div to append on
+			if ($array !== '')
+			{
+				var $html = '<ul class="autocomplete-content hide" style="z-index:1;">';
+				for (var i = 0; i < $array.length; i++)
+				{
+					if ($array[i]['path'] !== '' && $array[i]['path'] !== undefined && $array[i]['path'] !== null && $array[i]['class'] !== undefined && $array[i]['class'] !== '') {
+						$html += '<li class="autocomplete-option"><img src="' + $array[i]['path'] + '" class="' + $array[i]['class'] + '"><span>' + $array[i]['value'] + '</span></li>';
+					} else {
+						$html += '<li class="autocomplete-option"><span>' + $array[i]['value'] + '</span></li>';
+					}
+				}
+				$html += '</ul>';
+				$inputDiv.append($html);
+				
+				var lengthWord = 0;
+				
+				$(document).on('keyup', $input, function() // Perform search
+				{
+					var quantity = 0;
+					var $val = $input.val().trim(),
+					$select = $('.autocomplete-content');
+					
+					$select.css('width',$input.width());
+
+					var length = $val.length;
+					if ($val != '' && $val.length >= 3 && length > lengthWord)
+					{
+						$select.children('li').addClass('hide');
+						$select.children('li').filter(function()
+						{
+							$select.removeClass('hide'); // Show results
+							var check = true;
+							if($(this).text().toLowerCase().indexOf($val.toLowerCase()) == -1)
+							{
+								check = false;
+							}
+							if(check)
+							{
+								if(quantity < 5)
+								{
+									quantity++;
+								}
+								else
+								{
+									check = false;
+								}	
+							}
+							
+							return check ? $(this).text().toLowerCase().indexOf($val.toLowerCase()) !== -1 : false;
+						}).removeClass('hide');	
+					}
+					else
+					{
+						$select.children('li').addClass('hide');
+					}
+					lengthWord = length;
+				});
+
+				$('.autocomplete-option').click(function()
+				{
+					$input.val($(this).text().trim());
+					getDatosEmpresa($(this).text().trim());
+					$('.autocomplete-option').addClass('hide');
+				});
+			}
+			else
+			{
+				return false;
+			}
 		}
+	});
+}
+
+function getEmpresa()
+{
+	var param = {
+		"id":getItem('id')
+	}
+	
+	$.ajax({
+		type:'POST',
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getEmpresa.php",
+		data:param,
+		success: function(response)
+		{
+			var r = JSON.parse(response);
+			successGetEmpresa(r);
+		},
+		error: function(msg)
+		{
+			toasty('No se pudo traer las empresas','error');
+		}
+	})
+}
+
+function getDatosEmpresa(name)
+{
+	name = (name == undefined) ? $('#empresa').val() : name;
+	
+	if(name != lastName)
+	{
+		lastName = name;
+		var param = {
+			"name": name
+		};
 		
 		$.ajax({
-			type:'POST',
-			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getEmpresa.php",
-			data:param,
+			type:"POST",
+			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDatosEmpresaByNombre.php",
+			data: param,
 			success: function(response)
 			{
 				var r = JSON.parse(response);
-				successGetEmpresa(r);
+				successGetDatosEmpresa(r[0]);
 			},
 			error: function(msg)
 			{
-				toasty('No se pudo traer las empresas','error');
+				toasty('Hubo un error al traer los datos de la empresa','error');
 			}
-		})
+		});
 	}
-	
-	function getDatosEmpresa(name)
-	{
-		name = (name == undefined) ? $('#empresa').val() : name;
-		
-		if(name != lastName)
-		{
-			lastName = name;
-			var param = {
-				"name": name
-			};
-			
-			$.ajax({
-				type:"POST",
-				url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDatosEmpresaByNombre.php",
-				data: param,
-				success: function(response)
-				{
-					var r = JSON.parse(response);
-					successGetDatosEmpresa(r[0]);
-				},
-				error: function(msg)
-				{
-					toasty('Hubo un error al traer los datos de la empresa','error');
-				}
-			});
-		}
-	}
-	
-	function successGetDatosEmpresa(data)
-	{
-		$('#idEmpresa').val(data.id);
-		$('#imagenEmpresa').prop('src',data.imagen);
-		controlImagen(data.id);
-	}
-	
-	function controlImagen(valId)
-	{
-		if(valId == '-1')
-		{
-			$('#rowNuevaImagen').show();
-			$('#hideNotFound').hide();
-			$('#empresaRow').removeClass('s10').addClass('s12');
-			$('#image').prop('required',true);
-		}
-		else
-		{
-			$('#rowNuevaImagen').hide();
-			$('#hideNotFound').show();
-			$('#empresaRow').removeClass('s12').addClass('s10');
-			$('#image').prop('required',false);
-		}
-	}
+}
 
-	function initialize()
+function successGetDatosEmpresa(data)
+{
+	$('#idEmpresa').val(data.id);
+	$('#imagenEmpresa').prop('src',data.imagen);
+	controlImagen(data.id);
+}
+
+function controlImagen(valId)
+{
+	if(valId == '-1')
 	{
+		$('#rowNuevaImagen').show();
 		$('#hideNotFound').hide();
-		$('#rowNuevaImagen').hide();
+		$('#empresaRow').removeClass('s10').addClass('s12');
+		$('#image').prop('required',true);
 	}
+	else
+	{
+		$('#rowNuevaImagen').hide();
+		$('#hideNotFound').show();
+		$('#empresaRow').removeClass('s12').addClass('s10');
+		$('#image').prop('required',false);
+	}
+}
 
-	$(document).ready(function(){
-			$('#loader').hide();
-            $('input#url, textarea').characterCounter();
-      		$(".button-collapse").sideNav();
-            $('select').material_select();
-			setCantidad();
-			getEmpresa();
-			initialize();
-	});
+function initialize()
+{
+	$('#hideNotFound').hide();
+	$('#rowNuevaImagen').hide();
+}
 
-	</script>
+$(document).ready(function()
+{
+	checkMenu();
+	$('#loader').hide();
+	$('input#url, textarea').characterCounter();
+	$(".button-collapse").sideNav();
+	$('select').material_select();
+	setCantidad();
+	getEmpresa();
+	initialize();
+});
+
+controlBack('descuento');
+</script>
 
 </body>
 </html>

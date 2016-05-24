@@ -5,33 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
-    <title>Cursos</title>
+    <title>Descuentos</title>
 </head>
 <body>
-<nav>
-	<div class="nav-wrapper blue darken-4">
-		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
-		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
-			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
-		</ul>
-		<ul class="right hide-on-med-and-down">
-			<li><a href="cursos.html">Cursos</a></li>
-			<li><a href="posgrados.html">Posgrados</a></li>
-			<li><a href="empleo.html">Empleo</a></li>
-            <li><a href="descuentos.html"><strong>Descuentos</strong></a></li>
-			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
-		</ul>
-		<ul class="side-nav" id="mobile-demo">
-			<li><a href="perfil.html">Perfil</a></li>
-			<li><a href="cursos.html">Cursos</a></li>
-			<li><a href="posgrados.html">Posgrados</a></li>
-			<li><a href="empleo.html">Empleo</a></li>
-            <li><a href="descuentos.html"><strong>Descuentos</strong></a></li>
-			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
-		</ul>
-	</div>
-</nav>
+<script src="js/menu.js"></script>
 <div class="container">
 	<div class="preloader-wrapper active" id="loader">
     	<div class="spinner-layer spinner-blue-only">
@@ -61,146 +38,144 @@
 			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="saveRate()">Puntuar</a>
 		</div>
 	</div>
-    <div class="footer-copyright right-align">
-        <div class="container">
-            <i>© 2016 UTN FRVM</i>
-        </div>
-    </div>
 </div>
-  <script src="js/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/functions.js"></script>
-  <script>
-	  
-	var paramDiscount = {};  	  
+<div class="footer-copyright right-align">
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
+	</div>
+</div>
+
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/functions.js"></script>
+<script>
 	
-	function getDescuento()
-	{
-		var storage = window.localStorage;
-		var id = storage.getItem('id');
-		  
-		var param = {
-			"id":id
-		};
-		
-		$.ajax({
-			type:"POST",
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/getDescuento.php",
-			data: param,
-			success: function(response)
-			{
-				var r = JSON.parse(response);
-				successGetDescuento(r);
-			},
-			error: function(msg)
-			{
-				toasty('Error al traer los descuentos','error');
-			}
-		});
-	}
+var paramDiscount = {};  	  
+
+function getDescuento()
+{
+	var param = {
+		"id":getItem('id')
+	};
 	
-	function saveRate()
-	{
-		$('#loader').show();
-		paramDiscount.comentario = ($('#comentario').val().trim() == '') ? 'Sin comentario' : $('#comentario').val();
-		
-		var storage = window.localStorage;
-		var id = storage.getItem('id');
-		paramDiscount.id = id;
-		
-		$.ajax({
-			type:'POST',
-			data: paramDiscount,
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/rateDescuento.php",
-			success: function(response)
-			{
-				$('#loader').hide();
-				$('#modalComentario').closeModal();
-				var r = JSON.parse(response)[0];
-				setRate(r.idDescuento,parseInt(r.puntaje));
-			},
-			error: function(msg)
-			{
-				$('#loader').hide();
-				toasty('No se pudo guardar el puntaje','error');
-			}
-		}) 
-	}
-	
-	function setRate(id,puntaje)
-	{
-		for(var i = 1; i <= 5; i++)
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getDescuento.php",
+		data: param,
+		success: function(response)
 		{
-			if(i <= puntaje)
-			{
-				var name = `#rate${id}-${i}`;
-				var nameMob = `#rateM${id}-${i}`;
-				
-				$(name).toggleClass('change');
-				$(nameMob).toggleClass('change');
-			}
-		} 
-	}
-	
-	function rateDiscount(id,puntaje)
-	{
-		paramDiscount = {};
-		paramDiscount.idDescuento=id;
-		paramDiscount.puntaje=puntaje;
-		$('#modalComentario').openModal();
-	}
-	
-	function successGetDescuento(data)
-	{
-		var htmlDescuentos = '';
-		var l = data.length;
-		for(var i = 0; i < l; i++)
+			var r = JSON.parse(response);
+			successGetDescuento(r);
+		},
+		error: function(msg)
 		{
-			var d = data[i];
-			htmlRate = '';
-			htmlRateMob = '';
+			toasty('Error al traer los descuentos','error');
+		}
+	});
+}
+
+function saveRate()
+{
+	$('#loader').show();
+	paramDiscount.comentario = ($('#comentario').val().trim() == '') ? 'Sin comentario' : $('#comentario').val();
+	paramDiscount.id = getItem('id');
+	
+	$.ajax({
+		type:'POST',
+		data: paramDiscount,
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/rateDescuento.php",
+		success: function(response)
+		{
+			$('#loader').hide();
+			$('#modalComentario').closeModal();
+			var r = JSON.parse(response)[0];
+			setRate(r.idDescuento,parseInt(r.puntaje));
+		},
+		error: function(msg)
+		{
+			$('#loader').hide();
+			toasty('No se pudo guardar el puntaje','error');
+		}
+	}) 
+}
+
+function setRate(id,puntaje)
+{
+	for(var i = 1; i <= 5; i++)
+	{
+		if(i <= puntaje)
+		{
+			var name = `#rate${id}-${i}`;
+			var nameMob = `#rateM${id}-${i}`;
 			
-			for(var j = 5; j >= 1; j--)
-			{
-				var classRate = (j <= d.puntuacion) ? ' class="change" ' : ''; 
-				
-				htmlRate += `<span id="rate${d.id}-${j}" onclick="rateDiscount('${d.id}',${j})"${classRate} >☆</span>`;
-				htmlRateMob += `<span id="rateM${d.id}-${j}" onclick="rateDiscount('${d.id}',${j})"${classRate}>☆</span>`;
-			}
+			$(name).toggleClass('change');
+			$(nameMob).toggleClass('change');
+		}
+	} 
+}
+
+function rateDiscount(id,puntaje)
+{
+	paramDiscount = {};
+	paramDiscount.idDescuento=id;
+	paramDiscount.puntaje=puntaje;
+	$('#modalComentario').openModal();
+}
+
+function successGetDescuento(data)
+{
+	var htmlDescuentos = '';
+	var l = data.length;
+	for(var i = 0; i < l; i++)
+	{
+		var d = data[i];
+		var htmlRate = '';
+		var htmlRateMob = '';
+		
+		for(var j = 5; j >= 1; j--)
+		{
+			var classRate = (j <= d.puntuacion) ? ' class="change" ' : ''; 
 			
-			var avg = parseFloat(d.promedio.substring(0,3));
-			var avgText = (avg > 0) ? `<em>Puntaje promedio: ${avg} <i class="material-icons" style="font-size:16px;">star</i><br>Valoraciones: ${d.cantidad} <i class="material-icons" style="font-size:16px;">person</i></em>` : '';
-			htmlDescuentos += `<li class="collection-item avatar">
-				<img src="${d.imagen}" alt="" class="circle">
-				<span class="title">${d.titulo} - <a href="http://${d.url}" target="_blank">${d.empresa}</a></span>
-				<p>
-				<div class="rating hide-on-large-only">					
-					${htmlRateMob}
-					<br>
-				</div>
-				<span id="avgText">${avgText}</span><br>
-				${d.detalle}
-				</p>
-				<a href="#!" class="secondary-content hide-on-med-and-down">
-				<div class="rating">
-					${htmlRate}
-				</div>
-				</a>
-			</li>`;
+			htmlRate += `<span id="rate${d.id}-${j}" onclick="rateDiscount('${d.id}',${j})"${classRate}>☆</span>`;
+			htmlRateMob += `<span id="rateM${d.id}-${j}" onclick="rateDiscount('${d.id}',${j})"${classRate}>☆</span>`;
 		}
 		
-		$('#ulDescuentos').html(htmlDescuentos);
-		
+		var avg = parseFloat(d.promedio.substring(0,3));
+		var avgText = (avg > 0) ? `<em>Puntaje promedio: ${avg} <i class="material-icons" style="font-size:16px;">star</i><br>Valoraciones: ${d.cantidad} <i class="material-icons" style="font-size:16px;">person</i></em>` : '';
+		htmlDescuentos += `<li class="collection-item avatar">
+			<img src="${d.imagen}" alt="" class="circle">
+			<span class="title">${d.titulo} - <a href="http://${d.url}" target="_blank">${d.empresa}</a></span>
+			<p>
+			<div class="rating hide-on-large-only">					
+				${htmlRateMob}
+				<br>
+			</div>
+			<span id="avgText">${avgText}</span><br>
+			${d.detalle}
+			</p>
+			<a href="#!" class="secondary-content hide-on-med-and-down">
+			<div class="rating">
+				${htmlRate}
+			</div>
+			</a>
+		</li>`;
 	}
+	
+	$('#ulDescuentos').html(htmlDescuentos);
+	
+}
 
-      $(document).ready(function()
-      {
-		  $('#loader').hide();
-		  getDescuento();
-          $(".button-collapse").sideNav();
-      });
+$(document).ready(function()
+{
+	checkMenu();
+	$('#loader').hide();
+	getDescuento();
+	$(".button-collapse").sideNav();
+});
 
-  </script>
+controlBack('descuento');
+
+</script>
 
 </body>
 </html>

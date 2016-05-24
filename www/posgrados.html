@@ -8,32 +8,7 @@
     <title>Posgrados</title>
 </head>
 <body>
-
-<nav>
-	<div class="nav-wrapper blue darken-4">
-		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
-		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
-			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
-		</ul>
-		<ul class="right hide-on-med-and-down">
-			<li><a href="cursos.html">Cursos</a></li>
-			<li><a href="posgrados.html"><strong>Posgrados</strong></a></li>
-			<li><a href="empleo.html">Empleo</a></li>
-            <li><a href="descuentos.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
-		</ul>
-		<ul class="side-nav" id="mobile-demo">
-			<li><a href="perfil.html">Perfil</a></li>
-			<li><a href="cursos.html">Cursos</a></li>
-			<li><a href="posgrados.html"><strong>Posgrados</strong></a></li>
-			<li><a href="empleo.html">Empleo</a></li>
-            <li><a href="descuentos.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
-		</ul>
-	</div>
-</nav>
-
+<script src="js/menu.js"></script>
 <div class="container">
     <h4>Posgrados 2016</h4>
     <ul class="collapsible" data-collapsible="accordion">
@@ -64,8 +39,11 @@
 
 $(document).ready(function()
 {
+    checkMenu();
 	$(".button-collapse").sideNav();
 });
+
+controlBack('posgrado');
 
 </script>
 </body>
