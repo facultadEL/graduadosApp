@@ -35,14 +35,86 @@
 	</div>
 </nav>
 <div class="container">
-	<h4>Form para crear cursos</h4>
+	<div class="card-panel blue lighten-5">
+            <div class="row">
+                <form class="col s12" id="form" onsubmit="return controlSubmit();">
+                    <h6 class="black-text">Cargar un nuevo curso</h6>
+                    <div class="divider"></div> <br>
+                    <div class="row">
+                        
+                        <div class="input-field col s12">
+                        	<input type="hidden" id="id" />
+                            <input id="curso" type="text" class="validate" onkeydown="sacarColor(this)" placeholder="Ingrese el nombre del curso" required>
+                            <label for="curso">Curso:</label>                         
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="duracion" type="text" class="validate" onkeydown="sacarColor(this)" placeholder="Ingrese la duracion en clases" required>
+                            <label for="duracion">Duración</label>
+                        </div>
+                    </div>
+                    <div class="row">
+						<div class="input-field col s12">
+							<textarea id="descripcion" class="materialize-textarea validate" length="280" onkeydown="sacarColor(this)" placeholder="Ingrese el detalle del curso" required></textarea>
+							<label for="descripcion">Descipción Curso:</label>
+						</div>
+                    </div>
+					<div class="row">
+						<div class="input-field col s12">
+    						<select>
+      							<option value="" disabled selected>Seleccione una opción</option>
+      							<option value="1">1</option>
+      							<option value="2">2</option>
+      							<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+    						</select>
+    						<label>Días a la semana</label>
+  						</div>
+					</div>
+					<div class="container" id="dia+hora">
+						<div class="row">
+							<div class="input-field col s12">
+    							<select>
+      								<option value="" disabled selected>Seleccione una opción</option>
+      								<option value="1">Lunes</option>
+      								<option value="2">Martes</option>
+      								<option value="3">Miércoles</option>
+									<option value="4">Jueves</option>
+									<option value="5">Viernes</option>
+									<option value="5">Sábado</option>
+    							</select>
+    							<label>Día</label>
+  							</div>
+							<div class="input-field col s12">
+          						<input placeholder="Placeholder" id="horario" type="text" class="validate">
+          						<label for="first_name">First Name</label>
+        					</div>  
+						</div>
+					</div>
+					
+
+                    <div class="center-align">
+                        <button class="btn waves-effect light-blue darken-3" type="submit" name="action">Registrar Descuento
+                            <i class="material-icons right">done</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        
 	
-	<div class="footer-copyright right-align">
+	
+	
+	
+	
+</div>
+<div class="footer-copyright right-align">
 		<div class="container">
 			<i>© 2016 UTN FRVM</i>
 		</div>
 	</div>
-</div>
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/functions.js"></script>
@@ -50,7 +122,9 @@
 
 $(document).ready(function()
 {
-	$(".button-collapse").sideNav();
+	$('input#url, textarea').characterCounter();
+      
+    $('select').material_select();
 	setCantidad();
 });
 
