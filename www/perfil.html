@@ -8,34 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-
-<nav>
-	<div class="nav-wrapper blue darken-4">
-		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
-		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
-			<li><a href="perfil.html"><strong><i class="material-icons">perm_identity</i></strong></a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
-		</ul>
-		<ul class="right hide-on-med-and-down">
-			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
-			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
-			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
-			<li><a class="descuentoHref" href="descuentos.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
-		</ul>
-		<ul class="side-nav" id="mobile-demo">
-			<li><a href="perfil.html"><strong>Perfil</strong></a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
-			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
-			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
-			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
-			<li><a class="descuentoHref" href="descuentos.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
-		</ul>
-	</div>
-</nav>
-
+<script src="js/menu.js"></script>
 <div class="container">
 	<div class="preloader-wrapper active" id="loader">
 		<div class="spinner-layer spinner-blue-only">
@@ -50,15 +23,8 @@
 			</div>
 		</div>
 	</div>
-	<!--div class="center-align">
-		<button class="btn waves-effect light-blue darken-3" type="button" onclick="activate()" id="enableButton" name="action">Habilitar
-			<i class="material-icons right">mode_edit</i>
-		</button>
-	</div-->
 	<div class="card-panel blue lighten-5">
-
 		<div class="row">
-
 			<form class="col s12" id="form" onsubmit="return controlSubmit();">
 				<h6 class="black-text">Datos personales</h6>
 				<div class="divider"></div>
@@ -79,7 +45,6 @@
 						<label for="dni">DNI</label>
 					</div>
 					<div class="input-field col s6">
-						<!--<input id="loc" type="text" onkeydown="sacarColor(this)">-->
 						<input type="date" id="fechanac" class="datepicker" placeholder="dd/mm/aaaa" required>
 						<label for="fechanac">Fecha Nac.</label>
 					</div>
@@ -166,51 +131,38 @@
 				<li><a class="btn-floating red" onclick="activate('cancel')" id="cancelButton"><i class="material-icons">cancel</i></a></li>
 			</ul>
 		</div>
-
-
-
 	</div>
-
-	<div class="footer-copyright right-align">
-		<div class="container">
-			<i>© 2016 UTN FRVM</i>
-		</div>
+</div>
+<div class="footer-copyright right-align">
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
 	</div>
 </div>
 
-
-<!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script>
 
 var habilitar = false;
-var firstClick = false;
 var regional;
+
 function activate(source)
 {
-	var htmlIcon = '';
-	if(source == 'edit')
-	{
-		htmlIcon = $('#iconEdit').html();
-	}
-
+	var htmlIcon = (source == 'edit') ? $('#iconEdit').html() : '';
+	
 	if(htmlIcon != 'done')
 	{
 		if(!habilitar)
 		{
-			//$('#enableButton').html(`Deshabilitar <i class="material-icons right">mode_edit</i>`);
 			$('#iconEdit').html('done');
 			$('.fixed-action-btn').openFAB();
-			firstClick = true;
 		}
 		else
 		{
 			$('#iconEdit').html('mode_edit');
 			$('.fixed-action-btn').closeFAB();
 			getData();
-			//$('#enableButton').html(`Habilitar <i class="material-icons right">mode_edit</i>`);
 		}
 		habilitar = !habilitar;
 		checkEnable();
@@ -248,11 +200,8 @@ function checkEnable()
 
 function getData()
 {
-	var storage = window.localStorage;
-	var id = storage.getItem('id');
-	
 	var param = {
-		"id":id
+		"id":getItem('id')
 	}
 	
 	$.ajax({
@@ -341,8 +290,7 @@ function unformatDate(d)
 		case "12": month = ' December'; break;
 	}
 	
-	return `${day}${month}${year}`;
-	
+	return `${day}${month}${year}`;	
 }
 
 function controlSubmit()
@@ -460,11 +408,7 @@ function successGetRegional(data, val)
 	for(var i = 0; i < data.length; i++)
 	{
 		var id = data[i].id;
-		var selected = '';
-		if(id == val)
-		{
-			selected = ' selected ';
-		}
+		var selected = (id == val) ? ' selected ' : '';
 		htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
 	}
 	
@@ -472,53 +416,17 @@ function successGetRegional(data, val)
 	$('select').material_select();
 }
 
-function successGetCantGraduados()
-{
-	var storage = window.localStorage;
-	var cant = storage.getItem('cantidad');
-	if(parseInt(cant) > 0)
-	{
-		$('.cantGraduados').html(cant);
-	}
-	else
-	{
-		$('.cantGraduados').hide();
-	}
-}
-
-
 $(document).ready(function (){
 	$('#loader').hide();
 	$(".button-collapse").sideNav();
 	$('.datepicker').pickadate({
-		selectMonths: true, // Creates a dropdown to control month
-		selectYears: 100 // Creates a dropdown of 15 years to control year
+		selectMonths: true,
+		selectYears: 100
 	});
 	getRegional();
 	getData();
 	
-	var cH,pH,eH,dH;
-	if(checkAdministrador())
-	{
-		cH = 'cursosAdmin.html';
-		pH = 'posgradosAdmin.html';
-		eH = 'empleoAdmin.html';
-		dH = 'descuentosAdmin.html';
-		successGetCantGraduados();
-	}
-	else
-	{
-		cH = 'cursos.html';
-		pH = 'posgrados.html';
-		eH = 'empleo.html';
-		dH = 'descuentos.html';
-		$('.hideNotAdmin').hide();
-	}
-	
-	$('.cursosHref').prop('href',cH);
-	$('.posgradosHref').prop('href',pH);
-	$('.empleoHref').prop('href',eH);
-	$('.descuentosHref').prop('href',dH);
+	checkMenu();
 });
 	
 </script>

@@ -5,7 +5,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-
 <body>
 <div id="presentacion">
 	<div id="imgPresentacion" >
@@ -70,109 +69,98 @@
 <div class="center-align" >
 	<a href="registro.html">Crear una cuenta</a>
 </div>
-
 <div class="footer-copyright right-align">
     <div class="container">
         <i>© 2016 UTN FRVM</i>
     </div>
 </div>
-
-<!--Import jQuery before materialize.js-->
-<!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
 <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
 <link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script defer>
-	var f;
 
-	function doLogin()
-	{
-		$('#loader').show();
-		var user = $('#username').val();
-		var pass = $('#password').val();
+function doLogin()
+{
+	$('#loader').show();
 
-		var param = {
-			"user":user,
-			"pass":pass
-		};
+	var param = {
+		"user":($('#username').val()),
+		"pass":($('#password').val())
+	};
 
-		$.ajax({
-			type: "POST",
-			url: "http://extension.frvm.utn.edu.ar/graduadosApi/login.php",
-			data: param,
-			success: function(response)
+	$.ajax({
+		type: "POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/login.php",
+		data: param,
+		success: function(response)
+		{
+			$('#loader').hide();
+			var resp = JSON.parse(response);
+			if(resp.length > 0)
 			{
-				$('#loader').hide();
-				var resp = JSON.parse(response);
-				if(resp.length > 0)
+				if(resp[0].success)
 				{
-					if(resp[0].success)
+					if(resp[0].habilitado == 't')
 					{
-						if(resp[0].habilitado == 't')
+						var id = resp[0].id;
+						var administrador = resp[0].administrador;
+						setItem('id',id);
+						setItem('administrador',administrador);
+						if(resp[0].first == 't')
 						{
-							var storage = window.localStorage;
-							var id = resp[0].id;
-							var administrador = resp[0].administrador;
-							storage.setItem('id',id);
-							storage.setItem('administrador',administrador);
-							if(resp[0].first == 't')
-							{
-								window.location.href="registro.html";
-							}
-							else
-							{
-								window.location.href="inicio.html";
-							}
+							window.location.href="registro.html";
 						}
 						else
 						{
-							toasty('Su usuario no se encuentra habilitado','error');
+							window.location.href="inicio.html";
 						}
 					}
+					else
+					{
+						toasty('Su usuario no se encuentra habilitado','error');
+					}
 				}
-				else
-				{
-					toasty('Datos inválidos','error');
-				}
-			},
-			error: function(msg)
-			{
-				alert(`Se ha producido un error en el logueo. Error: ${msg}`);
 			}
-		});
-
-		return false;
-	}
-
-	function initialize()
-	{
-		$('#presentacion').fadeOut(1000);
-		var storage = window.localStorage;
-		var value = storage.getItem('id');
-		if(value != undefined)
+			else
+			{
+				toasty('Datos inválidos','error');
+			}
+		},
+		error: function(msg)
 		{
-			window.location.href = 'inicio.html';
-		}
-	}
-
-	$(document).ready(function(){
-		$('#loader').hide();
-		var storage = window.localStorage;
-		var logout = storage.getItem('logout');
-		if(logout == null)
-		{
-			setTimeout(initialize, 1500);
-		}
-		else
-		{
-			storage.removeItem('logout');
-			$('#presentacion').hide();
-			initialize();
+			$('#loader').hide();
+			alert(`Se ha producido un error en el logueo. Error: ${msg}`);
 		}
 	});
 
-	</script>
+	return false;
+}
+
+function initialize()
+{
+	$('#presentacion').fadeOut(1000);
+	if(getItem('id') != undefined)
+	{
+		window.location.href = 'inicio.html';
+	}
+}
+
+$(document).ready(function(){
+	$('#loader').hide();
+	if(getItem('logout') == null)
+	{
+		setTimeout(initialize, 1500);
+	}
+	else
+	{
+		removeItem('logout');
+		$('#presentacion').hide();
+		initialize();
+	}
+});
+
+</script>
 </body>
 </html>

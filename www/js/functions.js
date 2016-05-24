@@ -70,11 +70,11 @@ function toasty(text,style)
 	$('#toast-container').css('bottom','50%');
 }
 
+var storage = window.localStorage;
+
 function checkId()
 {
-	var storage = window.localStorage;
-	var id = storage.getItem('id');
-	if(id == undefined)
+	if(getItem('id') == undefined)
 	{
 		logout();
 	}
@@ -82,9 +82,7 @@ function checkId()
 
 function checkAdministrador()
 {
-	var storage = window.localStorage;
-	var administrador = storage.getItem('administrador');
-	if(administrador == 't')
+	if(getItem('administrador') == 't')
 	{
 		return true;
 	}
@@ -97,8 +95,7 @@ function checkAdministrador()
 //Trae la cantidad de graduados a la espera de ser habilitados
 function setCantidad()
 {
-	var storage = window.localStorage;
-	var cant = storage.getItem('cantidad');
+	var cant = getItem('cantidad');
 	if(parseInt(cant) > 0)
 	{
 		$('.cantGraduados').html(cant);
@@ -111,17 +108,92 @@ function setCantidad()
 
 function initializeCantidad(cant)
 {
-	var storage = window.localStorage;
-	storage.setItem('cantidad',cant);
+	setItem('cantidad',cant);
 	setCantidad();
+}
+
+function getItem(item)
+{
+	return storage.getItem(item);
+}
+
+function removeItem(item)
+{
+	storage.removeItem(item);
+}
+
+function setItem(item,val)
+{
+	storage.setItem(item,val);
 }
 
 function logout()
 {
-	var storage = window.localStorage;
-	storage.removeItem('id');
-	storage.removeItem('administrador');
-	storage.removeItem('cantidad');
-	storage.setItem('logout','t');
+	removeItem('id');
+	removeItem('administrador');
+	removeItem('cantidad');
+	setItem('logout','t');
 	window.location.href = 'index.html';
+}
+
+function checkMenu()
+{
+	var cH,pH,eH,dH;
+	if(checkAdministrador())
+	{
+		cH = 'cursosAdmin.html';
+		pH = 'posgradosAdmin.html';
+		eH = 'empleoAdmin.html';
+		dH = 'descuentosAdmin.html';
+		$('.hideNotAdmin').show();
+		successGetCantGraduados();
+	}
+	else
+	{
+		cH = 'cursos.html';
+		pH = 'posgrados.html';
+		eH = 'empleo.html';
+		dH = 'descuentos.html';
+		$('.hideNotAdmin').hide();
+	}
+	
+	$('.cursosHref').prop('href',cH);
+	$('.posgradosHref').prop('href',pH);
+	$('.empleoHref').prop('href',eH);
+	$('.descuentosHref').prop('href',dH);
+}
+
+function successGetCantGraduados()
+{
+	var cant = getItem('cantidad');
+	if(parseInt(cant) > 0)
+	{
+		$('.cantGraduados').show();
+		$('.cantGraduados').html(cant);
+	}
+	else
+	{
+		$('.cantGraduados').hide();
+	}
+}
+
+function controlVacio(nombreSelector)
+{
+	if($.trim($(nombreSelector).val()) == '')
+	{
+		$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
+		$(nombreSelector).focus();
+		return false;
+	}
+	return true;
+}
+
+function sacarColor(me)
+{
+	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+}
+
+function loadNav()
+{
+	$("#nav").load("menu.html"); 
 }

@@ -8,36 +8,8 @@
 	<title>Graduados FRVM</title>
 </head>
 <body>
-
-<nav>
-	<div class="nav-wrapper blue darken-4">
-		<a href="inicio.html" class="brand-logo center">Graduados FRVM</a>
-		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
-			<li><a href="perfil.html"><i class="material-icons">perm_identity</i></a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
-		</ul>
-		<ul class="right hide-on-med-and-down">
-			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
-			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
-			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
-			<li><a class="descuentosHref" href="descuentos.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
-		</ul>
-		<ul class="side-nav" id="mobile-demo">
-			<li><a href="perfil.html">Perfil</a></li>
-			<li class="hideNotAdmin"><a class="graduadosHref" href="graduadosAdmin.html">Graduados <span class="new badge cantGraduados">0</span></a></li>
-			<li><a class="cursosHref" href="cursos.html">Cursos</a></li>
-			<li><a class="posgradosHref" href="posgrados.html">Posgrados</a></li>
-			<li><a class="empleoHref" href="empleo.html">Empleo</a></li>
-			<li><a class="descuentosHref" href="descuentos.html">Descuentos</a></li>
-			<li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
-		</ul>
-	</div>
-</nav>
-
+<script src="js/menu.js"></script>
 <div class="container">
-	
 </div>
 <div class="footer-copyright right-align">
 	<div class="container">
@@ -51,10 +23,8 @@
 
 function getCantGraduados()
 {
-	var storage = window.localStorage;
-	var id = storage.getItem('id');
 	var param = {
-		"id":id
+		"id":getItem('id')
 	};
 	
 	$.ajax({
@@ -64,7 +34,8 @@ function getCantGraduados()
 		success: function(response)
 		{
 			var r = JSON.parse(response);
-			successGetCantGraduados(r);
+			setItem('cantidad',r[0].cantidad)
+			checkMenu();			
 		},
 		error: function(msg)
 		{
@@ -73,47 +44,15 @@ function getCantGraduados()
 	});
 }
 
-function successGetCantGraduados(data)
-{
-	var cant = data[0].cantidad;
-	var storage = window.localStorage;
-	storage.setItem('cantidad',cant);
-	if(parseInt(cant) > 0)
-	{
-		$('.cantGraduados').html(cant);
-	}
-	else
-	{
-		$('.cantGraduados').hide();
-	}
-}
-
 $(document).ready(function()
 {
 	$(".button-collapse").sideNav();
 	checkId();
-	var cH,pH,eH,dH;
 	if(checkAdministrador())
 	{
-		cH = 'cursosAdmin.html';
-		pH = 'posgradosAdmin.html';
-		eH = 'empleoAdmin.html';
-		dH = 'descuentosAdmin.html';
 		getCantGraduados();
 	}
-	else
-	{
-		cH = 'cursos.html';
-		pH = 'posgrados.html';
-		eH = 'empleo.html';
-		dH = 'descuentos.html';
-		$('.hideNotAdmin').hide();
-	}
-	
-	$('.cursosHref').prop('href',cH);
-	$('.posgradosHref').prop('href',pH);
-	$('.empleoHref').prop('href',eH);
-	$('.descuentosHref').prop('href',dH);
+	checkMenu();
 });
 
 </script>
