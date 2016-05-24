@@ -27,6 +27,9 @@
 	<div class="row">
 		<a href="#" class="descuentosHref col s12 waves-effect waves-light btn-large">Descuentos</a>
 	</div>
+	<div class="row">
+		<a href="#" onclick="logout()" class="col s12 waves-effect waves-light btn-large">Cerrar Sesión</a>
+	</div>
 </div>
 <div class="footer-copyright right-align">
 	<div class="container">
@@ -64,6 +67,7 @@ function getCantGraduados()
 $(document).ready(function()
 {
 	$(".button-collapse").sideNav();
+	$(".button-collapse").hide();
 	checkId();
 	if(checkAdministrador())
 	{
@@ -71,6 +75,8 @@ $(document).ready(function()
 	}
 	checkMenu();
 });
+
+controlBack('inicio');
 
 </script>
 </body>
