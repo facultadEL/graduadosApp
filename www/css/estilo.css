@@ -177,8 +177,14 @@ main {
 	margin-left: -8px;
 }
 
-
 #subnavbar, #navsubnavbar {
 	height:30px;
 	z-index: 100;
+}
+
+.selectedOption {
+	background-color: #26a69a;
+}
+.selectedOption a {
+	color: white;
 }

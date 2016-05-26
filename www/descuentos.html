@@ -48,7 +48,6 @@
 <script src="js/materialize.js"></script>
 <script src="js/functions.js"></script>
 <script>
-checkId();
 var paramDiscount = {};  	  
 
 function getDescuento()
@@ -170,14 +169,10 @@ function successGetDescuento(data)
 
 $(document).ready(function()
 {
-	checkMenu();
 	$('#loader').hide();
 	getDescuento();
 	$(".button-collapse").sideNav();
 });
-
-controlBack('descuento');
-
 </script>
 
 </body>

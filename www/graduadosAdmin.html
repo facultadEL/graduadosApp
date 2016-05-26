@@ -10,26 +10,25 @@
 <body>
 <script src="js/menu.js"></script>
 <script>showSubNavBar('Usuarios Pendientes')</script>
-<div class="container">
-    <ul class="collection" id="graduadosUl">
+<div class="container" id="bodyContainer">
+    <ul class="collection hideNotGrad" id="graduadosUl">
 		
     </ul>
-	<div class="fixed-action-btn vertical" style="bottom: 45px; right: 24px;">
+	<div class="fixed-action-btn vertical hideNotGrad" style="bottom: 45px; right: 24px;">
 		<a class="btn-floating btn-large blue darken-4" onclick="habilitar()">
 			<i class="material-icons" id="iconEdit">done</i>
 		</a>
 	</div>
-	<div class="footer-copyright right-align">
-		<div class="container">
-			<i>© 2016 UTN FRVM</i>
-		</div>
+</div>
+<div class="footer-copyright right-align">
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
 	</div>
 </div>
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/materialize.js"></script>
 <script src="js/functions.js"></script>
 <script>
-checkId();
 var graduados;
 
 function getGraduados()
@@ -71,8 +70,15 @@ function checkAll()
 function successGetGraduados(data)
 {
 	graduados = data;
-	var htmlGrad = '<li class="collection-item" id="liTodos"><div><label for="todosCheck" id="gradLabel">Todos</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="todosCheck" onclick="checkAll()" /><label for="todosCheck" id="checkGrad"></label></div></div></li>';
 	var dLength = data.length;
+	if(dLength == 0)
+	{
+		var htmlNoGrad = getCard('','No hay graduados para habilitar');
+		$('#bodyContainer').html(htmlNoGrad);
+		return;	
+	}
+	
+	var htmlGrad = '<li class="collection-item" id="liTodos"><div><label for="todosCheck" id="gradLabel">Todos</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="todosCheck" onclick="checkAll()" /><label for="todosCheck" id="checkGrad"></label></div></div></li>';
 	for(var i = 0; i < dLength; i++)
 	{
 		var g = data[i];
@@ -145,13 +151,10 @@ function habilitar()
 
 $(document).ready(function()
 {
-	checkMenu();
 	$(".button-collapse").sideNav();
     setCantidad();
 	getGraduados();
 });
-
-controlBack('graduados');
 </script>
 </body>
 </html>

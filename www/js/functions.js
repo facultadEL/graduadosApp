@@ -71,14 +71,25 @@ function toasty(text,style)
 }
 
 var storage = window.localStorage;
+var excludedLoc = ['index','registro','restaurarPass'];
+
+function getLoc()
+{
+	return window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
+}
 
 function checkId()
 {
-	if(getItem('id') == undefined)
+	var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
+	if(excludedLoc.indexOf(loc) == -1)
 	{
-		logout();
+		if(getItem('id') == undefined)
+		{
+			logout();
+		}
 	}
 }
+checkId();
 
 function checkAdministrador()
 {
@@ -138,6 +149,7 @@ function logout()
 
 function checkMenu()
 {
+	if(excludedLoc.indexOf(getLoc()) != -1) return;
 	var cH,pH,eH,dH;
 	if(checkAdministrador())
 	{
@@ -200,13 +212,24 @@ function loadNav()
 	$("#nav").load("menu.html"); 
 }
 
-function controlBack(source)
+function getCard(cardTitle,cardContent)
+{
+	return `<div class="row"><div class="col s12">
+			<div class="card blue-grey darken-1">
+			<div class="card-content white-text">
+			<span class="card-title">${cardTitle}</span>
+			<p class="center-align">${cardContent}</p>
+			</div></div></div></div>`;
+}
+
+function controlBack()
 {
 	window.onload = function () {
+		var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
 		if (typeof history.pushState === "function") {
 			history.pushState("jibberish", null, null);
 			window.onpopstate = function () {
-				if(source == 'inicio' || source == 'index')
+				if(loc == 'inicio' || loc == 'index')
 				{
 					history.pushState('newjibberish', null, null);
 					navigator.app.exitApp();
@@ -215,14 +238,12 @@ function controlBack(source)
 				{
 					window.location.href = "inicio.html";
 				}
-				// Handle the back (or forward) buttons here
-				// Will NOT handle refresh, use onbeforeunload for this.
 			};
 		}
 		else {
 			var ignoreHashChange = true;
 			window.onhashchange = function () {
-				if(source == 'inicio' || source == 'index')
+				if(loc == 'inicio' || loc == 'index')
 				{
 					history.pushState('newjibberish', null, null);
 					navigator.app.exitApp();
@@ -235,3 +256,39 @@ function controlBack(source)
 		}
 	}
 }
+
+function checkSelectedOption()
+{
+	var options = {
+		'cursos':'liCurso',
+		'cursosAdmin':'liCurso',
+		'descuentos':'liDescuento',
+		'descuentosAdmin':'liDescuento',
+		'empleo':'liEmpleo',
+		'empleoAdmin':'liEmpleo',
+		'graduadosAdmin':'liGraduado',
+		'perfil':'liPerfil',
+		'posgrados':'liPosgrado',
+		'posgradosAdmin':'liPosgrado'
+	};
+	var l = getLoc();
+	var name = `.${options[l]}`;
+	$(name).addClass('selectedOption');
+	
+}
+
+function onDeviceReady(){
+    document.addEventListener("backbutton", function(e){
+		var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
+		alert(loc);
+        if(window.location.hash=='#home'){
+            e.preventDefault();
+            navigator.app.exitApp();
+        } else {
+            navigator.app.backHistory()
+        }
+    }, false);
+}
+document.addEventListener("DOMContentLoaded", controlBack, false);
+document.addEventListener("DOMContentLoaded", checkMenu, false);
+document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
