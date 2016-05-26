@@ -289,6 +289,7 @@ function onDeviceReady(){
         }
     }, false);
 }
-document.addEventListener("DOMContentLoaded", onDeviceReady, false);
+document.addEventListener("deviceready", onDeviceReady, false);
+//document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
