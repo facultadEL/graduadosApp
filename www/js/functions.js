@@ -281,7 +281,7 @@ function onDeviceReady(){
     document.addEventListener("backbutton", function(e){
 		var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
 		alert(loc);
-        if(window.location.hash=='#home'){
+        if(loc == 'inicio' || loc == 'index'){
             e.preventDefault();
             navigator.app.exitApp();
         } else {
@@ -289,6 +289,6 @@ function onDeviceReady(){
         }
     }, false);
 }
-document.addEventListener("DOMContentLoaded", controlBack, false);
+document.addEventListener("DOMContentLoaded", onDeviceReady, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
