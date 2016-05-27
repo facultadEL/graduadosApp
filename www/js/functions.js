@@ -243,7 +243,7 @@ function controlBack()
 					catch(err)
 					{
 						setItem('back','t');
-						var next = (history.length - 1) * -1;
+						var next = (history.length - 2) * -1;
 						history.go(next);
 					}
 				}
