@@ -297,17 +297,17 @@ document.addEventListener('DOMContentLoaded', function() {
 */
 document.addEventListener('deviceready', function() {
 	alert('DeviceReady');
-    var exitApp = true, intval = setInterval(function (){exitApp = false;}, 1000);
+    var exitApp = true;
     document.addEventListener("backbutton", function (e){
         e.preventDefault();
-        if (exitApp) {
-            clearInterval(intval) 
-            (navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
-        }
-        else {
-            exitApp = true
-            history.back(1);
-        } 
+		if(getLoc() == 'index' || getLoc() == 'inicio')
+		{
+			(navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
+		}
+		else
+		{
+			window.location.href = "inicio.html";	
+		}
     }, false);
 }, false);
 //document.addEventListener("deviceready", onDeviceReady, false);
