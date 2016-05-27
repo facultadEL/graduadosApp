@@ -234,7 +234,10 @@ function controlBack()
 				}
 				else
 				{
-					window.location.href = "inicio.html";
+					if(loc != "registrar" || loc != "restaurarPass")
+					{
+						window.location.href = "inicio.html";
+					}
 				}
 			};
 		}
@@ -247,7 +250,10 @@ function controlBack()
 				}
 				else
 				{
-					window.location.href = "inicio.html";	
+					if(loc != "registrar" || loc != "restaurarPass")
+					{
+						window.location.href = "inicio.html";
+					}	
 				}
 			};
 		}
