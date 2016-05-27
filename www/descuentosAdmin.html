@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
@@ -124,31 +124,6 @@ function controlSubmit()
 	
 	var id = getItem('id');
 	$('#id').val(id);
-	var param = {};
-	/*
-	if($('#idEmpresa').val() == -1)
-	{
-		param = {
-			"id":id,
-			"url":($('#url').val()),
-			"detalle":($('#detalle').val()),
-			"image":($('#image')),
-			"empresa":($('#empresa').val()),
-			"idEmpresa":"-1",
-			"titulo":($('#titulo').val())
-		};
-	}
-	else
-	{
-		param = {
-			"id":id,
-			"idEmpresa":($('#idEmpresa').val()),
-			"url":($('#url').val()),
-			"detalle":($('#detalle').val()),
-			"titulo":($('#titulo').val())
-		};
-	}
-	*/
 	var param = new FormData($("#form")[0]);
 	$('#loader').show();
 	$.ajax({
@@ -160,7 +135,7 @@ function controlSubmit()
 		success: function(response)
 		{
 			$('#loader').hide();
-			var r = JSON.parse(response);
+			var r = parse(response);
 			if(r[0].success == 't')
 			{
 				toasty("El descuento se guardó correctamente",'success');
@@ -298,8 +273,7 @@ function getEmpresa()
 		data:param,
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetEmpresa(r);
+			successGetEmpresa(parse(response));
 		},
 		error: function(msg)
 		{
@@ -325,8 +299,7 @@ function getDatosEmpresa(name)
 			data: param,
 			success: function(response)
 			{
-				var r = JSON.parse(response);
-				successGetDatosEmpresa(r[0]);
+				successGetDatosEmpresa(parse(response)[0]);
 			},
 			error: function(msg)
 			{

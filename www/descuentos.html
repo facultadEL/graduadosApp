@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
@@ -45,7 +45,7 @@
 </div>
 
 <script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/materialize.js"></script>
+<script src="js/materialize.min.js"></script>
 <script src="js/functions.js"></script>
 <script>
 var paramDiscount = {};  	  
@@ -63,8 +63,7 @@ function getDescuento()
 		data: param,
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetDescuento(r);
+			successGetDescuento(parse(response));
 		},
 		error: function(msg)
 		{
@@ -87,7 +86,7 @@ function saveRate()
 		{
 			$('#loader').hide();
 			$('#modalComentario').closeModal();
-			var r = JSON.parse(response)[0];
+			var r = parse(response)[0];
 			setRate(r.idDescuento,parseInt(r.puntaje));
 		},
 		error: function(msg)
@@ -100,6 +99,7 @@ function saveRate()
 
 function setRate(id,puntaje)
 {
+	$('#comentario').val('');
 	for(var i = 1; i <= 5; i++)
 	{
 		var name = `#rate${id}-${i}`;

@@ -80,8 +80,7 @@ function getLoc()
 
 function checkId()
 {
-	var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
-	if(excludedLoc.indexOf(loc) == -1)
+	if(excludedLoc.indexOf(getLoc()) == -1)
 	{
 		if(getItem('id') == undefined)
 		{
@@ -212,20 +211,20 @@ function loadNav()
 	$("#nav").load("menu.html"); 
 }
 
-function getCard(cardTitle,cardContent)
+function getCard(cT,cC)
 {
 	return `<div class="row"><div class="col s12">
 			<div class="card blue-grey darken-1">
 			<div class="card-content white-text">
-			<span class="card-title">${cardTitle}</span>
-			<p class="center-align">${cardContent}</p>
+			<span class="card-title">${cT}</span>
+			<p class="center-align">${cC}</p>
 			</div></div></div></div>`;
 }
 
 function controlBack()
 {
 	window.onload = function () {
-		var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
+		var loc = getLoc();
 		if (typeof history.pushState === "function") {
 			history.pushState("jibberish", null, null);
 			window.onpopstate = function () {
@@ -257,6 +256,11 @@ function controlBack()
 	}
 }
 
+function parse(json)
+{
+	return JSON.parse(json);
+}
+
 function checkSelectedOption()
 {
 	var options = {
@@ -274,22 +278,39 @@ function checkSelectedOption()
 	var l = getLoc();
 	var name = `.${options[l]}`;
 	$(name).addClass('selectedOption');
-	
 }
-
-function onDeviceReady(){
-    document.addEventListener("backbutton", function(e){
-		var loc = window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
-		alert(loc);
-        if(loc == 'inicio' || loc == 'index'){
-            e.preventDefault();
-            navigator.app.exitApp();
-        } else {
-            navigator.app.backHistory()
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    var exitApp = true, intval = setInterval(function (){exitApp = false;}, 1000);
+    document.addEventListener("backbutton", function (e){
+        e.preventDefault();
+        if (exitApp) {
+            clearInterval(intval) 
+            (navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
         }
+        else {
+            exitApp = true
+            history.back(1);
+        } 
     }, false);
-}
-document.addEventListener("deviceready", onDeviceReady, false);
+}, false);
+*/
+document.addEventListener('deviceready', function() {
+	alert('DeviceReady');
+    var exitApp = true, intval = setInterval(function (){exitApp = false;}, 1000);
+    document.addEventListener("backbutton", function (e){
+        e.preventDefault();
+        if (exitApp) {
+            clearInterval(intval) 
+            (navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
+        }
+        else {
+            exitApp = true
+            history.back(1);
+        } 
+    }, false);
+}, false);
+//document.addEventListener("deviceready", onDeviceReady, false);
 //document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);

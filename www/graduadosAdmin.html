@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
@@ -26,7 +26,7 @@
 	</div>
 </div>
 <script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/materialize.js"></script>
+<script src="js/materialize.min.js"></script>
 <script src="js/functions.js"></script>
 <script>
 var graduados;
@@ -43,8 +43,7 @@ function getGraduados()
 		data: param,
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetGraduados(r);
+			successGetGraduados(parse(response));
 		},
 		error: function(msg)
 		{
@@ -126,7 +125,7 @@ function habilitar()
 			url:"http://extension.frvm.utn.edu.ar/graduadosApi/habilitarGraduado.php",
 			success: function(response)
 			{
-				var r = JSON.parse(response);
+				var r = parse(response);
 				if(r[0].success == 't')
 				{
 					initializeCantidad(r[0].cant);

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 	<title>Registro</title>
-	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -241,7 +241,7 @@ function controlSubmit()
 		success: function(response)
 		{
 			$('#loader').hide();
-			var r = JSON.parse(response);
+			var r = parse(response);
 			if(r[0].success)
 			{
 				if(r[0].created)
@@ -250,6 +250,7 @@ function controlSubmit()
 				}
 				else
 				{
+					removeItem('primeravez');
 					setItem('id', $('#id').val());
 					window.location.href="inicio.html";
 				}
@@ -280,6 +281,7 @@ function getDatos()
 	else
 	{
 		$('#arrowUl').hide();
+		$('.brand-logo').html('Confirmar datos');
 	}
 	
 	$.ajax({
@@ -288,8 +290,7 @@ function getDatos()
 		data: param,
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetDatos(r[0]);
+			successGetDatos(parse(response)[0]);
 		},
 		error: function(msg)
 		{
@@ -392,7 +393,7 @@ function checkDni()
 				url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
 				success: function(response)
 				{
-					var r = JSON.parse(response);
+					var r = parse(response);
 					if(r.length > 0)
 					{
 						successGetDatos(r[0]);
@@ -527,7 +528,7 @@ function getIdLocalidad(name)
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidadId.php",
 		success: function(response)
 		{
-			var r = JSON.parse(response);
+			var r = parse(response);
 			if(r.length > 0)
 			{
 				$('#idLocalidad').val(r[0].id);
@@ -551,8 +552,7 @@ function getDataLocalidad()
 		url: 'http://extension.frvm.utn.edu.ar/graduadosApi/getLocalidad.php',
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetLocalidad(r);
+			successGetLocalidad(parse(response));
 		},
 		error: function(msg)
 		{
@@ -568,8 +568,7 @@ function getRegional()
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRegional.php",
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetRegional(r);
+			successGetRegional(parse(response));
 		},
 		error: function(msg)
 		{

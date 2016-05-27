@@ -4,6 +4,9 @@
 	<title>Login - Graduados FRVM</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta http-equiv="Cache-control" content="public">
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 </head>
 <body>
 <div id="presentacion">
@@ -74,8 +77,6 @@
         <i>© 2016 UTN FRVM</i>
     </div>
 </div>
-<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
@@ -97,7 +98,7 @@ function doLogin()
 		success: function(response)
 		{
 			$('#loader').hide();
-			var resp = JSON.parse(response);
+			var resp = parse(response);
 			if(resp.length > 0)
 			{
 				if(resp[0].success)
@@ -110,6 +111,7 @@ function doLogin()
 						setItem('administrador',administrador);
 						if(resp[0].first == 't')
 						{
+							setItem('primeravez','t');
 							window.location.href="registro.html";
 						}
 						else
@@ -143,7 +145,14 @@ function initialize()
 	$('#presentacion').fadeOut(1000);
 	if(getItem('id') != undefined)
 	{
-		window.location.href = 'inicio.html';
+		if(getItem('primeravez') == undefined)
+		{
+			window.location.href = 'inicio.html';
+		}
+		else
+		{
+			window.location.href = 'registro.html';
+		}
 	}
 }
 

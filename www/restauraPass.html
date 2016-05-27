@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 	<title>Restaurar Contraseña</title>
-	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -86,7 +86,7 @@ function restorePass()
 			success: function(response)
 			{
 				$('#loader').hide();
-				var r = JSON.parse(response);
+				var r = parse(response);
 				if(r[0].success)
 				{
 					toasty('Se le ha enviado un mail con una contraseña temporal','success');

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 	<title>Perfil</title>
-	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -210,8 +210,7 @@ function getData()
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			successGetData(r[0]);
+			successGetData(parse(response)[0]);
 		},
 		error: function(msg)
 		{
@@ -326,7 +325,7 @@ function controlSubmit()
 		success: function(response)
 		{
 			$('#loader').hide();
-			var r = JSON.parse(response);
+			var r = parse(response);
 			if(r[0].success)
 			{
 				toasty('Datos guardados correctamente','success');
@@ -383,8 +382,7 @@ function getRegional()
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRegional.php",
 		success: function(response)
 		{
-			var r = JSON.parse(response);
-			regional = r;
+			regional = parse(response);
 		},
 		error: function(msg)
 		{
