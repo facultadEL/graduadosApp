@@ -230,8 +230,7 @@ function controlBack()
 			window.onpopstate = function () {
 				if(loc == 'inicio' || loc == 'index')
 				{
-					history.pushState('newjibberish', null, null);
-					navigator.app.exitApp();
+					(navigator.app && navigator.app.exitApp()) || (device && device.exitApp());
 				}
 				else
 				{
@@ -244,8 +243,7 @@ function controlBack()
 			window.onhashchange = function () {
 				if(loc == 'inicio' || loc == 'index')
 				{
-					history.pushState('newjibberish', null, null);
-					navigator.app.exitApp();
+					(navigator.app && navigator.app.exitApp()) || (device && device.exitApp());
 				}
 				else
 				{
@@ -311,6 +309,6 @@ document.addEventListener('deviceready', function() {
     }, false);
 }, false);
 //document.addEventListener("deviceready", onDeviceReady, false);
-//document.addEventListener("DOMContentLoaded", controlBack, false);
+document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
