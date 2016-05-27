@@ -223,6 +223,12 @@ function getCard(cT,cC)
 
 function controlBack()
 {
+	if(getItem('back') == 't')
+	{
+		removeItem('back');
+		history.back()
+	};
+	
 	window.onload = function () {
 		var loc = getLoc();
 		if (typeof history.pushState === "function") {
@@ -230,7 +236,16 @@ function controlBack()
 			window.onpopstate = function () {
 				if(loc == 'inicio' || loc == 'index')
 				{
+					try
+					{
 					(navigator.app && navigator.app.exitApp()) || (device && device.exitApp());
+					}
+					catch(err)
+					{
+						setItem('back','t');
+						var next = (history.length - 1) * -1;
+						history.go(next);
+					}
 				}
 				else
 				{
@@ -246,7 +261,16 @@ function controlBack()
 			window.onhashchange = function () {
 				if(loc == 'inicio' || loc == 'index')
 				{
+					try
+					{
 					(navigator.app && navigator.app.exitApp()) || (device && device.exitApp());
+					}
+					catch(err)
+					{
+						setItem('back','t');
+						var next = (history.length - 1) * -1;
+						history.go(next);
+					}
 				}
 				else
 				{
