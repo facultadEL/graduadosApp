@@ -323,21 +323,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }, false);
 }, false);
 */
-document.addEventListener('deviceready', function() {
-	alert('DeviceReady');
-    var exitApp = true;
-    document.addEventListener("backbutton", function (e){
-        e.preventDefault();
-		if(getLoc() == 'index' || getLoc() == 'inicio')
-		{
-			(navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
-		}
-		else
-		{
-			window.location.href = "inicio.html";	
-		}
+function onDeviceReady(){
+    document.addEventListener("backbutton", function(e){
+       alert('Acá si entro');
     }, false);
-}, false);
+}
+
+document.addEventListener("deviceready", onDeviceReady, false);
 
 $(function()
 {
