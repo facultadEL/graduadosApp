@@ -348,3 +348,4 @@ $(function()
 //document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
+document.addEventListener("DOMContentLoaded", onDeviceReady, false);
