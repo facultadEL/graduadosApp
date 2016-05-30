@@ -220,7 +220,7 @@ function getCard(cT,cC)
 			<p class="center-align">${cC}</p>
 			</div></div></div></div>`;
 }
-
+/*
 function controlBack()
 {
 	if(getItem('back') == 't')
@@ -283,7 +283,7 @@ function controlBack()
 		}
 	}
 }
-
+*/
 function parse(json)
 {
 	return JSON.parse(json);
@@ -338,7 +338,20 @@ document.addEventListener('deviceready', function() {
 		}
     }, false);
 }, false);
+
+$(function()
+{
+    var rx = /INPUT|SELECT|TEXTAREA/i;
+
+    $(document).bind("keydown keypress", function(e){
+        if( e.which == 8 ){ // 8 == backspace
+            if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
+                alert('Ba');
+            }
+        }
+    });
+});
 //document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("DOMContentLoaded", controlBack, false);
+//document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
