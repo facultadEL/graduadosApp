@@ -342,8 +342,9 @@ document.addEventListener('deviceready', function() {
 $(function()
 {
     var rx = /INPUT|SELECT|TEXTAREA/i;
-
+	alert('Entro control');
     $(document).bind("keydown keypress", function(e){
+		alert(e.which);
         if( e.which == 8 ){ // 8 == backspace
             if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
                 alert('Ba');
