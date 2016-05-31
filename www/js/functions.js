@@ -307,40 +307,7 @@ function checkSelectedOption()
 	var name = `.${options[l]}`;
 	$(name).addClass('selectedOption');
 }
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener("backbutton", function (e){
-        e.preventDefault();
-		alert('VOY A SALIR'); 
-		(navigator.app && navigator.app.exitApp()) || (device && device.exitApp()); 
-    }, false);
-}, false);
-
-function onDeviceReady(){
-	alert('READY');
-    document.addEventListener("backbutton", function(e){
-       alert('Acá si entro');
-    }, false);
-}
-
-document.addEventListener("deviceready", onDeviceReady, false);
-*/
-/*
-$(function()
-{
-    var rx = /INPUT|SELECT|TEXTAREA/i;
-	alert('Entro control');
-    $(document).bind("keydown keypress", function(e){
-		alert(e.which);
-        if( e.which == 8 ){ // 8 == backspace
-            if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
-                alert('Ba');
-            }
-        }
-    });
-});
-*/
 //document.addEventListener("deviceready", onDeviceReady, false);
-//document.addEventListener("DOMContentLoaded", controlBack, false);
+document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
