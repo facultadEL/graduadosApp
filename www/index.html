@@ -84,11 +84,19 @@
 
 function doLogin()
 {
-	$('#loader').show();
+	var user = $('#username').val().trim();
+	var pass = $('#password').val();
+	if(user.length == 0 || pass.length == 0)
+	{
+		toasty('Introduzca usuario y contraseña','error');
+		return false;
+	}
 
+	$('#loader').show();
+	
 	var param = {
-		"user":($('#username').val()),
-		"pass":($('#password').val())
+		"user":user,
+		"pass":pass
 	};
 
 	$.ajax({

@@ -51,8 +51,8 @@ function toasty(text,style)
 	switch(style)
 	{
 		case 'error':
-			bgColor = '#f44336';
-			color = 'black';
+			bgColor = '#e53935';
+			color = 'white';
 			break;
 		case 'success':
 			bgColor = '#388e3c';
@@ -76,9 +76,13 @@ function toasty(text,style)
 	Materialize.toast($toastContent, 1000);
 	$('.toast').css('background-color',bgColor);
 	$('.toast').css('color',color);
+	$('#toast-container').css('width','100%');
 	$('#toast-container').css('top','auto');
 	$('#toast-container').css('right','auto');
 	$('#toast-container').css('bottom','50%');
+	$('.toast').css('width','100%');
+	$('.toast').css('text-align','center');
+	$('.toast span').css('width','100%');
 }
 
 var storage = window.localStorage;
