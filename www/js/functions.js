@@ -43,6 +43,9 @@ function showNoty(type,text)
 
 function toasty(text,style)
 {
+	if(style == undefined) style='default';
+	if(text == undefined) return;
+	
 	style = style.toLowerCase();
 	var bgColor,fColor;
 	switch(style)
@@ -52,7 +55,15 @@ function toasty(text,style)
 			color = 'black';
 			break;
 		case 'success':
-			bgColor = 'green';
+			bgColor = '#388e3c';
+			color = 'white';
+			break;
+		case 'sahara':
+			bgColor = '#fb8c00';
+			color = 'white';
+			break;
+		case 'prince':
+			bgColor = '#5e35b1';
 			color = 'white';
 			break;
 		default:
@@ -72,6 +83,7 @@ function toasty(text,style)
 
 var storage = window.localStorage;
 var excludedLoc = ['index','registro','restauraPass'];
+var notified = false;
 
 function getLoc()
 {
@@ -102,7 +114,6 @@ function checkAdministrador()
 	}
 }
 
-//Trae la cantidad de graduados a la espera de ser habilitados
 function setCantidad()
 {
 	var cant = getItem('cantidad');
@@ -149,6 +160,16 @@ function logout()
 	window.location.replace('index.html');
 }
 
+function notifyCant()
+{
+	var cant = getItem('cantidad');
+	if(cant != undefined && cant > 0 && getLoc() == 'inicio' &&  !notified)
+	{
+		notified = true;
+		toasty(`Tiene ${cant} graduados por activar`,'sahara');
+	}
+}
+
 function checkMenu()
 {
 	if(excludedLoc.indexOf(getLoc()) != -1) return;
@@ -164,6 +185,7 @@ function checkMenu()
 		dH = 'descuentosAdmin.html';
 		$('.hideNotAdmin').show();
 		setCantidad();
+		notifyCant();
 	}
 	else
 	{
@@ -173,7 +195,6 @@ function checkMenu()
 		dH = 'descuentos.html';
 		$('.hideNotAdmin').hide();
 	}
-	
 	
 	addClick('cursosHref',cH);
 	addClick('posgradosHref',pH);
