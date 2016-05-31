@@ -220,7 +220,7 @@ function getCard(cT,cC)
 			<p class="center-align">${cC}</p>
 			</div></div></div></div>`;
 }
-/*
+
 function controlBack()
 {
 	if(getItem('back') == 't')
@@ -283,7 +283,7 @@ function controlBack()
 		}
 	}
 }
-*/
+
 function parse(json)
 {
 	return JSON.parse(json);
@@ -309,28 +309,23 @@ function checkSelectedOption()
 }
 /*
 document.addEventListener('DOMContentLoaded', function() {
-    var exitApp = true, intval = setInterval(function (){exitApp = false;}, 1000);
     document.addEventListener("backbutton", function (e){
         e.preventDefault();
-        if (exitApp) {
-            clearInterval(intval) 
-            (navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
-        }
-        else {
-            exitApp = true
-            history.back(1);
-        } 
+		alert('VOY A SALIR'); 
+		(navigator.app && navigator.app.exitApp()) || (device && device.exitApp()); 
     }, false);
 }, false);
-*/
+
 function onDeviceReady(){
+	alert('READY');
     document.addEventListener("backbutton", function(e){
        alert('Acá si entro');
     }, false);
 }
 
 document.addEventListener("deviceready", onDeviceReady, false);
-
+*/
+/*
 $(function()
 {
     var rx = /INPUT|SELECT|TEXTAREA/i;
@@ -344,8 +339,8 @@ $(function()
         }
     });
 });
+*/
 //document.addEventListener("deviceready", onDeviceReady, false);
 //document.addEventListener("DOMContentLoaded", controlBack, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
-document.addEventListener("DOMContentLoaded", onDeviceReady, false);
