@@ -19,7 +19,7 @@
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper nav-bar-fixed blue darken-4">
-				<a href="#" class="brand-logo center">Inicio de Sesión</a>
+				<a class="brand-logo center">Inicio de Sesión</a>
 			</div>
 		</nav>
 	</div>
@@ -62,14 +62,14 @@
 					</button>
 				</div>
 				<div class="right-align">
-					<br><a href="restauraPass.html">Restaurar contraseña</a>
+					<br><a onclick="window.location.replace('restauraPass.html')">Restaurar contraseña</a>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 <div class="center-align" >
-	<a href="registro.html">Crear una cuenta</a>
+	<a onclick="window.location.replace('registro.html')">Crear una cuenta</a>
 </div>
 <div class="footer-copyright right-align">
     <div class="container">
@@ -112,11 +112,11 @@ function doLogin()
 						if(resp[0].first == 't')
 						{
 							setItem('primeravez','t');
-							window.location.href="registro.html";
+							redirect("registro.html");
 						}
 						else
 						{
-							window.location.href="inicio.html";
+							redirect("inicio.html");
 						}
 					}
 					else
@@ -147,11 +147,11 @@ function initialize()
 	{
 		if(getItem('primeravez') == undefined)
 		{
-			window.location.href = 'inicio.html';
+			redirect('inicio.html');
 		}
 		else
 		{
-			window.location.href = 'registro.html';
+			redirect('registro.html');
 		}
 	}
 }

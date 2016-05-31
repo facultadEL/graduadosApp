@@ -13,9 +13,9 @@
 			<nav>
 				<div class="nav-wrapper nav-bar-fixed blue darken-4">
 					<ul class="left">
-						<li><a href="index.html"><i class="material-icons" style="-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);">trending_flat</i></a></li>
+						<li><a onclick="window.location.replace('index.html')"><i class="material-icons" style="-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);">trending_flat</i></a></li>
 					</ul>
-					<a href="registro.html" class="brand-logo center">Restaurar Contraseña</a>
+					<a onclick="window.location.replace('restauraPass.html')" class="brand-logo center">Restaurar Contraseña</a>
 				</div>
 			</nav>
 		</div>
@@ -92,7 +92,7 @@ function restorePass()
 					toasty('Se le ha enviado un mail con una contraseña temporal','success');
 					setTimeout(function()
 					{
-						window.location.href="index.html";
+						redirect('index.html');
 					}, 1000);
 				}
 				else

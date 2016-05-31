@@ -13,9 +13,9 @@
 	        <nav>
 	            <div class="nav-wrapper nav-bar-fixed blue darken-4">
 					<ul class="left" id="arrowUl">
-						<li><a href="index.html"><i class="material-icons" style="-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);">trending_flat</i></a></li>
+						<li><a onclick="window.location.replace('index.html')"><i class="material-icons" style="-ms-transform: rotate(180deg);-webkit-transform: rotate(180deg);transform: rotate(180deg);">trending_flat</i></a></li>
 					</ul>
-	                <a href="registro.html" class="brand-logo center">Registro</a>
+	                <a onclick="window.location.replace('registro.html')" class="brand-logo center">Registro</a>
 	            </div>
 	        </nav>
 	    </div>
@@ -246,13 +246,13 @@ function controlSubmit()
 			{
 				if(r[0].created)
 				{
-					window.location.href="index.html";
+					redirect('index.html');
 				}
 				else
 				{
 					removeItem('primeravez');
 					setItem('id', $('#id').val());
-					window.location.href="inicio.html";
+					redirect('inicio.html');
 				}
 			}
 			else

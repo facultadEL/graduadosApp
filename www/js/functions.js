@@ -71,7 +71,7 @@ function toasty(text,style)
 }
 
 var storage = window.localStorage;
-var excludedLoc = ['index','registro','restaurarPass'];
+var excludedLoc = ['index','registro','restauraPass'];
 
 function getLoc()
 {
@@ -106,8 +106,11 @@ function checkAdministrador()
 function setCantidad()
 {
 	var cant = getItem('cantidad');
+	if(cant == null) return;
+		
 	if(parseInt(cant) > 0)
 	{
+		$('.cantGraduados').show();
 		$('.cantGraduados').html(cant);
 	}
 	else
@@ -143,13 +146,16 @@ function logout()
 	removeItem('administrador');
 	removeItem('cantidad');
 	setItem('logout','t');
-	window.location.href = 'index.html';
+	window.location.replace('index.html');
 }
 
 function checkMenu()
 {
 	if(excludedLoc.indexOf(getLoc()) != -1) return;
 	var cH,pH,eH,dH;
+	var pfH = 'perfil.html';
+	var iH = 'inicio.html';
+	var gH = 'graduadosAdmin.html';
 	if(checkAdministrador())
 	{
 		cH = 'cursosAdmin.html';
@@ -157,7 +163,7 @@ function checkMenu()
 		eH = 'empleoAdmin.html';
 		dH = 'descuentosAdmin.html';
 		$('.hideNotAdmin').show();
-		successGetCantGraduados();
+		setCantidad();
 	}
 	else
 	{
@@ -168,25 +174,27 @@ function checkMenu()
 		$('.hideNotAdmin').hide();
 	}
 	
-	$('.cursosHref').prop('href',cH);
-	$('.posgradosHref').prop('href',pH);
-	$('.empleoHref').prop('href',eH);
-	$('.descuentosHref').prop('href',dH);
+	
+	addClick('cursosHref',cH);
+	addClick('posgradosHref',pH);
+	addClick('empleoHref',eH);
+	addClick('descuentosHref',dH);
+	addClick('perfilHref',pfH);
+	addClick('inicioHref',iH);
+	addClick('graduadosHref',gH);
 }
 
-function successGetCantGraduados()
+function redirect(url)
 {
-	var cant = getItem('cantidad');
-	if(cant == null) return;
-		
-	if(parseInt(cant) > 0)
+	window.location.replace(url);
+}
+
+function addClick(classN,url)
+{
+	var arr = document.getElementsByClassName(classN);
+	for(var i = 0; i < arr.length; i++)
 	{
-		$('.cantGraduados').show();
-		$('.cantGraduados').html(cant);
-	}
-	else
-	{
-		$('.cantGraduados').hide();
+		arr[i].addEventListener('click',function(){redirect(url)});
 	}
 }
 
@@ -206,11 +214,6 @@ function sacarColor(me)
 	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
 }
 
-function loadNav()
-{
-	$("#nav").load("menu.html"); 
-}
-
 function getCard(cT,cC)
 {
 	return `<div class="row"><div class="col s12">
@@ -219,69 +222,6 @@ function getCard(cT,cC)
 			<span class="card-title">${cT}</span>
 			<p class="center-align">${cC}</p>
 			</div></div></div></div>`;
-}
-
-function controlBack()
-{
-	if(getItem('back') == 't')
-	{
-		removeItem('back');
-		history.back()
-	};
-	
-	window.onload = function () {
-		var loc = getLoc();
-		if (typeof history.pushState === "function") {
-			history.pushState("jibberish", null, null);
-			window.onpopstate = function () {
-				if(loc == 'inicio' || loc == 'index')
-				{
-					try
-					{
-					(navigator.app && navigator.app.exitApp()) || (device && device.exitApp());
-					}
-					catch(err)
-					{
-						setItem('back','t');
-						var next = (history.length - 2) * -1;
-						history.go(next);
-					}
-				}
-				else
-				{
-					if(loc != "registrar" || loc != "restaurarPass")
-					{
-						window.location.href = "inicio.html";
-					}
-				}
-			};
-		}
-		else {
-			var ignoreHashChange = true;
-			window.onhashchange = function () {
-				if(loc == 'inicio' || loc == 'index')
-				{
-					try
-					{
-					(navigator.app && navigator.app.exitApp()) || (device && device.exitApp());
-					}
-					catch(err)
-					{
-						setItem('back','t');
-						var next = (history.length - 1) * -1;
-						history.go(next);
-					}
-				}
-				else
-				{
-					if(loc != "registrar" || loc != "restaurarPass")
-					{
-						window.location.href = "inicio.html";
-					}	
-				}
-			};
-		}
-	}
 }
 
 function parse(json)
@@ -307,7 +247,6 @@ function checkSelectedOption()
 	var name = `.${options[l]}`;
 	$(name).addClass('selectedOption');
 }
-//document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("DOMContentLoaded", controlBack, false);
+
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
