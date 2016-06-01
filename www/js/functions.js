@@ -99,24 +99,6 @@ function redirect(url)
 	window.location.replace(url);
 }
 
-function checkRedirect()
-{
-	var l = getItem('location');
-	if(l != undefined)
-	{
-		if(excludedLoc.indexOf(l) == -1)
-		{
-			redirect(`${l}.html`);
-		}
-		else
-		{
-			setItem('logout','t');
-			redirect('index.html');
-		}
-		removeItem('location');
-	}
-}
-
 function checkId()
 {
 	if(excludedLoc.indexOf(getLoc()) == -1)
@@ -291,11 +273,31 @@ function checkSelectedOption()
 	$(name).addClass('selectedOption');
 }
 
+function checkRedirect()
+{
+	if(getItem('id') == undefined) return;
+	
+	var l = getItem('location');
+	if(l != undefined)
+	{
+		removeItem('location');
+		if(excludedLoc.indexOf(l) == -1)
+		{
+			redirect(`${l}.html`);
+		}
+		else
+		{
+			setItem('logout','t');
+			redirect('index.html');
+		}
+	}
+}
+
 function setLocation()
 {
 	setItem('location',getLoc());
 }
 
-//document.addEventListener("DOMContentLoaded", setLocation, false);
+document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
