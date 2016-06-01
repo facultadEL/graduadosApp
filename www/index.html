@@ -166,7 +166,7 @@ function initialize()
 
 $(document).ready(function(){
 	$('#loader').hide();
-	if(getItem('logout') == null)
+	if(getItem('logout') == undefined)
 	{
 		setTimeout(initialize, 1500);
 	}

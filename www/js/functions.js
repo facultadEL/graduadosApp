@@ -94,6 +94,29 @@ function getLoc()
 	return window.location.pathname.split('/')[(window.location.pathname.split('/')).length - 1].split('.')[0];
 }
 
+function redirect(url)
+{
+	window.location.replace(url);
+}
+
+function checkRedirect()
+{
+	var l = getItem('location');
+	if(l != undefined)
+	{
+		if(excludedLoc.indexOf(l) == -1)
+		{
+			redirect(`${l}.html`);
+		}
+		else
+		{
+			setItem('logout','t');
+			redirect('index.html');
+		}
+		removeItem('location');
+	}
+}
+
 function checkId()
 {
 	if(excludedLoc.indexOf(getLoc()) == -1)
@@ -209,11 +232,6 @@ function checkMenu()
 	addClick('graduadosHref',gH);
 }
 
-function redirect(url)
-{
-	window.location.replace(url);
-}
-
 function addClick(classN,url)
 {
 	var arr = document.getElementsByClassName(classN);
@@ -273,5 +291,11 @@ function checkSelectedOption()
 	$(name).addClass('selectedOption');
 }
 
+function setLocation()
+{
+	setItem('location',getLoc());
+}
+
+//document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
