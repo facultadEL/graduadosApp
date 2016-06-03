@@ -1,0 +1,31 @@
+-- Ultima Actualización --
+-- 03/06/2016 --
+-- EF --
+
+V1.1
+
+Notificaciones Push
+Unica BD
+Recolección y creación de tablas sobre regional y carreras
+Regional al registrar
+- Formulario
+- Guardado
+Facebook al registrar
+- Formulario
+- Guardado
+Whatsapp al registrar
+- Formulario
+- Guardado
+Especialidad al registrar
+- Formulario
+- Guardado
+Envío de mail al registrar un alumno nuevo
+Posibilidad de habilitar desde el mail
+Sección contacto donde se puede enviar mail a el área de graduados
+- Modificación en menú
+- Formulario
+- Envío de mail
+Cargar novedades y seleccionar a que especialidad va
+- Formulario
+- Guardado
+- Mostrado de información en inicio
