@@ -212,6 +212,7 @@ function controlSubmit()
 	if(!controlVacio('#email')) return false;
 	if(!controlVacio('#username')) return false;
 	if($('#regional').val() == "0") return false;
+	if($('#especialidad').val() == "0") return false;
 	if(passRequired)
 	{
 		if(!controlVacio('#password')) return false;
@@ -237,7 +238,8 @@ function controlSubmit()
 		"fijoId":($('#fijoId').val()),
 		"birthDate":birthDate,
 		"localidadId":($('#idLocalidad').val()),
-		"regional":($('#regional').val())
+		"regional":($('#regional').val()),
+		"especialidad":($('#especialidad').val())
 	}
 	$('#loader').show();
 	$.ajax({
@@ -250,9 +252,10 @@ function controlSubmit()
 			var r = parse(response);
 			if(r[0].success)
 			{
-				if(r[0].created)
+				if(r[0].created == 't')
 				{
-					redirect('index.html');
+					toasty('Se le enviará un mail cuando su usuario sea habilitado','info');
+					setTimeout(move, 2000);
 				}
 				else
 				{
@@ -273,6 +276,11 @@ function controlSubmit()
 	});
 
 	return false;
+}
+
+function move()
+{
+	redirect('index.html');
 }
 
 function getDatos()
@@ -337,11 +345,13 @@ function successGetDatos(data)
 	{
 		passRequired = true;
 		$('#password').prop('required',true);
+		setItem('primeravez','t');
 	}
 	else
 	{
 		passRequired = false;
 		$('#password').prop('required',false);
+		setItem('primeravez','f');
 	}
 
 	$('#id').val(data.id);
@@ -359,6 +369,7 @@ function successGetDatos(data)
 	$('#autocompleteState').val(data.localidad);
 	$('#autocompleteState').focus();
 	successGetRegional(regional,data.regional);
+	successGetEspecialidad(especialidad,data.especialidad)
 	$('#email').val(data.email);
 	$('#email').focus();
 	$('#celId').val(data.celId);
@@ -590,6 +601,12 @@ function getEspecialidad()
 
 function successGetEspecialidad(data,val)
 {
+	if(data == undefined)
+	{
+		return;
+	}
+	
+	val = (val == undefined) ? 0 : val;
 	$('select').material_select('destroy');
 	especialidad = data;
 	htmlOptions = `<option value="0" disabled selected>Elija una especialidad</option>`;
