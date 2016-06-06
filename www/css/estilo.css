@@ -26,3 +26,4 @@ main{flex:1 0 auto;}
 .selectedOption{background-color:#26a69a;}
 .selectedOption a{color:white;}
 span.badge.new:after{content:" nuevos";}
+#dropdownMoreOptions{margin-top:64px;width:200px !important;margin-left: -1px}

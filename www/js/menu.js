@@ -1,17 +1,25 @@
-document.write(`<div class="navbar-fixed"><nav id="nav">
+document.write(`<div class="navbar-fixed">
+	<ul id="dropdownMoreOptions" class="dropdown-content">
+		<li class="liGraduado hideNotAdmin"><a class="graduadosHref">Graduados <span class="new badge cantGraduados">0</span></a></li>
+		<li class="liPerfil"><a class="perfilHref">Perfil</a></li>
+		<li class="liContacto"><a class="contactoHref">Contacto</a></li>
+		<li><a onclick="logout()">Cerrar Sesión</a></li>
+	</ul>
+	<nav id="nav">
 	<div class="nav-wrapper blue darken-4">
 		<a class="brand-logo center inicioHref">Graduados FRVM</a>
 		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-		<ul class="left hide-on-med-and-down">
+		<!--ul class="left hide-on-med-and-down">
 			<li><a class="liPerfil perfilHref" ><i class="material-icons">perm_identity</i></a></li>
 			<li class="liGraduado hideNotAdmin"><a class="graduadosHref">Graduados <span class="new badge cantGraduados">0</span></a></li>
-		</ul>
+		</ul-->
 		<ul class="right hide-on-med-and-down">
 			<li class="liCurso"><a class="cursosHref">Cursos</a></li>
 			<li class="liPosgrado"><a class="posgradosHref">Posgrados</a></li>
 			<li class="liEmpleo"><a class="empleoHref">Empleo</a></li>
 			<li class="liDescuento"><a class="descuentosHref">Descuentos</a></li>
-			<li><a onclick="logout()"><i class="material-icons">power_settings_new</i></a></li>
+			<li><a class="dropdown-button" href="#" data-activates="dropdownMoreOptions"><i class="material-icons">more_vert</i></a></li>
+			<!--li><a onclick="logout()"><i class="material-icons">power_settings_new</i></a></li-->
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li class="liPerfil"><a class="perfilHref">Perfil</a></li>
@@ -20,6 +28,7 @@ document.write(`<div class="navbar-fixed"><nav id="nav">
 			<li class="liPosgrado"><a class="posgradosHref">Posgrados</a></li>
 			<li class="liEmpleo"><a class="empleoHref">Empleo</a></li>
 			<li class="liDescuento"><a class="descuentosHref">Descuentos</a></li>
+			<li class="liContacto"><a class="contactoHref">Contacto</a></li>
 			<li><a onclick="logout()">Cerrar Sesión</a></li>
 		</ul>
 	</div>

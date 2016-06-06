@@ -17,13 +17,19 @@ Facebook al registrar
 Whatsapp al registrar
 - Formulario
 - Guardado
+Facebook en perfil
+- Formulario
+- Guardado
+Whatsapp en perfil
+- Formulario
+- Guardado
 Especialidad al registrar x
 - Formulario x
 - Guardado x
 Envío de mail al registrar un alumno nuevo x
 Posibilidad de habilitar desde el mail x
 Sección contacto donde se puede enviar mail a el área de graduados
-- Modificación en menú
+- Modificación en menú x
 - Formulario
 - Envío de mail
 Cargar novedades y seleccionar a que especialidad va

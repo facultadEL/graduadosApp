@@ -192,6 +192,8 @@ function checkMenu()
 		pH = 'posgradosAdmin.html';
 		eH = 'empleoAdmin.html';
 		dH = 'descuentosAdmin.html';
+		//conH = 'contactoAdmin.html'; //Esto se agrega cuando se haga el contactoAdmin
+		conH = 'contacto.html';
 		$('.hideNotAdmin').show();
 		setCantidad();
 		notifyCant();
@@ -202,6 +204,7 @@ function checkMenu()
 		pH = 'posgrados.html';
 		eH = 'empleo.html';
 		dH = 'descuentos.html';
+		conH = 'contacto.html';
 		$('.hideNotAdmin').hide();
 	}
 	
@@ -212,6 +215,7 @@ function checkMenu()
 	addClick('perfilHref',pfH);
 	addClick('inicioHref',iH);
 	addClick('graduadosHref',gH);
+	addClick('contactoHref',conH);
 }
 
 function addClick(classN,url)
@@ -266,7 +270,8 @@ function checkSelectedOption()
 		'graduadosAdmin':'liGraduado',
 		'perfil':'liPerfil',
 		'posgrados':'liPosgrado',
-		'posgradosAdmin':'liPosgrado'
+		'posgradosAdmin':'liPosgrado',
+		'contacto':'liContacto'
 	};
 	var l = getLoc();
 	var name = `.${options[l]}`;
