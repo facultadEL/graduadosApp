@@ -255,7 +255,7 @@ function controlSubmit()
 				if(r[0].created == 't')
 				{
 					toasty('Se le enviará un mail cuando su usuario sea habilitado','info');
-					setTimeout(move, 2000);
+					setTimeout(move, 4000);
 				}
 				else
 				{
@@ -397,7 +397,7 @@ function checkDni()
 	var dni = $('#dni').val().trim();
 	if(dni != '')
 	{
-		if($('#id').val() == -1)
+		if($('#id').val() == -1 || $('#id').val() == "")
 		{
 			
 			var param = {
