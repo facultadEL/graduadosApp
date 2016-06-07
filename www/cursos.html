@@ -11,30 +11,6 @@
 <script src="js/menu.js"></script>
 <script>showSubNavBar('Cursos')</script>
 <div class="container">
-	<!--ul class="collapsible" data-collapsible="accordion">
-		<li>
-			<div class="collapsible-header"><i class="material-icons">reorder</i>Curso 1</div>
-			<div class="collapsible-body"><p>Descripción del curso 1</p></div>
-		</li>
-		<li>
-			<div class="collapsible-header"><i class="material-icons">reorder</i>Curso 2</div>
-			<div class="collapsible-body"><p>Descripción del curso 2</p></div>
-		</li>
-		<li>
-			<div class="collapsible-header"><i class="material-icons">reorder</i>Curso 3</div>
-			<div class="collapsible-body"><p>Descripción del curso 3</p></div>
-		</li>
-	</ul-->
-	<!--div class="row">
-		<div class="col s12">
-			<div class="card blue-grey darken-1">
-				<div class="card-content white-text">
-					<span class="card-title"></span>
-					<p>No se encuentran cursos disponibles</p>
-				</div>
-			</div>
-		</div>
-	</div-->
 	<div class="preloader-wrapper active" id="loader">
     	<div class="spinner-layer spinner-blue-only">
 			<div class="circle-clipper left">
@@ -76,7 +52,7 @@ function getCursos()
 			$('#loader').hide();
 			toasty('No se pudo obtener los cursos','error');
 		}
-	})
+	});
 }
 
 function successGetCursos(data)
@@ -96,9 +72,9 @@ function successGetCursos(data)
 		}
 
 		htmlCursos += `<li>
-				<div class="collapsible-header cursoHeader"><strong>${d.nombre} - ${d.regionalAbreviatura}</strong></div>
-      			<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/><strong>Profesor: </strong>${d.profesor}<br/><strong>Fecha de inicio: </strong>${d.fechaInicio}
-				  <br/><strong>Cantidad de clases: </strong>${d.duracion}<br/><strong>Costo: </strong>$ ${d.costo} ${htmlHorarios}</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div>
+				<div class="collapsible-header cursoHeader col xs12"><div class="row col s12"><div class="col s8 left-align"><strong>${d.nombre}</strong></div><div class="col s4 right-align"><strong>${d.regionalAbreviatura}</strong></div></div></div>
+      			<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/><strong>Profesor: </strong>${d.profesor}<br/><strong>Fecha de inicio: </strong>${formatDateFromDB(d.fechaInicio)}
+				  <br/><strong>Cantidad de clases: </strong>${d.duracion}<br/><strong>Costo Total: </strong>$ ${d.costo} ${htmlHorarios}</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div>
     		</li>`;
 	}
 	$('#loader').hide();
@@ -114,7 +90,7 @@ function interesCurso(idCurso,nombre)
 		nombre,
 		id
 	}
-	
+
 	$.ajax({
 		type:"POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/interesCurso.php",
@@ -138,7 +114,6 @@ function interesCurso(idCurso,nombre)
 			toasty('Hubo un problema con la conexión. Intente nuevamente','error');
 		}
 	});
-	
 }
 
 $(document).ready(function()
