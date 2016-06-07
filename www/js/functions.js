@@ -384,6 +384,11 @@ function formatDate(date)
 	return `${year}-${month}-${day}`;
 }
 
+function formatDateFromDB(date)
+{
+	return date.split('-').reverse().join('/');
+}
+
 document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
