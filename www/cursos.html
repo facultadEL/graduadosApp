@@ -25,7 +25,7 @@
 			<div class="collapsible-body"><p>Descripción del curso 3</p></div>
 		</li>
 	</ul-->
-	<div class="row">
+	<!--div class="row">
 		<div class="col s12">
 			<div class="card blue-grey darken-1">
 				<div class="card-content white-text">
@@ -34,7 +34,23 @@
 				</div>
 			</div>
 		</div>
+	</div-->
+	<div class="preloader-wrapper active" id="loader">
+    	<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
 	</div>
+	<ul class="collapsible" data-collapsible="accordion" id="ulCursos">
+
+	</ul>
 </div>
 <div class="footer-copyright right-align">
 	<div class="container">
@@ -45,9 +61,94 @@
 <script src="js/materialize.min.js"></script>
 <script src="js/functions.js"></script>
 <script>
+
+function getCursos()
+{
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getCursos.php",
+		success: function(response)
+		{
+			successGetCursos(parse(response));
+		},
+		error: function(msg)
+		{
+			$('#loader').hide();
+			toasty('No se pudo obtener los cursos','error');
+		}
+	})
+}
+
+function successGetCursos(data)
+{
+	let htmlCursos = '';
+	let l = data.length;
+	for(let i = 0; i < l; i++)
+	{
+		let d = data[i];
+		
+		let h = d.horario;
+		let hLength = h.length;
+		htmlHorarios = '<br/><strong>Horarios: </strong><br/>';
+		for(let i = 0; i < hLength; i++)
+		{
+			htmlHorarios += `${h[i].dia} - De ${h[i].desde} a ${h[i].hasta} <br/>`;
+		}
+
+		htmlCursos += `<li>
+				<div class="collapsible-header cursoHeader"><strong>${d.nombre} - ${d.regionalAbreviatura}</strong></div>
+      			<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/><strong>Profesor: </strong>${d.profesor}<br/><strong>Fecha de inicio: </strong>${d.fechaInicio}
+				  <br/><strong>Cantidad de clases: </strong>${d.duracion}<br/><strong>Costo: </strong>$ ${d.costo} ${htmlHorarios}</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div>
+    		</li>`;
+	}
+	$('#loader').hide();
+	$('#ulCursos').html(htmlCursos);
+}
+
+function interesCurso(idCurso,nombre)
+{
+	$('#loader').show();
+	const id = getItem('id');
+	const param = {
+		idCurso,
+		nombre,
+		id
+	}
+	
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/interesCurso.php",
+		data: param,
+		success: function(response)
+		{
+			$('#loader').hide();
+			const r = parse(response);
+			if(r.exito == 't')
+			{
+				toasty('Se notifico a la secretaría de graduados sobre su interés','info');
+			}
+			else
+			{
+				toasty('No se pudo notificar al área de graduados. Por favor, comuniquese con ellos','error');
+			}
+		},
+		error: function(msg)
+		{
+			$('#loader').hide();
+			toasty('Hubo un problema con la conexión. Intente nuevamente','error');
+		}
+	});
+	
+}
+
 $(document).ready(function()
 {
+	$('#loader').hide();
 	$(".button-collapse").sideNav();
+	$('.collapsible').collapsible({
+      accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+	getCursos();
 });
 </script>
 
