@@ -27,3 +27,4 @@ main{flex:1 0 auto;}
 .selectedOption a{color:white !important;}
 span.badge.new:after{content:" nuevos";}
 #dropdownMoreOptions{margin-top:64px;width:200px !important;margin-left: -1px}
+.errorTextBox{box-shadow: 0px 0px 1px 1px #f24d4d !important}

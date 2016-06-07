@@ -227,6 +227,35 @@ function addClick(classN,url)
 	}
 }
 
+function checkVacio(data,type)
+{
+	let vData = data;
+	if(type == 's')
+	{
+		vData = data.split(',');
+	}
+	let empty = true;
+	for(let i = 0; i < vData.length; i++)
+	{
+		let e = document.getElementById(vData[i]);
+		if(e == null) continue;
+		if(e.value.trim() == "")
+		{
+			if (a.classList)
+			{
+				e.classList.add('errorTextBox');
+			}
+			else
+			{
+				e.className += ' errorTextBox';
+			}
+			e.focus();
+			empty = false;
+		}
+	}
+	return empty;
+}
+
 function controlVacio(nombreSelector)
 {
 	if($.trim($(nombreSelector).val()) == '')
@@ -301,6 +330,58 @@ function checkRedirect()
 function setLocation()
 {
 	setItem('location',getLoc());
+}
+
+function unformatDate(d)
+{
+	var vD = d.split('-');
+	var year = ", "+vD[0];
+	var day = parseInt(vD[2]);
+	
+	var month = "";
+	switch(vD[1])
+	{
+		case "01": month = ' January'; break;
+		case "02": month = ' February'; break;
+		case "03": month = ' March'; break;
+		case "04": month = ' April'; break;
+		case "05": month = ' May'; break;
+		case "06": month = ' June'; break;
+		case "07": month = ' July'; break;
+		case "08": month = ' August'; break;
+		case "09": month = ' September'; break;
+		case "10": month = ' October'; break;
+		case "11": month = ' November'; break;
+		case "12": month = ' December'; break;
+	}
+	
+	return `${day}${month}${year}`;
+}
+
+function formatDate(date)
+{
+	var vDate = date.split(',');
+	var year = vDate[1].trim();
+	var monthName = vDate[0].split(' ')[1].toLowerCase();
+	var day = vDate[0].split(' ')[0];
+	var month = 0;
+	switch(monthName)
+	{
+		case 'january': month = 1; break;
+		case 'february': month = 2; break;
+		case 'march': month = 3; break;
+		case 'april': month = 4; break;
+		case 'may': month = 5; break;
+		case 'june': month = 6; break;
+		case 'july': month = 7; break;
+		case 'august': month = 8; break;
+		case 'september': month = 9; break;
+		case 'october': month = 10; break;
+		case 'november': month = 11; break;
+		case 'december': month = 12; break;
+	}
+	
+	return `${year}-${month}-${day}`;
 }
 
 document.addEventListener("DOMContentLoaded", setLocation, false);

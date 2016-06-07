@@ -59,9 +59,14 @@
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
-						<select id="regional">
-						</select>
-						<label>Regional</label>
+						<input id="regional" type="text" onkeydown="">
+						<label for="regional">Regional</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="especialidad" type="text" onkeydown="">
+						<label for="especialidad">Especialidad</label>
 					</div>
 				</div>
 
@@ -117,11 +122,11 @@
 					</div>
 				</div>
 
-				<div class="center-align">
+				<!--div class="center-align">
 					<button class="btn waves-effect light-blue darken-3" type="submit" name="action">Modificar
 						<i class="material-icons right">done</i>
 					</button>
-				</div>
+				</div-->
 			</form>
 		</div>
 		<div class="fixed-action-btn vertical" style="bottom: 45px; right: 24px;">
@@ -246,7 +251,12 @@ function successGetData(data)
 	}
 	$('#autocompleteState').val(data.localidad);
 	$('#autocompleteState').focus();
-	successGetRegional(regional,data.regional);
+	$('#regional').val(data.regionalNombre);
+	$('#regional').focus();
+	$('#regional').prop('disabled',true);
+	$('#especialidad').val(data.especialidadNombre);
+	$('#especialidad').focus();
+	$('#especialidad').prop('disabled',true);
 	$('#email').val(data.email);
 	$('#email').focus();
 	$('#celId').val(data.celId);
@@ -266,32 +276,6 @@ function successGetData(data)
 	checkEnable();
 }
 	
-function unformatDate(d)
-{
-	var vD = d.split('-');
-	var year = ", "+vD[0];
-	var day = parseInt(vD[2]);
-	
-	var month = "";
-	switch(vD[1])
-	{
-		case "01": month = ' January'; break;
-		case "02": month = ' February'; break;
-		case "03": month = ' March'; break;
-		case "04": month = ' April'; break;
-		case "05": month = ' May'; break;
-		case "06": month = ' June'; break;
-		case "07": month = ' July'; break;
-		case "08": month = ' August'; break;
-		case "09": month = ' September'; break;
-		case "10": month = ' October'; break;
-		case "11": month = ' November'; break;
-		case "12": month = ' December'; break;
-	}
-	
-	return `${day}${month}${year}`;	
-}
-
 function controlSubmit()
 {
 	if(!habilitar) return false;
@@ -347,32 +331,6 @@ function controlSubmit()
 function sacarColor(me)
 {
 	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
-}
-
-function formatDate(date)
-{
-	var vDate = date.split(',');
-	var year = vDate[1].trim();
-	var monthName = vDate[0].split(' ')[1].toLowerCase();
-	var day = vDate[0].split(' ')[0];
-	var month = 0;
-	switch(monthName)
-	{
-		case 'january': month = 1; break;
-		case 'february': month = 2; break;
-		case 'march': month = 3; break;
-		case 'april': month = 4; break;
-		case 'may': month = 5; break;
-		case 'june': month = 6; break;
-		case 'july': month = 7; break;
-		case 'august': month = 8; break;
-		case 'september': month = 9; break;
-		case 'october': month = 10; break;
-		case 'november': month = 11; break;
-		case 'december': month = 12; break;
-	}
-	
-	return `${year}-${month}-${day}`;
 }
 
 function getRegional()
