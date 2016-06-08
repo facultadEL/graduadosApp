@@ -8,7 +8,13 @@
 	<title>Login - Graduados FRVM</title>
 </head>
 <body>
-
+<div id="presentacion">
+	<div id="imgPresentacion" >
+		<div class="center-align">
+			<img class="circle responsive-img" src="img/GraduateW.png" height="150" width="150">
+		</div>
+	</div>
+</div>
 <div class="container-fluid">
 	<div class="navbar-fixed">
 		<nav>
@@ -76,39 +82,38 @@
 <script type="text/javascript" src="js/functions.js"></script>
 <script defer>
 checkRedirect();
+const l = new Loader();
 function doLogin()
 {
-	var user = $('#username').val().trim();
-	var pass = $('#password').val();
+	const user = $('#username').val().trim();
+	const pass = $('#password').val();
 	if(user.length == 0 || pass.length == 0)
 	{
 		toasty('Introduzca usuario y contraseña','error');
 		return false;
 	}
-
-	$('#loader').show();
 	
-	var param = {
-		"user":user,
-		"pass":pass
+	const param = {
+		user,
+		pass
 	};
-
+	l.start();
 	$.ajax({
 		type: "POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/login.php",
 		data: param,
 		success: function(response)
 		{
-			$('#loader').hide();
-			var resp = parse(response);
+			l.stop();
+			const resp = parse(response);
 			if(resp.length > 0)
 			{
 				if(resp[0].success)
 				{
 					if(resp[0].habilitado == 't')
 					{
-						var id = resp[0].id;
-						var administrador = resp[0].administrador;
+						const id = resp[0].id;
+						const administrador = resp[0].administrador;
 						setItem('id',id);
 						setItem('administrador',administrador);
 						if(resp[0].first == 't')
@@ -134,7 +139,7 @@ function doLogin()
 		},
 		error: function(msg)
 		{
-			$('#loader').hide();
+			l.stop();
 			toasty(`Se ha producido un error de conexión.`,'error');
 		}
 	});
@@ -159,7 +164,16 @@ function initialize()
 }
 
 $(document).ready(function(){
-	
+ 	if(getItem('logout') == undefined)
+ 	{
+ 		setTimeout(initialize, 1500);
+ 	}
+ 	else
+ 	{
+ 		removeItem('logout');
+ 		$('#presentacion').hide();
+ 		initialize();
+ 	}
 });
 </script>
 </body>
