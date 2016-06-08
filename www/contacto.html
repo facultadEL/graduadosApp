@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Perfil</title>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+	<title>Cursos</title>
+</head>
+<body>
+<script src="js/menu.js"></script>
+<script>showSubNavBar('Contacto')</script>
+<div class="container">
+	<div class="card-panel blue lighten-5">
+		<div class="row">
+			<form class="col s12" id="form" onsubmit="return controlSubmit();">
+                <h6 class="black-text">Envia tu consulta</h6>
+				<div class="divider"></div>
+				
+				<div class="row">
+					<div class="input-field col s12">
+						<div class="form-group"> 
+                            <input id="asunto" type="text" name="asunto" value="">
+                            <label for="asunto">Asunto:</label><br><br>   
+                        </div>
+					</div>
+				</div>
+				<div class="row">
+                    <form class="col s12">
+                        <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Mensaje</label>
+                        </div>
+                    </form>
+                </div>
+                <h6 class="black-text">Mantente en contacto con nosotros!</h6>
+				<div class="divider"></div>
+				<div class="row">
+					<div class="input-field col s12">
+						<div class="form-group"> 
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+  							<span>Av. Universidad 450 - Villa María, Córdoba</span>
+                        </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<div class="form-group"> 
+                            <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+  							<span>0353-4537500 interno 124</span>
+                        </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<div class="form-group"> 
+                            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+  							<span>http://graduados.frvm.utn.edu.ar/</span>
+                        </div>
+					</div>
+				</div><div class="row">
+					<div class="input-field col s12">
+						<div class="form-group"> 
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+  							<span>graduados@frvm.utn.edu.ar</span>
+                        </div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="footer-copyright right-align">
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
+	</div>
+</div>
+
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script>
+
+$(document).ready(function (){
+	$('#loader').hide();
+	$(".button-collapse").sideNav();
+	$('.datepicker').pickadate({
+		selectMonths: true,
+		selectYears: 100
+	});
+});
+</script>
+</body>
+</html>
