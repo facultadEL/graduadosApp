@@ -234,14 +234,14 @@ function checkVacio(data,type)
 	{
 		vData = data.split(',');
 	}
-	let empty = true;
+	let empty = false;
 	for(let i = 0; i < vData.length; i++)
 	{
 		let e = document.getElementById(vData[i]);
 		if(e == null) continue;
 		if(e.value.trim() == "")
 		{
-			if (a.classList)
+			if(e.classList)
 			{
 				e.classList.add('errorTextBox');
 			}
@@ -250,7 +250,7 @@ function checkVacio(data,type)
 				e.className += ' errorTextBox';
 			}
 			e.focus();
-			empty = false;
+			empty = true;
 		}
 	}
 	return empty;
@@ -270,6 +270,7 @@ function controlVacio(nombreSelector)
 function sacarColor(me)
 {
 	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+	$(me).removeClass('errorTextBox');
 }
 
 function getCard(cT,cC)
@@ -387,6 +388,25 @@ function formatDate(date)
 function formatDateFromDB(date)
 {
 	return date.split('-').reverse().join('/');
+}
+
+class Loader
+{
+	constructor(contents = [])
+	{
+		this.loader = document.getElementById('loader');
+		this.stop();
+	}
+
+	stop()
+	{
+		this.loader.style.display = 'none';
+	}
+
+	start()
+	{
+		this.loader.style.display = 'block';
+	}
 }
 
 document.addEventListener("DOMContentLoaded", setLocation, false);

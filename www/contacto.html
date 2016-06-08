@@ -12,25 +12,37 @@
 <script src="js/menu.js"></script>
 <script>showSubNavBar('Contacto')</script>
 <div class="container">
+	<div class="preloader-wrapper active" id="loader">
+    	<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div>
 	<div class="card-panel blue lighten-5">
 		<div class="row">
 			<form class="col s12" id="form" onsubmit="return controlSubmit();">
                 <h6 class="black-text">Envia tu consulta</h6>
 				<div class="divider"></div>
-				
 				<div class="row">
 					<div class="input-field col s12">
 						<div class="form-group"> 
-                            <input id="asunto" type="text" name="asunto" value="">
-                            <label for="asunto">Asunto:</label><br><br>   
+                            <input id="asunto" type="text" name="asunto" value="" onkeydown="sacarColor(this)" required>
+                            <label for="asunto">Asunto</label>   
                         </div>
 					</div>
 				</div>
 				<div class="row">
                     <form class="col s12">
                         <div class="input-field col s12">
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Mensaje</label>
+                            <textarea id="mensaje" class="materialize-textarea" onkeydown="sacarColor(this)" required></textarea>
+                            <label for="mensaje">Mensaje</label>
                         </div>
                     </form>
                 </div>
@@ -82,13 +94,57 @@
 <script type="text/javascript" src="js/functions.js"></script>
 <script>
 
-$(document).ready(function (){
-	$('#loader').hide();
-	$(".button-collapse").sideNav();
-	$('.datepicker').pickadate({
-		selectMonths: true,
-		selectYears: 100
+const l = new Loader();
+
+function controlSubmit()
+{
+	if(checkVacio(['asunto','mensaje'])) return false;
+
+	l.start();
+	const id = getItem('id');
+	let asunto = $('#asunto').val();
+	let mensaje = $('#mensaje').val(); 
+	const param = {
+		id,
+		asunto,
+		mensaje
+	};
+
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/sendMailFromContacto.php",
+		data: param,
+		success: function(response)
+		{
+			l.stop();
+			successEnvioConsulta(parse(response)[0]);
+		},
+		error: function(msg)
+		{
+			l.stop();
+			toasty('Hubo un error en la conexión. Pruebe nuevamente','error');
+		},
 	});
+
+	return false;
+}
+
+function successEnvioConsulta(data)
+{ 
+	if(data.exito == 't')
+	{
+		$('#asunto').val('');
+		$('#mensaje').val('');
+		toasty('Su consulta se ha enviado correctamente','success');
+	}
+	else
+	{
+		toasty('Hubo un problema al enviar su consulta','error');
+	}
+}
+
+$(document).ready(function (){
+	$(".button-collapse").sideNav();
 });
 </script>
 </body>
