@@ -37,9 +37,10 @@
 <script src="js/materialize.min.js"></script>
 <script src="js/functions.js"></script>
 <script>
-
+const l = new Loader();
 function getCursos()
 {
+	l.start();
 	$.ajax({
 		type:"POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getCursos.php",
@@ -49,7 +50,7 @@ function getCursos()
 		},
 		error: function(msg)
 		{
-			$('#loader').hide();
+			l.stop();
 			toasty('No se pudo obtener los cursos','error');
 		}
 	});
@@ -58,8 +59,8 @@ function getCursos()
 function successGetCursos(data)
 {
 	let htmlCursos = '';
-	let l = data.length;
-	for(let i = 0; i < l; i++)
+	let leng = data.length;
+	for(let i = 0; i < leng; i++)
 	{
 		let d = data[i];
 		
@@ -77,13 +78,13 @@ function successGetCursos(data)
 				  <br/><strong>Cantidad de clases: </strong>${d.duracion}<br/><strong>Costo Total: </strong>$ ${d.costo} ${htmlHorarios}</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div>
     		</li>`;
 	}
-	$('#loader').hide();
+	l.stop();
 	$('#ulCursos').html(htmlCursos);
 }
 
 function interesCurso(idCurso,nombre)
 {
-	$('#loader').show();
+	l.start();
 	const id = getItem('id');
 	const param = {
 		idCurso,
@@ -97,7 +98,7 @@ function interesCurso(idCurso,nombre)
 		data: param,
 		success: function(response)
 		{
-			$('#loader').hide();
+			l.stop();
 			const r = parse(response);
 			if(r.exito == 't')
 			{
@@ -110,7 +111,7 @@ function interesCurso(idCurso,nombre)
 		},
 		error: function(msg)
 		{
-			$('#loader').hide();
+			l.stop();
 			toasty('Hubo un problema con la conexión. Intente nuevamente','error');
 		}
 	});
@@ -118,7 +119,6 @@ function interesCurso(idCurso,nombre)
 
 $(document).ready(function()
 {
-	$('#loader').hide();
 	$(".button-collapse").sideNav();
 	$('.collapsible').collapsible({
       accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style

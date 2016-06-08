@@ -1,5 +1,5 @@
 -- Ultima Actualización --
--- 06/06/2016 --
+-- 08/06/2016 --
 -- EF --
 
 V1.1
@@ -30,8 +30,8 @@ Envío de mail al registrar un alumno nuevo x
 Posibilidad de habilitar desde el mail x
 Sección contacto donde se puede enviar mail a el área de graduados
 - Modificación en menú x
-- Formulario
-- Envío de mail
+- Formulario x
+- Envío de mail x
 Cargar novedades y seleccionar a que especialidad va
 - Formulario
 - Guardado

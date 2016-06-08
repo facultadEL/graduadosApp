@@ -11,6 +11,19 @@
 <script src="js/menu.js"></script>
 <script>showSubNavBar('Usuarios Pendientes')</script>
 <div class="container" id="bodyContainer">
+	<div class="preloader-wrapper active" id="loader">
+    	<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div>
     <ul class="collection hideNotGrad" id="graduadosUl">
 		
     </ul>
@@ -29,14 +42,16 @@
 <script src="js/materialize.min.js"></script>
 <script src="js/functions.js"></script>
 <script>
-var graduados;
-
+let graduados;
+const l = new Loader();
 function getGraduados()
 {
-	var param = {
-		"id":getItem('id')
+	const id = getItem('id');
+	const param = {
+		id
 	};
-		
+
+	l.start();		
 	$.ajax({
 		type:"POST",
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getGraduadosHabilitar.php",
@@ -47,6 +62,7 @@ function getGraduados()
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty('Error al traer graduados','error');
 		}
 	});
@@ -54,14 +70,14 @@ function getGraduados()
 
 function checkAll()
 {
-	var check = ($('#todosCheck').is(':checked')) ? true : false;
-	var data = graduados;
-	var dLength = data.length;
+	let check = ($('#todosCheck').is(':checked')) ? true : false;
+	let data = graduados;
+	let dLength = data.length;
 	
 	for(var i = 0; i < dLength; i++)
 	{
-		var g = data[i];
-		var name = `#gradCheck-${g.id}`;
+		let g = data[i];
+		let name = `#gradCheck-${g.id}`;
 		$(name).prop('checked',check);
 	}
 }
@@ -69,43 +85,44 @@ function checkAll()
 function successGetGraduados(data)
 {
 	graduados = data;
-	var dLength = data.length;
+	let dLength = data.length;
 	if(dLength == 0)
 	{
-		var htmlNoGrad = getCard('','No hay graduados para habilitar');
+		let htmlNoGrad = getCard('','No hay graduados para habilitar');
 		$('#bodyContainer').html(htmlNoGrad);
 		return;	
 	}
 	
-	var htmlGrad = '<li class="collection-item" id="liTodos"><div><label for="todosCheck" id="gradLabel">Todos</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="todosCheck" onclick="checkAll()" /><label for="todosCheck" id="checkGrad"></label></div></div></li>';
+	let htmlGrad = '<li class="collection-item" id="liTodos"><div><label for="todosCheck" id="gradLabel">Todos</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="todosCheck" onclick="checkAll()" /><label for="todosCheck" id="checkGrad"></label></div></div></li>';
 	for(var i = 0; i < dLength; i++)
 	{
-		var g = data[i];
-		var text = `${g.apellido}, ${g.nombre} - ${g.dni}`;
+		let g = data[i];
+		let text = `${g.apellido}, ${g.nombre} - ${g.dni}`;
 		if(text.length > 35)
 		{
 			if(g.nombre.length > 6)
 			{
-				var n = g.nombre.substring(0,6) + '...';
+				let n = g.nombre.substring(0,6) + '...';
 				text = `${g.apellido}, ${n} - ${g.dni}`
 			}
 		}
 		htmlGrad += `<li class="collection-item"><div><label for="gradCheck-${g.id}" id="gradLabel">${text}</label><div class="secondary-content"><input type="checkbox" class="filled-in" id="gradCheck-${g.id}" /><label for="gradCheck-${g.id}" id="checkGrad"></label></div></div></li>`;
 	}
 	
+	l.stop();
 	$('#graduadosUl').html(htmlGrad);	
 }
 
 function habilitar()
 {
-	var data = graduados;
-	var dLength = data.length;
-	var count = 0;
-	var idHabilitar = '';
-	for(var i = 0; i < dLength; i++)
+	let data = graduados;
+	let dLength = data.length;
+	let count = 0;
+	let idHabilitar = '';
+	for(let i = 0; i < dLength; i++)
 	{
-		var g = data[i];
-		var name = `#gradCheck-${g.id}`;
+		let g = data[i];
+		let name = `#gradCheck-${g.id}`;
 		if($(name).is(':checked'))
 		{
 			count++;
@@ -115,16 +132,19 @@ function habilitar()
 	
 	if(count > 0)
 	{
-		var param = {
-			"idHabilitar":idHabilitar,
+		const param = {
+			idHabilitar
 		};
 		
+		l.start();
+
 		$.ajax({
 			type:"POST",
 			data:param,
 			url:"http://extension.frvm.utn.edu.ar/graduadosApi/habilitarGraduado.php",
 			success: function(response)
 			{
+				l.stop();
 				var r = parse(response);
 				if(r[0].success == 't')
 				{
@@ -138,6 +158,7 @@ function habilitar()
 			},
 			error: function(msg)
 			{
+				l.stop();
 				toasty('Hubo un problema de conexión','error');
 			}
 		});

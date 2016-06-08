@@ -68,24 +68,25 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script>
-	
+const l = new Loader();
 function restorePass()
 {
 	var userMail = $('#email').val().trim();
 	if(userMail != '')
 	{
-		$('#loader').show();
-		var param = {
-			"userMail":userMail
+		const param = {
+			userMail
 		};
-		
+
+		l.start();
+
 		$.ajax({
 			type:"POST",
 			data: param,
 			url: "http://extension.frvm.utn.edu.ar/graduadosApi/restorePass.php",
 			success: function(response)
 			{
-				$('#loader').hide();
+				l.stop();
 				var r = parse(response);
 				if(r[0].success)
 				{
@@ -102,7 +103,7 @@ function restorePass()
 			},
 			error: function(msg)
 			{
-				$('#loader').hide();
+				l.stop();
 				toasty('Se produjo un error al intentar enviar los datos de ingreso. Pruebe nuevamente en un instante','error');
 			}
 		});
@@ -116,7 +117,6 @@ function restorePass()
 }
 
 $(document).ready(function(){
-	$('#loader').hide();
 });
 
 </script>

@@ -45,8 +45,9 @@
 <script>
 function getCantGraduados()
 {
-	var param = {
-		"id":getItem('id')
+	const id = getItem('id');
+	const param = {
+		id
 	};
 	
 	$.ajax({
@@ -55,7 +56,7 @@ function getCantGraduados()
 		data:param,
 		success: function(response)
 		{
-			var r = JSON.parse(response);
+			let r = JSON.parse(response);
 			setItem('cantidad',r[0].cantidad)
 			checkMenu();			
 		},

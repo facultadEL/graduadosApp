@@ -149,8 +149,9 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script>
-var habilitar = false;
-var regional;
+let habilitar = false;
+let regional;
+const l = new Loader();
 
 function activate(source)
 {
@@ -205,10 +206,11 @@ function checkEnable()
 
 function getData()
 {
-	var param = {
-		"id":getItem('id')
+	const id = getItem('id');
+	const param = {
+		id
 	}
-	
+	l.start();
 	$.ajax({
 		type:"POST",
 		data:param,
@@ -219,6 +221,7 @@ function getData()
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty('No se pudieron traer los datos','error');
 		}
 	});
@@ -274,6 +277,7 @@ function successGetData(data)
 	$('#username').blur();
 	$('#first_name').focus();
 	checkEnable();
+	l.stop();
 }
 	
 function controlSubmit()
@@ -301,14 +305,14 @@ function controlSubmit()
 		"localidadId":($('#idLocalidad').val()),
 		"regional":($('#regional').val())
 	}
-	$('#loader').show();
+	l.start();
 	$.ajax({
 		type:"POST",
 		data: param,
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
 		success: function(response)
 		{
-			$('#loader').hide();
+			l.stop();
 			var r = parse(response);
 			if(r[0].success)
 			{
@@ -321,6 +325,7 @@ function controlSubmit()
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty("Hubo un error de conexion",'error');
 		}
 	});
@@ -373,7 +378,6 @@ function successGetRegional(data, val)
 }
 
 $(document).ready(function (){
-	$('#loader').hide();
 	$(".button-collapse").sideNav();
 	$('.datepicker').pickadate({
 		selectMonths: true,

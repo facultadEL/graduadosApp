@@ -158,9 +158,9 @@
 <script type="text/javascript" src="js/functions.js"></script>
 <script defer>
 
-var passRequired = false;
-var regional,especialidad;
-
+let passRequired = false;
+let regional,especialidad;
+const l = new Loader();
 function controlVacio(nombreSelector)
 {
 	if($.trim($(nombreSelector).val()) == '')
@@ -215,15 +215,15 @@ function controlSubmit()
 		"regional":($('#regional').val()),
 		"especialidad":($('#especialidad').val())
 	}
-	$('#loader').show();
+	l.start();
 	$.ajax({
 		type:"POST",
 		data: param,
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDatos.php",
 		success: function(response)
 		{
-			$('#loader').hide();
-			var r = parse(response);
+			l.stop();
+			const r = parse(response);
 			if(r[0].success)
 			{
 				if(r[0].created == 't')
@@ -245,6 +245,7 @@ function controlSubmit()
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty("Hubo un error de conexión",'error');
 		}
 	});
@@ -271,7 +272,7 @@ function getDatos()
 		$('#arrowUl').hide();
 		$('.brand-logo').html('Confirmar datos');
 	}
-	
+	l.start();
 	$.ajax({
 		type:"GET",
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDataById.php",
@@ -282,6 +283,7 @@ function getDatos()
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty(`Hubo un error al buscar los datos. Problema de conexión`,'error');
 		}
 	});
@@ -317,7 +319,7 @@ function successGetDatos(data)
 	$('#autocompleteState').val(data.localidad);
 	$('#autocompleteState').focus();
 	successGetRegional(regional,data.regional);
-	successGetEspecialidad(especialidad,data.especialidad)
+	getEspecialidad();
 	$('#email').val(data.email);
 	$('#email').focus();
 	$('#celId').val(data.celId);
@@ -338,6 +340,7 @@ function successGetDatos(data)
 	{
 		$('#dni').focus();
 	}
+	l.stop();
 }
 
 function checkDni()
@@ -348,16 +351,17 @@ function checkDni()
 		if($('#id').val() == -1 || $('#id').val() == "")
 		{
 			
-			var param = {
-				"dni":dni
+			const param = {
+				dni
 			};
-
+			l.start();
 			$.ajax({
 				type:"POST",
 				data: param,
 				url:"http://extension.frvm.utn.edu.ar/graduadosApi/checkDni.php",
 				success: function(response)
 				{
+					l.stop();
 					var r = parse(response);
 					if(r.length > 0)
 					{
@@ -371,6 +375,7 @@ function checkDni()
 				},
 				error: function(msg)
 				{
+					l.stop();
 					toasty("Se ha generado un error al ir a buscar los datos por DNI. Problema de conexión",'error');
 				}
 			});
@@ -478,13 +483,13 @@ function successGetLocalidad(r)
 
 function getIdLocalidad(name)
 {
-	var vName = name.split(' - ');
-	var localidad = vName[0];
-	var provincia = vName[1];
+	let vName = name.split(' - ');
+	const localidad = vName[0];
+	const provincia = vName[1];
 	
-	var param = {
-		"localidad":localidad,
-		"provincia":provincia
+	const param = {
+		localidad,
+		provincia
 	};
 	
 	$.ajax({
@@ -618,7 +623,6 @@ function successGetRegional(data, val)
 }
 
 $(document).ready(function(){
-	$('#loader').hide();
 	getDataLocalidad();
 	getRegional();
 	getDatos();

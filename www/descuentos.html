@@ -48,13 +48,14 @@
 <script src="js/materialize.min.js"></script>
 <script src="js/functions.js"></script>
 <script>
-var paramDiscount = {};  	  
-
+let paramDiscount = {};
+const l = new Loader();
 function getDescuento()
 {
-	$('#loader').show();
-	var param = {
-		"id":getItem('id')
+	l.start();
+	const id = getItem('id');
+	const param = {
+		id
 	};
 	
 	$.ajax({
@@ -67,6 +68,7 @@ function getDescuento()
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty('Error al traer los descuentos','error');
 		}
 	});
@@ -74,7 +76,7 @@ function getDescuento()
 
 function saveRate()
 {
-	$('#loader').show();
+	l.start();
 	paramDiscount.comentario = ($('#comentario').val().trim() == '') ? 'Sin comentario' : $('#comentario').val();
 	paramDiscount.id = getItem('id');
 	
@@ -84,14 +86,14 @@ function saveRate()
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/rateDescuento.php",
 		success: function(response)
 		{
-			$('#loader').hide();
+			l.stop();
 			$('#modalComentario').closeModal();
 			var r = parse(response)[0];
 			setRate(r.idDescuento,parseInt(r.puntaje));
 		},
 		error: function(msg)
 		{
-			$('#loader').hide();
+			l.stop();
 			toasty('No se pudo guardar el puntaje','error');
 		}
 	});
@@ -100,10 +102,10 @@ function saveRate()
 function setRate(id,puntaje)
 {
 	$('#comentario').val('');
-	for(var i = 1; i <= 5; i++)
+	for(let i = 1; i <= 5; i++)
 	{
-		var name = `#rate${id}-${i}`;
-		var nameMob = `#rateM${id}-${i}`;
+		let name = `#rate${id}-${i}`;
+		let nameMob = `#rateM${id}-${i}`;
 		
 		$(name).removeClass('change');
 		$(nameMob).removeClass('change');
@@ -126,24 +128,24 @@ function rateDiscount(id,puntaje)
 
 function successGetDescuento(data)
 {
-	var htmlDescuentos = '';
-	var l = data.length;
-	for(var i = 0; i < l; i++)
+	let htmlDescuentos = '';
+	let leng = data.length;
+	for(let i = 0; i < leng; i++)
 	{
-		var d = data[i];
-		var htmlRate = '';
-		var htmlRateMob = '';
+		let d = data[i];
+		let htmlRate = '';
+		let htmlRateMob = '';
 		
-		for(var j = 5; j >= 1; j--)
+		for(let j = 5; j >= 1; j--)
 		{
-			var classRate = (j <= d.puntuacion) ? ' class="change" ' : ''; 
+			let classRate = (j <= d.puntuacion) ? ' class="change" ' : ''; 
 			
 			htmlRate += `<span id="rate${d.id}-${j}" onclick="rateDiscount('${d.id}',${j})"${classRate}>☆</span>`;
 			htmlRateMob += `<span id="rateM${d.id}-${j}" onclick="rateDiscount('${d.id}',${j})"${classRate}>☆</span>`;
 		}
 		
-		var avg = parseFloat(d.promedio.substring(0,3));
-		var avgText = (avg > 0) ? `<em>Puntaje promedio: ${avg} <i class="material-icons" style="font-size:16px;">star</i><br>Valoraciones: ${d.cantidad} <i class="material-icons" style="font-size:16px;">person</i></em>` : '';
+		let avg = parseFloat(d.promedio.substring(0,3));
+		let avgText = (avg > 0) ? `<em>Puntaje promedio: ${avg} <i class="material-icons" style="font-size:16px;">star</i><br>Valoraciones: ${d.cantidad} <i class="material-icons" style="font-size:16px;">person</i></em>` : '';
 		htmlDescuentos += `<li class="collection-item avatar">
 			<img src="${d.imagen}" alt="" class="circle">
 			<span class="title">${d.titulo} - <a href="http://${d.url}" target="_blank">${d.empresa}</a></span>
@@ -162,14 +164,13 @@ function successGetDescuento(data)
 			</a>
 		</li>`;
 	}
-	$('#loader').hide();
+	l.stop();
 	$('#ulDescuentos').html(htmlDescuentos);
 	
 }
 
 $(document).ready(function()
 {
-	$('#loader').hide();
 	getDescuento();
 	$(".button-collapse").sideNav();
 });

@@ -87,28 +87,13 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script defer>
-var validExt = ['jpg','png','jpeg'];
-var lastName = 'none';
-
-function controlVacio(nombreSelector)
-{
-	if($.trim($(nombreSelector).val()) == '')
-	{
-		$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
-		$(nombreSelector).focus();
-		return false;
-	}
-	return true;
-}
-
-function sacarColor(me)
-{
-	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
-}
+let validExt = ['jpg','png','jpeg'];
+let lastName = 'none';
+const l = new Loader();
 
 function checkImage()
 {
-	var ext = $('#image').val().split('.')[$('#image').val().split('.').length - 1];
+	let ext = $('#image').val().split('.')[$('#image').val().split('.').length - 1];
 	if(validExt.indexOf(ext.toLowerCase()) == -1)
 	{
 		toasty('Debe cargar una imagen con extensión jpg, png o jpeg','error');
@@ -122,10 +107,12 @@ function controlSubmit()
 	if(!controlVacio('#url')) return false;
 	if(!controlVacio('#detalle')) return false;
 	
-	var id = getItem('id');
+	l.start();
+
+	let id = getItem('id');
 	$('#id').val(id);
-	var param = new FormData($("#form")[0]);
-	$('#loader').show();
+	const param = new FormData($("#form")[0]);
+
 	$.ajax({
 		type:"POST",
 		data: param,
@@ -134,8 +121,8 @@ function controlSubmit()
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarDescuento.php",
 		success: function(response)
 		{
-			$('#loader').hide();
-			var r = parse(response);
+			l.stop();
+			const r = parse(response);
 			if(r[0].success == 't')
 			{
 				toasty("El descuento se guardó correctamente",'success');
@@ -148,7 +135,7 @@ function controlSubmit()
 		},
 		error: function(msg)
 		{
-			$('#loader').hide();
+			l.stop();
 			toasty("Hubo un error de conexión. Intente nuevamente",'error');
 		}
 	});
@@ -169,9 +156,9 @@ function reset()
 
 function successGetEmpresa(r)
 {
-	var empresaData = [];
+	let empresaData = [];
 	
-	for(var i = 0; i < r.length; i++)
+	for(let i = 0; i < r.length; i++)
 	{
 		var obj = {value:r[i].name};
 		empresaData.push(obj);
@@ -263,10 +250,12 @@ function successGetEmpresa(r)
 
 function getEmpresa()
 {
-	var param = {
-		"id":getItem('id')
+	const id = getItem('id');
+
+	const param = {
+		id
 	}
-	
+	l.start();
 	$.ajax({
 		type:'POST',
 		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getEmpresa.php",
@@ -274,9 +263,11 @@ function getEmpresa()
 		success: function(response)
 		{
 			successGetEmpresa(parse(response));
+			l.stop();
 		},
 		error: function(msg)
 		{
+			l.stop();
 			toasty('No se pudo traer las empresas','error');
 		}
 	})
@@ -290,9 +281,9 @@ function getDatosEmpresa(name)
 	{
 		lastName = name;
 		var param = {
-			"name": name
+			name
 		};
-		
+		l.start();
 		$.ajax({
 			type:"POST",
 			url:"http://extension.frvm.utn.edu.ar/graduadosApi/getDatosEmpresaByNombre.php",
@@ -303,6 +294,7 @@ function getDatosEmpresa(name)
 			},
 			error: function(msg)
 			{
+				l.stop();
 				toasty('Hubo un error al traer los datos de la empresa','error');
 			}
 		});
@@ -314,6 +306,7 @@ function successGetDatosEmpresa(data)
 	$('#idEmpresa').val(data.id);
 	$('#imagenEmpresa').prop('src',data.imagen);
 	controlImagen(data.id);
+	l.stop();
 }
 
 function controlImagen(valId)
@@ -342,7 +335,6 @@ function initialize()
 
 $(document).ready(function()
 {
-	$('#loader').hide();
 	$('input#url, textarea').characterCounter();
 	$(".button-collapse").sideNav();
 	$('select').material_select();
