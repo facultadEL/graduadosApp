@@ -1,6 +1,6 @@
 ﻿-- Ultima Actualización --
--- 08/06/2016 --
--- LP --
+-- 09/06/2016 --
+-- EF --
 
 V1.1
 
@@ -37,7 +37,7 @@ Cargar novedades y seleccionar a que especialidad va
 - Guardado
 - Mostrado de información en inicio
 Perfil
--Cuando se guardan las modificaciones que deshabilite todo y ponga el lapiz
--Corregir el guardado
+-Cuando se guardan las modificaciones que deshabilite todo y ponga el lapiz x
+-Corregir el guardado x
 Cursos
 -Ocultar titulo si no existe el dato

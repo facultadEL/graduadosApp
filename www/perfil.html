@@ -60,6 +60,7 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<input id="regional" type="text" onkeydown="">
+						<input id="regionalId" type="hidden" onkeydown="">
 						<label for="regional">Regional</label>
 					</div>
 				</div>
@@ -254,6 +255,7 @@ function successGetData(data)
 	}
 	$('#autocompleteState').val(data.localidad);
 	$('#autocompleteState').focus();
+	$('#regionalId').val(data.regional);
 	$('#regional').val(data.regionalNombre);
 	$('#regional').focus();
 	$('#regional').prop('disabled',true);
@@ -303,7 +305,7 @@ function controlSubmit()
 		"fijoId":($('#fijoId').val()),
 		"birthDate":birthDate,
 		"localidadId":($('#idLocalidad').val()),
-		"regional":($('#regional').val())
+		"regional":($('#regionalId').val())
 	}
 	l.start();
 	$.ajax({
@@ -317,6 +319,7 @@ function controlSubmit()
 			if(r[0].success)
 			{
 				toasty('Datos guardados correctamente','success');
+				activate();
 			}
 			else
 			{
