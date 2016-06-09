@@ -66,17 +66,24 @@ function successGetCursos(data)
 		
 		let h = d.horario;
 		let hLength = h.length;
-		htmlHorarios = '<br/><strong>Horarios: </strong><br/>';
+		htmlHorarios = '';
 		for(let i = 0; i < hLength; i++)
 		{
+			if(i == 0)
+			{
+				htmlHorarios += '<strong>Horarios: </strong><br/>';
+			} 
 			htmlHorarios += `${h[i].dia} - De ${h[i].desde} a ${h[i].hasta} <br/>`;
 		}
 
-		htmlCursos += `<li>
-				<div class="collapsible-header cursoHeader col xs12"><div class="row col s12"><div class="col s8 left-align"><strong>${d.nombre}</strong></div><div class="col s4 right-align"><strong>${d.regionalAbreviatura}</strong></div></div></div>
-      			<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/><strong>Profesor: </strong>${d.profesor}<br/><strong>Fecha de inicio: </strong>${formatDateFromDB(d.fechaInicio)}
-				  <br/><strong>Cantidad de clases: </strong>${d.duracion}<br/><strong>Costo Total: </strong>$ ${d.costo} ${htmlHorarios}</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div>
-    		</li>`;
+		htmlCursos += `<li><div class="collapsible-header cursoHeader col xs12"><div class="row col s12"><div class="col s8 left-align"><strong>${d.nombre}</strong></div><div class="col s4 right-align"><strong>${d.regionalAbreviatura}</strong></div></div></div>`;
+		htmlCursos += `<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/>`;
+		htmlCursos += (d.profesor != '') ? `<strong>Profesor: </strong>${d.profesor}<br/>` : '';
+		htmlCursos += (d.fechaInicio != '') ? `<strong>Fecha de inicio: </strong>${formatDateFromDB(d.fechaInicio)}<br/>` : '';
+		htmlCursos += (d.duracion != '') ? `<strong>Cantidad de clases: </strong>${d.duracion}<br/>` : '';
+		htmlCursos += (d.costo != '') ? `<strong>Costo Total: </strong>$ ${d.costo}<br/>` : '';
+		htmlCursos += (htmlHorarios != '') ? htmlHorarios : '';
+		htmlCursos += `</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div></li>`;
 	}
 	l.stop();
 	$('#ulCursos').html(htmlCursos);

@@ -40,4 +40,4 @@ Perfil
 -Cuando se guardan las modificaciones que deshabilite todo y ponga el lapiz x
 -Corregir el guardado x
 Cursos
--Ocultar titulo si no existe el dato
+-Ocultar titulo si no existe el dato x
