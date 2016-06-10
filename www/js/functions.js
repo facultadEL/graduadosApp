@@ -364,21 +364,26 @@ function checkRedirect()
 
 function redirectAjax(loc)
 {
+	const l = new Loader();
 	const id = getItem('id');
 	const param = {
 		loc,
 		id
 	}
-
+	l.start();
 	$.ajax({
 		type:"POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/redirectLogin.php",
 		data: param,
 		success:function(response)
 		{
+			l.stop();
 			const r = parse(response)[0];
-			setItem('lastLogin',r.lastLogin);
-			setItem('starting','t');
+			if(getItem('lastLogin') != r.lastLogin)
+			{
+				setItem('lastLogin',r.lastLogin);
+				setItem('starting','t');
+			}
 			redirect(`${r.loc}.html`);
 		}
 	});
