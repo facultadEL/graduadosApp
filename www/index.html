@@ -118,8 +118,11 @@ function doLogin()
 						const lastLogin = r.ultimoLogin
 						setItem('id',id);
 						setItem('administrador',administrador);
-						setItem('lastLogin',lastLogin);
-						setItem('starting','t');
+						if(getItem('lastLogin') != lastLogin)
+						{
+							setItem('lastLogin',lastLogin);
+							setItem('starting','t');
+						}
 						if(r.first == 't')
 						{
 							setItem('primeravez','t');
