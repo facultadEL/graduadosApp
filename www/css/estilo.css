@@ -34,3 +34,6 @@ span.badge.new:after{content:" nuevos";}
 .cursoHeader > .row {margin-bottom: 10px;}
 .liGraduate{background-color: #fb8c00;}
 .liGraduate > a {color:white !important;}
+.just{
+    text-align: justify;
+}

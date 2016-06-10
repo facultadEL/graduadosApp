@@ -65,7 +65,7 @@ function successGetPosgrados(data)
 		let d = data[i];
 
 		htmlPosgrados += `<li><div class="collapsible-header cursoHeader col xs12"><div class="row col s12"><div class="col s8 left-align"><strong>${d.nombre}</strong></div><div class="col s4 right-align"><strong>${d.regionalAbreviatura}</strong></div></div></div>`;
-		htmlPosgrados += `<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/>`;
+		htmlPosgrados += `<div class="collapsible-body cursoBody"><p id="just">${d.descripcion}<br/>`;
 		htmlPosgrados += (d.duracion != '') ? `<strong>Duración: </strong>${d.duracion}<br/>` : '';
 		htmlPosgrados += `</p><div class="container col s12 center-align"><a class="waves-effect waves-light btn" onclick="interesCurso('${d.id}','${d.nombre}')"><i class="material-icons right">thumb_up</i>Me interesa</a><br/><br/></div></div></li>`;
 	}

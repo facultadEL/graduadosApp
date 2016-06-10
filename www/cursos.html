@@ -77,7 +77,7 @@ function successGetCursos(data)
 		}
 
 		htmlCursos += `<li><div class="collapsible-header cursoHeader col xs12"><div class="row col s12"><div class="col s8 left-align"><strong>${d.nombre}</strong></div><div class="col s4 right-align"><strong>${d.regionalAbreviatura}</strong></div></div></div>`;
-		htmlCursos += `<div class="collapsible-body cursoBody"><p>${d.descripcion}<br/>`;
+		htmlCursos += `<div class="collapsible-body cursoBody"><p id="just">${d.descripcion}<br/>`;
 		htmlCursos += (d.profesor != '') ? `<strong>Profesor: </strong>${d.profesor}<br/>` : '';
 		htmlCursos += (d.fechaInicio != '') ? `<strong>Fecha de inicio: </strong>${formatDateFromDB(d.fechaInicio)}<br/>` : '';
 		htmlCursos += (d.duracion != '') ? `<strong>Cantidad de clases: </strong>${d.duracion}<br/>` : '';
