@@ -73,7 +73,7 @@ function toasty(text,style,time)
 			 break;
 	}
 
-	var $toastContent = $(`<span>${text}</span>`);
+	var $toastContent = $(`<span id="just">${text}</span>`);
 	Materialize.toast($toastContent, time);
 	$('.toast').css('background-color',bgColor);
 	$('.toast').css('color',color);
