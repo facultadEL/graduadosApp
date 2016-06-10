@@ -19,16 +19,16 @@
 		<a class="graduadosHref col s10 offset-s1 waves-effect waves-light btn-large">Graduados <span class="new badge cantGraduados">0</span></a>
 	</div>
 	<div class="row">
-		<a class="cursosHref col s10 offset-s1 waves-effect waves-light btn-large">Cursos</a>
+		<a class="cursosHref col s10 offset-s1 waves-effect waves-light btn-large">Cursos <span class="new badge cantCurso hideAdmin">0</span></a>
 	</div>
 	<div class="row">
-		<a class="posgradosHref col s10 offset-s1 waves-effect waves-light btn-large">Posgrados</a>
+		<a class="posgradosHref col s10 offset-s1 waves-effect waves-light btn-large">Posgrados <span class="new badge cantPosgrado hideAdmin">0</span></a>
 	</div>
 	<div class="row">
-		<a class="empleoHref col s10 offset-s1 waves-effect waves-light btn-large">Empleos</a>
+		<a class="empleoHref col s10 offset-s1 waves-effect waves-light btn-large">Empleos <span class="new badge cantEmpleo hideAdmin">0</span></a>
 	</div>
 	<div class="row">
-		<a class="descuentosHref col s10 offset-s1 waves-effect waves-light btn-large">Descuentos</a>
+		<a class="descuentosHref col s10 offset-s1 waves-effect waves-light btn-large">Descuentos <span class="new badge cantDescuento hideAdmin">0</span></a>
 	</div>
 	<div class="row">
 		<a class="contactoHref col s10 offset-s1 waves-effect waves-light btn-large">Contacto</a>
@@ -59,8 +59,8 @@ function getCantGraduados()
 		data:param,
 		success: function(response)
 		{
-			let r = JSON.parse(response);
-			setItem('cantidad',r[0].cantidad)
+			let r = parse(response)[0];
+			setItem('cantidad',r.cantidad)
 			checkMenu();			
 		},
 		error: function(msg)
@@ -70,6 +70,41 @@ function getCantGraduados()
 	});
 }
 
+function getQuantities()
+{
+	if(getItem('starting') != 't')
+	{
+		setQuantities();
+		return;	
+	}
+
+	setItem('starting','f');
+	const lastLogin = getItem('lastLogin');
+	const id = getItem('id');
+	const param = {
+		lastLogin,
+		id
+	};
+	$.ajax({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getCantidades.php",
+		data:param,
+		success:function(response)
+		{
+			const r = parse(response)[0];
+			setItem('cCurso',r.cCurso);
+			setItem('cDescuento',r.cDescuento);
+			setItem('cPosgrado',r.cPosgrado);
+			setItem('cEmpleo',r.cEmpleo);
+			setQuantities();
+		},
+		error:function(msg)
+		{
+			toasty('No se pudo traer correctamente las cantidades','error');
+		}
+	})
+}
+
 $(document).ready(function()
 {
 	$(".button-collapse").sideNav();
@@ -77,6 +112,10 @@ $(document).ready(function()
 	if(checkAdministrador())
 	{
 		getCantGraduados();
+	}
+	else
+	{
+		getQuantities();
 	}
 });
 </script>

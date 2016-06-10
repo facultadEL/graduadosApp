@@ -108,15 +108,19 @@ function doLogin()
 			const resp = parse(response);
 			if(resp.length > 0)
 			{
-				if(resp[0].success)
+				const r = resp[0];
+				if(r.success)
 				{
-					if(resp[0].habilitado == 't')
+					if(r.habilitado == 't')
 					{
-						const id = resp[0].id;
-						const administrador = resp[0].administrador;
+						const id = r.id;
+						const administrador = r.administrador;
+						const lastLogin = r.ultimoLogin
 						setItem('id',id);
 						setItem('administrador',administrador);
-						if(resp[0].first == 't')
+						setItem('lastLogin',lastLogin);
+						setItem('starting','t');
+						if(r.first == 't')
 						{
 							setItem('primeravez','t');
 							redirect("registro.html");
@@ -150,6 +154,7 @@ function doLogin()
 function initialize()
 {
 	$('#presentacion').fadeOut(1000);
+	/*
 	if(getItem('id') != undefined)
 	{
 		if(getItem('primeravez') == undefined)
@@ -160,7 +165,7 @@ function initialize()
 		{
 			redirect('registro.html');
 		}
-	}
+	}*/
 }
 
 $(document).ready(function(){

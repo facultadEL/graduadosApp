@@ -41,8 +41,9 @@ function showNoty(type,text)
 	});
 }
 
-function toasty(text,style)
+function toasty(text,style,time)
 {
+	if(time == undefined) time=2000;
 	if(style == undefined) style='default';
 	if(text == undefined) return;
 	
@@ -73,7 +74,7 @@ function toasty(text,style)
 	}
 
 	var $toastContent = $(`<span>${text}</span>`);
-	Materialize.toast($toastContent, 1000);
+	Materialize.toast($toastContent, time);
 	$('.toast').css('background-color',bgColor);
 	$('.toast').css('color',color);
 	$('#toast-container').css('width','100%');
@@ -85,9 +86,23 @@ function toasty(text,style)
 	$('.toast span').css('width','100%');
 }
 
-var storage = window.localStorage;
-var excludedLoc = ['index','registro','restauraPass'];
-var notified = false;
+const storage = window.localStorage;
+const excludedLoc = ['index','registro','restauraPass'];
+const excludedArrowMenu = ['inicio'];
+const options = {
+	'cursos':'liCurso',
+	'cursosAdmin':'liCurso',
+	'descuentos':'liDescuento',
+	'descuentosAdmin':'liDescuento',
+	'empleo':'liEmpleo',
+	'empleoAdmin':'liEmpleo',
+	'graduadosAdmin':'liGraduado',
+	'perfil':'liPerfil',
+	'posgrados':'liPosgrado',
+	'posgradosAdmin':'liPosgrado',
+	'contacto':'liContacto'
+};
+let notified = false;
 
 function getLoc()
 {
@@ -125,7 +140,7 @@ function checkAdministrador()
 
 function setCantidad()
 {
-	var cant = getItem('cantidad');
+	const cant = getItem('cantidad');
 	if(cant == null) return;
 		
 	if(parseInt(cant) > 0)
@@ -136,6 +151,34 @@ function setCantidad()
 	else
 	{
 		$('.cantGraduados').hide();
+	}
+}
+
+function setQuantities()
+{
+	const cCurso = getItem('cCurso');
+	const cEmpleo = getItem('cEmpleo');
+	const cDescuento = getItem('cDescuento');
+	const cPosgrado = getItem('cPosgrado');
+
+	asignQuantity(cCurso,'.cantCurso');
+	asignQuantity(cEmpleo,'.cantEmpleo');
+	asignQuantity(cDescuento,'.cantDescuento');
+	asignQuantity(cPosgrado,'.cantPosgrado');
+}
+
+function asignQuantity(c,className)
+{
+	if(c == null) return;
+	if(parseInt(c))
+	{
+		c = (parseInt(c) > 100) ? '99' : c;
+		$(className).show();
+		$(className).html(c);
+	}
+	else
+	{
+		$(className).hide();
 	}
 }
 
@@ -171,7 +214,7 @@ function logout()
 
 function notifyCant()
 {
-	var cant = getItem('cantidad');
+	const cant = getItem('cantidad');
 	if(cant != undefined && cant > 0 && getLoc() == 'inicio' &&  !notified)
 	{
 		notified = true;
@@ -182,10 +225,10 @@ function notifyCant()
 function checkMenu()
 {
 	if(excludedLoc.indexOf(getLoc()) != -1) return;
-	var cH,pH,eH,dH;
-	var pfH = 'perfil.html';
-	var iH = 'inicio.html';
-	var gH = 'graduadosAdmin.html';
+	let cH,pH,eH,dH,pfH,iH,gH;
+	pfH = 'perfil.html';
+	iH = 'inicio.html';
+	gH = 'graduadosAdmin.html';
 	if(checkAdministrador())
 	{
 		cH = 'cursosAdmin.html';
@@ -195,6 +238,7 @@ function checkMenu()
 		//conH = 'contactoAdmin.html'; //Esto se agrega cuando se haga el contactoAdmin
 		conH = 'contacto.html';
 		$('.hideNotAdmin').show();
+		$('.hideAdmin').hide();
 		setCantidad();
 		notifyCant();
 	}
@@ -206,6 +250,7 @@ function checkMenu()
 		dH = 'descuentos.html';
 		conH = 'contacto.html';
 		$('.hideNotAdmin').hide();
+		$('.hideAdmin').show();
 	}
 	
 	addClick('cursosHref',cH);
@@ -220,8 +265,8 @@ function checkMenu()
 
 function addClick(classN,url)
 {
-	var arr = document.getElementsByClassName(classN);
-	for(var i = 0; i < arr.length; i++)
+	const arr = document.getElementsByClassName(classN);
+	for(let i = 0; i < arr.length; i++)
 	{
 		arr[i].addEventListener('click',function(){redirect(url)});
 	}
@@ -290,21 +335,8 @@ function parse(json)
 
 function checkSelectedOption()
 {
-	var options = {
-		'cursos':'liCurso',
-		'cursosAdmin':'liCurso',
-		'descuentos':'liDescuento',
-		'descuentosAdmin':'liDescuento',
-		'empleo':'liEmpleo',
-		'empleoAdmin':'liEmpleo',
-		'graduadosAdmin':'liGraduado',
-		'perfil':'liPerfil',
-		'posgrados':'liPosgrado',
-		'posgradosAdmin':'liPosgrado',
-		'contacto':'liContacto'
-	};
-	var l = getLoc();
-	var name = `.${options[l]}`;
+	const l = getLoc();
+	const name = `.${options[l]}`;
 	$(name).addClass('selectedOption');
 }
 
@@ -312,13 +344,15 @@ function checkRedirect()
 {
 	if(getItem('id') == undefined) return;
 	
-	var l = getItem('location');
+	const l = getItem('location');
 	if(l != undefined)
 	{
 		removeItem('location');
 		if(excludedLoc.indexOf(l) == -1)
 		{
-			redirect(`${l}.html`);
+			redirectAjax(l);
+			//setItem('starting','t');
+			//redirect(`${l}.html`);
 		}
 		else
 		{
@@ -328,6 +362,28 @@ function checkRedirect()
 	}
 }
 
+function redirectAjax(loc)
+{
+	const id = getItem('id');
+	const param = {
+		loc,
+		id
+	}
+
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/redirectLogin.php",
+		data: param,
+		success:function(response)
+		{
+			const r = parse(response)[0];
+			setItem('lastLogin',r.lastLogin);
+			setItem('starting','t');
+			redirect(`${r.loc}.html`);
+		}
+	});
+}
+
 function setLocation()
 {
 	setItem('location',getLoc());
@@ -335,11 +391,11 @@ function setLocation()
 
 function unformatDate(d)
 {
-	var vD = d.split('-');
-	var year = ", "+vD[0];
-	var day = parseInt(vD[2]);
+	let vD = d.split('-');
+	let year = ", "+vD[0];
+	let day = parseInt(vD[2]);
 	
-	var month = "";
+	let month = "";
 	switch(vD[1])
 	{
 		case "01": month = ' January'; break;
@@ -361,11 +417,11 @@ function unformatDate(d)
 
 function formatDate(date)
 {
-	var vDate = date.split(',');
-	var year = vDate[1].trim();
-	var monthName = vDate[0].split(' ')[1].toLowerCase();
-	var day = vDate[0].split(' ')[0];
-	var month = 0;
+	let vDate = date.split(',');
+	let year = vDate[1].trim();
+	let monthName = vDate[0].split(' ')[1].toLowerCase();
+	let day = vDate[0].split(' ')[0];
+	let month = 0;
 	switch(monthName)
 	{
 		case 'january': month = 1; break;
@@ -409,6 +465,15 @@ class Loader
 	}
 }
 
+function checkBackArrow()
+{
+	if(excludedArrowMenu.indexOf(getLoc()) != -1)
+	{
+		document.getElementById('backMenuArrow').style.display = 'none';
+	}
+}
+
 document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
+document.addEventListener("DOMContentLoaded", checkBackArrow, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);

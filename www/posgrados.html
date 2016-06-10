@@ -90,7 +90,7 @@ function interesPosgrado(idPosgrado,nombre)
 		success: function(response)
 		{
 			l.stop();
-			const r = parse(response);
+			const r = parse(response)[0];
 			if(r.exito == 't')
 			{
 				toasty('Se notifico a la secretaría de graduados sobre su interés','info');
@@ -110,6 +110,7 @@ function interesPosgrado(idPosgrado,nombre)
 
 $(document).ready(function()
 {
+	setItem('cPosgrado','0');
 	$(".button-collapse").sideNav();
 	$('.collapsible').collapsible({
       accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style

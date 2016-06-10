@@ -24,11 +24,13 @@ main{flex:1 0 auto;}
 .rating.hide-on-large-only{margin-left:-8px;}
 #subnavbar, #navsubnavbar{height:30px;z-index:100;}
 .selectedOption{background-color:#26a69a;}
-.selectedOption a{color:white !important;}
+.selectedOption > a{color:white !important;}
+.badge.new{right: 2px;}
 span.badge.new:after{content:" nuevos";}
 #dropdownMoreOptions{margin-top:64px;width:200px !important;margin-left: -1px}
 .errorTextBox{box-shadow: 0px 0px 1px 1px #f24d4d !important}
 .cursoHeader{background-color:white;color:#26a69a}
 .cursoBody{background-color: #F0F0F0;}
 .cursoHeader > .row {margin-bottom: 10px;}
-
+.liGraduate{background-color: #fb8c00;}
+.liGraduate > a {color:white !important;}

@@ -11,20 +11,6 @@
 <script src="js/menu.js"></script>
 <script>showSubNavBar('Empleos')</script>
 <div class="container">
-	<!--ul class="collapsible" data-collapsible="accordion">
-		<li>
-			<div class="collapsible-header"><i class="material-icons">reorder</i>Empleo 1</div>
-			<div class="collapsible-body"><p>Descripción del empleo 1</p></div>
-		</li>
-		<li>
-			<div class="collapsible-header"><i class="material-icons">reorder</i>Empleo 2</div>
-			<div class="collapsible-body"><p>Descripción del empleo 2</p></div>
-		</li>
-		<li>
-			<div class="collapsible-header"><i class="material-icons">reorder</i>Empleo 3</div>
-			<div class="collapsible-body"><p>Descripción del empleo 3</p></div>
-		</li>
-	</ul-->
 	<div class="preloader-wrapper active" id="loader">
 		<div class="spinner-layer spinner-blue-only">
 			<div class="circle-clipper left">
@@ -101,10 +87,10 @@ function interesEmpleo(idEmpleo,puesto)
 		success: function(response)
 		{
 			l.stop();
-			const r = parse(response);
+			const r = parse(response)[0];
 			if(r.exito == 't')
 			{
-				toasty('Se notifico a la secretaría de graduados sobre su interés','info');
+				toasty('Se notifico a la secretaría de graduados sobre su interés','success');
 			}
 			else
 			{
@@ -120,6 +106,7 @@ function interesEmpleo(idEmpleo,puesto)
 }
 $(document).ready(function()
 {
+	setItem('cEmpleo','0');
 	$(".button-collapse").sideNav();
 	$('.collapsible').collapsible({
 		accordion : false
