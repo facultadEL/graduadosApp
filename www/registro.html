@@ -122,7 +122,7 @@
                     <div class="divider"></div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="username" type="text" onkeydown="sacarColor(this)" required>
+                            <input id="username" type="text" onkeydown="sacarColor(this)" onchange="checkUsername()" required>
                             <label for="username">Nombre Usuario</label>
                         </div>
 					</div>
@@ -175,6 +175,43 @@ function controlVacio(nombreSelector)
 function sacarColor(me)
 {
 	$(me).css('box-shadow','0px 0px 0px 0px #ccc');
+}
+
+function checkUsername()
+{
+	const username = $('#username').val().trim();
+	if(username == '')
+	{
+		toasty('Ingrese un nombre de usuario correcto','error');
+		return;
+	}
+	l.start();
+	const id = ($('#id').val() == "") ? '-1' : $('#id').val();
+	const param = {
+		id,
+		username
+	}
+
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/checkUsername.php",
+		data:param,
+		success: function(response)
+		{
+			l.stop();
+			const r = parse(response)[0];
+			if(r.repetido == 't')
+			{
+				$('#username').val('');
+				toasty('El nombre de usuario ya está utilizado','error');
+			}
+		},
+		error: function(msg)
+		{
+			l.stop();
+			toasty('Error al buscar los nombres de usuario','error');
+		}
+	});
 }
 
 function controlSubmit()
