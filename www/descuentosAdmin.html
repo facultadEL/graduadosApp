@@ -41,6 +41,13 @@
                             <label for="empresa">Empresa:</label>
                         </div>
                     </div>
+					<div class="row">
+						<div class="input-field col-s12">
+							<select id="rubro">
+								
+							</select>
+						</div>
+					</div>
                     <div class="file-field input-field" id="rowNuevaImagen">
 						<div class="btn">
 							<span>Imagen</span>
@@ -309,6 +316,32 @@ function successGetDatosEmpresa(data)
 	l.stop();
 }
 
+function getRubro(){
+	$ajax.({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRubro.php",
+		succes: function(response)
+		{
+			successGetRubros(parse(response));
+		}
+		error: function(msg)
+		{
+			toasty('Error al traer los rubros', 'error');
+		}
+
+	});
+}
+
+function successGetRubros(data)
+{
+	if (data == undefined)
+	{
+		return;
+	}
+	$('select').material_select('destroy');
+	rubros = data;
+}
+
 function controlImagen(valId)
 {
 	if(valId == '-1')
@@ -340,6 +373,7 @@ $(document).ready(function()
 	$('select').material_select();
 	setCantidad();
 	getEmpresa();
+	getRubro();
 	initialize();
 });
 </script>
