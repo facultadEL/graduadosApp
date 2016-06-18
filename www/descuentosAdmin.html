@@ -44,7 +44,6 @@
 					<div class="row">
 						<div class="input-field col-s12">
 							<select id="rubro">
-								
 							</select>
 						</div>
 					</div>
@@ -340,6 +339,16 @@ function successGetRubros(data)
 	}
 	$('select').material_select('destroy');
 	rubros = data;
+	htmlOptions = `<option value="0" disabled selected>Elija una opci&oacute;n</option>`;
+
+	for(var i = 0; i < rubros.length; i++)
+	{
+		var id = rubros[i].id;
+		var selected = '';
+		htmlOptions += `<option value="${id}"${selected}>${rubros[i].nombre}</options>`;
+	}
+	$('#rubro').html(htmlOptions);
+	$('select').material_select();
 }
 
 function controlImagen(valId)
