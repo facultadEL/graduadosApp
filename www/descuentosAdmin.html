@@ -320,25 +320,24 @@ function successGetDatosEmpresa(data)
 }
 
 function getRubro()
-{	
-	$.ajax({	
+{
+	$.ajax({
 		type:"POST",
-		url:"../../graduadosApi/getRubro.php",
-		succes: function(response)
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRubro.php",
+		success: function(response)
 		{
-			
-			successGetRubros(parse(response));			
+			successGetRubros(parse(response));
 		},
 		error: function(msg)
 		{
-			toasty('Error al traer los rubros','error');
+			toasty('Error al traer rubros','error');
 		}
-				
 	});
 }
 
 function successGetRubros(data)
 {		
+	alert('hola');
 	if (data == undefined)
 	{
 		return;
