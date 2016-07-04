@@ -22,7 +22,7 @@ document.write(`<div class="navbar-fixed">
 			<!--li><a onclick="logout()"><i class="material-icons">power_settings_new</i></a></li-->
 		</ul>
 		<ul class="right show-on-med-and-down">
-			<li id="backMenuArrow"><a onclick="window.location.replace('inicio.html')"><i class="material-icons">keyboard_arrow_left</i></a></li>
+			<!--li id="backMenuArrow"><a onclick="window.location.replace('inicio.html')"><i class="material-icons">keyboard_arrow_left</i></a></li-->
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li class="liGraduate"><a class="inicioHref"><strong>Graduate UTN</strong></a></li>

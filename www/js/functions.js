@@ -481,7 +481,6 @@ function checkBackArrow()
 document.addEventListener("deviceready", backControl, false);
 
 function backControl(){
-	alert('Device ready');
     document.addEventListener("backbutton", function(e){
 		const loc = getLoc();		
 		if(loc == 'index' || loc == 'inicio'){
@@ -502,5 +501,5 @@ function backControl(){
 
 document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
-document.addEventListener("DOMContentLoaded", checkBackArrow, false);
+//document.addEventListener("DOMContentLoaded", checkBackArrow, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
