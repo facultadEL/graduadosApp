@@ -478,6 +478,28 @@ function checkBackArrow()
 	}
 }
 
+document.addEventListener("deviceready", backControl, false);
+
+function backControl(){
+	alert('Device ready');
+    document.addEventListener("backbutton", function(e){
+		const loc = getLoc();		
+		if(loc == 'index' || loc == 'inicio'){
+			e.preventDefault();
+			navigator.app.exitApp();
+		} else {
+			if(loc == 'restauraPass' || loc == 'registro')
+			{
+				redirect('index.html');
+			}
+			else
+			{
+				redirect('inicio.html');
+			}
+		}
+	}, false);
+}
+
 document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkBackArrow, false);
