@@ -26,7 +26,7 @@
 	</div>
     <div class="card-panel blue lighten-5">
         <div class="row">
-            <form class="col s12" id="" onsubmit="">
+            <form class="col s12" id="form" onsubmit="return controlSubmit();">
                 <div class="row">
                     <div class="input-field col s12 right-align">
                         <input type="checkbox" class="filled-in" id="novedad" checked="checked" onchange="checkNovedad()"/>
@@ -35,14 +35,15 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <select id="regional" onchange="enableCheckEsp()" disabled>
+                        <input type="hidden" id="id" />
+                        <select id="regional" onchange="getEspecialidad()" disabled>
                         </select>
                         <label>Regional</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 right-align">
-                        <input type="checkbox" class="filled-in" id="novedadEsp" checked="checked" onchange="checkNovedadEsp()" disabled/>
+                        <input type="checkbox" class="filled-in" id="novedadEsp" checked="checked" onchange="checkNovedadEsp()"/>
                         <label for="novedadEsp">Novedad para todas las especialidades</label>
                     </div>
                 </div>
@@ -61,6 +62,23 @@
                         </select>
                         <label for="tipo_novedad">Tipo Novedad</label>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="Ingrese el título de la Novedad" id="titulo_novedad" type="text" class="validate">
+                        <label for="titulo_novedad">Titulo</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="descripcion_novedad" class="materialize-textarea" placeholder="Ingrese la el desarrollo de la novedad"></textarea>
+                        <label for="descripcion_novedad">Desarrollo</label>
+                    </div>
+                </div>
+                <div class="center-align">
+                    <button class="btn waves-effect light-blue darken-3" type="submit" name="action">Guardar Novedad
+                        <i class="material-icons right">done</i>
+                    </button>
                 </div>
             </form>
         </div>
@@ -81,10 +99,67 @@
 <script>
 const l = new Loader();
 
-function enableCheckEsp()
+function controlSubmit()
 {
-    $('#novedadEsp').prop('disabled','');
-    getEspecialidad();
+    
+    var regional = ($('#regional').val() == undefined) ? 0 : $('#regional').val();
+    var especialidad = ($('#especialidad').val() == undefined) ? 0 : $('#especialidad').val();
+    
+    if(!controlVacio('#tipo_novedad')) return false;
+    if(!controlVacio('#titulo_novedad')) return false;
+    if(!controlVacio('#descripcion_novedad')) return false;
+    
+    var param = {
+        "id":($('#id').val()),
+        "regional":('regional'),
+        "especialidad":('especialidad'),
+        "titulo":($('#titulo_novedad').val()),
+        "desarrollo":($('#descripcion_novedad').val()),
+        "tipo":($('#tipo_novedad').val())
+    }
+    alert("el id es"+($('#id').val()));
+    alert(regional);
+    alert(especialidad);
+    alert($('#titulo_novedad').val());
+    alert($('#descripcion_novedad').val());
+    alert($('#tipo_novedad').val());
+    
+    l.start;
+    $.ajax({
+		type:"POST",
+		data: param,
+		url: "http://localhost/app-graduados/graduadosApi/guardarNovedad.php",
+		success: function(response)
+		{
+			l.stop();
+			const r = parse(response);
+			if(r[0].success)
+			{
+                toasty('Se guardo correctamente la novedad','info');				
+			}
+			else
+			{
+				toasty("No se pudo guardar",'error');
+			}
+		},
+		error: function(msg)
+		{
+			l.stop();
+			toasty("Hubo un error de conexión",'error');
+		}
+	});
+    return false;
+}
+
+function controlVacio(nombreSelector)
+{
+	if($.trim($(nombreSelector).val()) == '')
+	{
+		$(nombreSelector).css('box-shadow','0px 0px 1px 1px #f24d4d');
+		$(nombreSelector).focus();
+		return false;
+	}
+	return true;
 }
 
 function checkNovedad()
@@ -117,9 +192,34 @@ function checkNovedadEsp()
     
     if(!($('#novedadEsp').prop('checked')))
     {  
+        checkRegional();
         $('#especialidad').material_select('destroy');
         $('#especialidad').prop('disabled','');
         $('#especialidad').material_select('');
+    }
+}
+
+function checkRegional()
+{
+    
+    let seleccionado=$('#regional').val();
+    if(seleccionado == null){
+        let param = {
+		    'regional':$('#regional').val()
+	    };
+        $.ajax({
+		    type:"POST",
+		    url:"http://localhost/app-graduados/graduadosApi/getAllEspecialidades.php",
+		    data:param,
+            success: function(response)
+		    {
+			    successGetEspecialidad(parse(response));
+		    },
+		    error: function(msg)
+		    {
+			    toasty('Error al traer especialidades.Problema de conexión','error');
+		    }
+	    });
     }
 }
     
