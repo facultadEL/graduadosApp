@@ -56,7 +56,7 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <select id="tipo_novedad" disabled>
+                        <select id="tipo_novedad">
                             
                         </select>
                         <label for="tipo_novedad">Tipo Novedad</label>
@@ -123,6 +123,45 @@ function checkNovedadEsp()
     }
 }
     
+function getTipoNovedad()
+{
+	$.ajax({
+		type:"POST",
+		url:"http://localhost/app-graduados/graduadosApi/getTipoNovedad.php",
+		success: function(response)
+		{
+			successGetTipoNovedad(parse(response));
+		},
+		error: function(msg)
+		{
+			toasty('Error al traer los tipos de novedad.Problema de conexión','error');
+		}
+	});
+}
+
+function successGetTipoNovedad(data,val)
+{
+    if(data == undefined)
+    {
+        return;
+    }
+    val = (val == undefined) ? 0 : val;
+    $('#tipo_novedad').material_select('destroy');
+    htmlOptions = `<option value="0" disabled selected>Elija un tipo de novedad</option>`;
+    for(var i = 0; i < data.length; i++)
+    {
+        var id = data[i].id;
+        var selected = '';
+        if(id == val)
+        {
+            selected = 'selected';
+        }
+        htmlOptions += `<option value = "${id}"${selected}>${data[i].nombre}</option>`;
+    }
+    $('#tipo_novedad').html(htmlOptions);
+    $('#tipo_novedad').material_select();
+}
+
 function getRegional()
 {
 	$.ajax({
@@ -145,7 +184,6 @@ function successGetRegional(data, val)
 	{
 		return;
 	}
-	
 	val = (val == undefined) ? 0 : val;
 	$('select').material_select('destroy');
 	regional = data;
@@ -213,9 +251,8 @@ function successGetEspecialidad(data,val)
 }
 $(document).ready(function()
 {
-    //checkNovedad();
-    //checkNovedadEsp();
     getRegional();
+    getTipoNovedad();
 	$(".button-collapse").sideNav();
     $('select').material_select();
     l.stop();
