@@ -503,3 +503,63 @@ document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 //document.addEventListener("DOMContentLoaded", checkBackArrow, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
+
+
+document.addEventListener("deviceready", checkRegister, false);
+
+function checkRegister()
+{
+	if(getItem('deviceRegistered') != 't')
+	{
+		registerDevice();
+	}
+}
+
+function registerDevice()
+{
+	let push = PushNotification.init({ "android": {"senderID": ""}, //Agregar sender ID de la cuenta de google cloud
+		"ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {} } );
+
+		push.on('registration', function(data) {
+			setRegId(data.registrationId);
+		});
+
+		push.on('notification', function(data) {
+			alert(data.title+" Message: " +data.message);
+		// data.title,
+		// data.count,
+		// data.sound,
+		// data.image,
+		// data.additionalData
+		});
+
+		push.on('error', function(e) {
+			alert(e.message);
+		});
+}
+
+function setRegId(regId)
+{
+	const id = getItem('id');
+	const param = {
+		id,
+		regId,
+	};
+
+	$.ajax({
+		type:'POST',
+		url: `http://extension.frvm.utn.edu.ar/graduadosApi/setRegId.php`,
+		data: param,
+		success:function(response)
+		{
+			if(parse(response)[0].success == 't')
+			{
+				setItem('deviceRegistered','t');
+			}
+		},
+		error:function(msg)
+		{
+			toasty('Error registering the device');
+		}
+	});
+}
