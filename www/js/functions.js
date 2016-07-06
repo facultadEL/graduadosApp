@@ -517,7 +517,7 @@ function checkRegister()
 
 function registerDevice()
 {
-	let push = PushNotification.init({ "android": {"senderID": ""}, //Agregar sender ID de la cuenta de google cloud
+	let push = PushNotification.init({ "android": {"senderID": "2476771543"}, //Agregar sender ID de la cuenta de google cloud
 		"ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {} } );
 
 		push.on('registration', function(data) {
