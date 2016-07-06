@@ -102,23 +102,22 @@ const l = new Loader();
 function controlSubmit()
 {
     
-    let regional = ($('#regional').val() == undefined) ? 0 : $('#regional').val();
-    let especialidad = ($('#especialidad').val() == undefined) ? 0 : $('#especialidad').val();
+    let regional = ($('#regional').val() == undefined) ? 'null' : $('#regional').val();
+    let especialidad = ($('#especialidad').val() == undefined) ? 'null' : $('#especialidad').val();
     
     if(!controlVacio('#tipo_novedad')) return false;
     if(!controlVacio('#titulo_novedad')) return false;
     if(!controlVacio('#descripcion_novedad')) return false;
-    
+
     const param = {
         "id":($('#id').val()),
-        "regional":('regional'),
-        "especialidad":('especialidad'),
+        "regional":(regional),
+        "especialidad":(especialidad),
         "titulo":($('#titulo_novedad').val()),
         "desarrollo":($('#descripcion_novedad').val()),
         "tipo":($('#tipo_novedad').val())
     }
 
-    
     l.start();
     $.ajax({
 		type:"POST",
