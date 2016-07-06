@@ -205,7 +205,7 @@ function checkRegional()
 
         $.ajax({
 		    type:"POST",
-		    url:"http://localhost/app-graduados/graduadosApi/getAllEspecialidades.php",
+		    url:"http://extension.frvm.utn.edu.ar/graduadosApi/getAllEspecialidades.php",
 		    data:param,
             success: function(response)
 		    {
@@ -223,7 +223,7 @@ function getTipoNovedad()
 {
 	$.ajax({
 		type:"POST",
-		url:"http://localhost/app-graduados/graduadosApi/getTipoNovedad.php",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getTipoNovedad.php",
 		success: function(response)
 		{
 			successGetTipoNovedad(parse(response));
