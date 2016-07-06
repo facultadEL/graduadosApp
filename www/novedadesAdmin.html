@@ -102,14 +102,14 @@ const l = new Loader();
 function controlSubmit()
 {
     
-    var regional = ($('#regional').val() == undefined) ? 0 : $('#regional').val();
-    var especialidad = ($('#especialidad').val() == undefined) ? 0 : $('#especialidad').val();
+    let regional = ($('#regional').val() == undefined) ? 0 : $('#regional').val();
+    let especialidad = ($('#especialidad').val() == undefined) ? 0 : $('#especialidad').val();
     
     if(!controlVacio('#tipo_novedad')) return false;
     if(!controlVacio('#titulo_novedad')) return false;
     if(!controlVacio('#descripcion_novedad')) return false;
     
-    var param = {
+    const param = {
         "id":($('#id').val()),
         "regional":('regional'),
         "especialidad":('especialidad'),
@@ -117,23 +117,18 @@ function controlSubmit()
         "desarrollo":($('#descripcion_novedad').val()),
         "tipo":($('#tipo_novedad').val())
     }
-    alert("el id es"+($('#id').val()));
-    alert(regional);
-    alert(especialidad);
-    alert($('#titulo_novedad').val());
-    alert($('#descripcion_novedad').val());
-    alert($('#tipo_novedad').val());
+
     
-    l.start;
+    l.start();
     $.ajax({
 		type:"POST",
 		data: param,
-		url: "http://localhost/app-graduados/graduadosApi/guardarNovedad.php",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/guardarNovedad.php",
 		success: function(response)
 		{
 			l.stop();
 			const r = parse(response);
-			if(r[0].success)
+			if(r[0].success == 't')
 			{
                 toasty('Se guardo correctamente la novedad','info');				
 			}
@@ -179,18 +174,20 @@ function checkNovedad()
         $('#regional').material_select('');
     }
 }
-
+/*esta funcion es para habilitar y deshabilitar el select de especialidades,
+cuando lo destilda, comprueba si hay alguna regional seleccionada, si hay, trae todas las
+especialidades de esa regional, sino trae todas las especialidades cargadas en la bd*/
 function checkNovedadEsp()
 {   
-    if(($('#novedadEsp').prop('checked')))
+    if(($('#novedadEsp').is(':checked')))
     {
          $('#especialidad').material_select('destroy');
          $('#especialidad').prop('disabled','disabled');
          $('#especialidad').prop('selectedIndex',0);
          $('#especialidad').material_select('');
     }
-    
-    if(!($('#novedadEsp').prop('checked')))
+    else
+    //if(!($('#novedadEsp').prop('checked')))
     {  
         checkRegional();
         $('#especialidad').material_select('destroy');
@@ -198,15 +195,14 @@ function checkNovedadEsp()
         $('#especialidad').material_select('');
     }
 }
-
+/*comprueba si hay alguna regional seleccionada, si no la hay trae todas las 
+carreras que hay cargadas en la bd */
 function checkRegional()
 {
     
     let seleccionado=$('#regional').val();
     if(seleccionado == null){
-        let param = {
-		    'regional':$('#regional').val()
-	    };
+
         $.ajax({
 		    type:"POST",
 		    url:"http://localhost/app-graduados/graduadosApi/getAllEspecialidades.php",
@@ -248,10 +244,10 @@ function successGetTipoNovedad(data,val)
     val = (val == undefined) ? 0 : val;
     $('#tipo_novedad').material_select('destroy');
     htmlOptions = `<option value="0" disabled selected>Elija un tipo de novedad</option>`;
-    for(var i = 0; i < data.length; i++)
+    for(let i = 0; i < data.length; i++)
     {
-        var id = data[i].id;
-        var selected = '';
+        let id = data[i].id;
+        let selected = '';
         if(id == val)
         {
             selected = 'selected';
@@ -289,10 +285,10 @@ function successGetRegional(data, val)
 	regional = data;
 	htmlOptions = `<option value="0" disabled selected>Elija una regional</option>`;
 	
-	for(var i = 0; i < data.length; i++)
+	for(let i = 0; i < data.length; i++)
 	{
-		var id = data[i].id;
-		var selected = '';
+		let id = data[i].id;
+		let selected = '';
 		if(id == val)
 		{
 			selected = ' selected ';
@@ -335,10 +331,10 @@ function successGetEspecialidad(data,val)
 	especialidad = data;
 	htmlOptions = `<option value="0" disabled selected>Elija una especialidad</option>`;
 	
-	for(var i = 0; i < data.length; i++)
+	for(let i = 0; i < data.length; i++)
 	{
-		var id = data[i].id;
-		var selected = '';
+		let id = data[i].id;
+		let selected = '';
 		if(id == val)
 		{
 			selected = ' selected ';
