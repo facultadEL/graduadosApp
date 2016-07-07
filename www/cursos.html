@@ -40,15 +40,37 @@
 <script src="js/functions.js"></script>
 <script>
 const l = new Loader();
+let regional = true;
+let cursosData = [];
+let loading = true;
+function changeFilter()
+{
+    cursosData = [];
+    regional = !regional;
+    $('#todosRegional').html((regional) ? 'Todos' : 'Mi regional');
+    getCursos();
+}
+
 function getCursos()
 {
+	const id = getItem('id');
+    const excIds = getIds(cursosData); 
+    const param = {
+        id,
+        regional,
+        excIds,
+    };
+
 	l.start();
 	$.ajax({
 		type:"POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getCursos.php",
 		success: function(response)
 		{
-			successGetCursos(parse(response));
+			const r = parse(response);
+            loading = (r.length == 10) ? true : false;
+            cursosData = cursosData.concat(r);
+			successGetCursos();
 		},
 		error: function(msg)
 		{
@@ -58,8 +80,9 @@ function getCursos()
 	});
 }
 
-function successGetCursos(data)
+function successGetCursos()
 {
+	let data = cursosData;
 	let htmlCursos = '';
 	let leng = data.length;
 	for(let i = 0; i < leng; i++)
@@ -125,6 +148,14 @@ function interesCurso(idCurso,nombre)
 		}
 	});
 }
+
+window.onscroll = function(ev) {
+    if ((document.body.offsetHeight - (window.innerHeight + window.scrollY) < 40)  && loading)
+	{
+		loading = false;
+        getCursos();
+    }
+};
 
 $(document).ready(function()
 {
