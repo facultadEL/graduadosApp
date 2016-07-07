@@ -32,7 +32,7 @@ span.badge.new:after{content:" nuevos";}
 .cursoHeader{background-color:white;color:#26a69a}
 .cursoBody{background-color: #F0F0F0;}
 .cursoHeader > .row {margin-bottom: 10px;}
-.novedadHeader{background-color:white;color:#26a69a}
+.novedadHeader{background-color:white;color:#26a69a;padding-top:14px;padding-bottom: 0px;line-height: 2rem;}
 .novedadBody{background-color: #F0F0F0;}
 .novedadHeader > .row {margin-bottom: 10px;}
 .liGraduate{background-color: #fb8c00;}
