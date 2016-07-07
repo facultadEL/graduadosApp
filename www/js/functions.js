@@ -89,6 +89,7 @@ function toasty(text,style,time)
 const storage = window.localStorage;
 const excludedLoc = ['index','registro','restauraPass'];
 const excludedArrowMenu = ['inicio'];
+const showMoreOptions = ['cursos','descuentos','empleo','novedades','posgrados'];
 const options = {
 	'cursos':'liCurso',
 	'cursosAdmin':'liCurso',
@@ -483,6 +484,31 @@ function checkBackArrow()
 	}
 }
 
+function checkMoreOptions()
+{
+	if(showMoreOptions.indexOf(getLoc()) != -1)
+	{
+		document.getElementById('moreOptions').style.display = 'block';
+	}
+}
+
+function getIds(data)
+{
+	let excludedIds = '(';
+	for(let i = 0; i < data.length; i++)
+	{
+		if(excludedIds != '(')
+		{
+			excludedIds += ',';
+		}
+		excludedIds += data[i].id;
+	}
+	excludedIds += ')';
+	excludedIds = (excludedIds == '()') ? '(0)' : excludedIds;
+
+	return excludedIds;
+}
+
 document.addEventListener("deviceready", backControl, false);
 
 function backControl(){
@@ -507,6 +533,7 @@ function backControl(){
 document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
+document.addEventListener("DOMContentLoaded", checkMoreOptions, false);
 
 
 document.addEventListener("deviceready", checkRegister, false);

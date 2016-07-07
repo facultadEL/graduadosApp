@@ -40,3 +40,6 @@ span.badge.new:after{content:" nuevos";}
 .just{
     text-align: justify;
 }
+#moreOptions{display: none;}
+#dropdownMoreFilter{top:56px !important;left:240px !important;width:120px !important;}
+#dropdownMoreFilter > li{text-align: center;}

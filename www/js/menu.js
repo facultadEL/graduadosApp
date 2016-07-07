@@ -5,6 +5,9 @@ document.write(`<div class="navbar-fixed">
 		<li class="liContacto"><a class="contactoHref">Contacto</a></li>
 		<li><a onclick="logout()">Cerrar Sesión</a></li>
 	</ul>
+	<ul id="dropdownMoreFilter" class="dropdown-content">
+		<li><a onclick="changeFilter()" id="todosRegional">Todos</a></li>
+	</ul>
 	<nav id="nav">
 	<div class="nav-wrapper blue darken-4">
 		<a class="brand-logo center inicioHref">Graduate UTN</a>
@@ -23,6 +26,7 @@ document.write(`<div class="navbar-fixed">
 		</ul>
 		<ul class="right show-on-med-and-down">
 			<!--li id="backMenuArrow"><a onclick="window.location.replace('inicio.html')"><i class="material-icons">keyboard_arrow_left</i></a></li-->
+			<li id="moreOptions"><a class="dropdown-button" href="#" data-activates="dropdownMoreFilter"><i class="material-icons">more_vert</i></a></li-->
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li class="liGraduate"><a class="inicioHref"><strong>Graduate UTN</strong></a></li>

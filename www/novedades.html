@@ -40,15 +40,38 @@
 <script src="js/functions.js"></script>
 <script>
 const l = new Loader();
+let regional = true;
+let novedadesData = [];
+let loading = true;
+function changeFilter()
+{
+    novedadesData = [];
+    regional = !regional;
+    $('#todosRegional').html((regional) ? 'Todos' : 'Mi regional');
+    getNovedades();
+}
+
 function getNovedades()
 {
+    const id = getItem('id');
+    const excIds = getIds(novedadesData); 
+    const param = {
+        id,
+        regional,
+        excIds,
+    };
+
 	l.start();
 	$.ajax({
 		type:"POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getNovedades.php",
+        data: param,
 		success: function(response)
 		{
-			successGetNovedades(parse(response));
+            const r = parse(response);
+            loading = (r.length == 10) ? true : false;
+            novedadesData = novedadesData.concat(r);
+			successGetNovedades();
 		},
 		error: function(msg)
 		{
@@ -58,8 +81,9 @@ function getNovedades()
 	});
 }
 
-function successGetNovedades(data)
+function successGetNovedades()
 {
+    let data = novedadesData; 
 	let htmlNovedades = '';
 	let leng = data.length;
 	for(let i = 0; i < leng; i++)
@@ -74,6 +98,14 @@ function successGetNovedades(data)
 	l.stop();
 	$('#ulNovedades').html(htmlNovedades);
 }
+
+window.onscroll = function(ev) {
+    if ((document.body.offsetHeight - (window.innerHeight + window.scrollY) < 40)  && loading)
+	{
+		loading = false;
+        getNovedades();
+    }
+};
 
 $(document).ready(function()
 {
