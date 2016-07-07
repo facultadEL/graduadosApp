@@ -89,7 +89,7 @@ function toasty(text,style,time)
 const storage = window.localStorage;
 const excludedLoc = ['index','registro','restauraPass'];
 const excludedArrowMenu = ['inicio'];
-const showMoreOptions = ['cursos','descuentos','empleo','novedades','posgrados'];
+const showMoreOptions = ['cursos','empleo','novedades','posgrados'];
 const options = {
 	'cursos':'liCurso',
 	'cursosAdmin':'liCurso',
