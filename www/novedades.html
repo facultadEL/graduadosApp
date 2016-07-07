@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link type="text/css" rel="stylesheet" href="css/estilo.css"  media="screen,projection"/>
+	<title>Novedades</title>
+</head>
+<body>
+<script src="js/menu.js"></script>
+<script>showSubNavBar('Novedades')</script>
+<div class="container">
+	<div class="preloader-wrapper active" id="loader">
+    	<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div>
+	<ul class="collapsible" data-collapsible="accordion" id="ulNovedades">
+
+	</ul>
+</div>
+<div class="footer-copyright right-align">
+	<div class="container">
+		<i>© 2016 UTN FRVM</i>
+	</div>
+</div>
+<script src="cordova.js"></script>
+<script src="js/index.js"></script>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/functions.js"></script>
+<script>
+const l = new Loader();
+function getNovedades()
+{
+	l.start();
+	$.ajax({
+		type:"POST",
+		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getNovedades.php",
+		success: function(response)
+		{
+			successGetNovedades(parse(response));
+		},
+		error: function(msg)
+		{
+			l.stop();
+			toasty('No se pudo obtener las novedades','error');
+		}
+	});
+}
+
+function successGetNovedades(data)
+{
+	let htmlNovedades = '';
+	let leng = data.length;
+	for(let i = 0; i < leng; i++)
+	{
+		let d = data[i];
+
+		htmlNovedades += `<li><div class="collapsible-header novedadHeader col xs12"><div class="row col s12"><div class="col s8 left-align"><strong>${d.titulo}</strong></div><div class="col s4 right-align"><strong>${d.regionalAbreviatura}</strong></div></div></div>`;
+		htmlNovedades += `<div class="collapsible-body novedadBody"><p class="just">`;
+		htmlNovedades += (d.carrera != '') ? `<strong>Carrera: </strong>${d.carrera}<br/>` : '';
+		htmlNovedades += `<strong>Detalle: </strong>${d.detalle}</p></div></li>`;
+	}
+	l.stop();
+	$('#ulNovedades').html(htmlNovedades);
+}
+
+$(document).ready(function()
+{
+	setItem('cNovedad','0');
+	$(".button-collapse").sideNav();
+	$('.collapsible').collapsible({
+      accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+	getNovedades();
+});
+</script>
+
+</body>
+</html>

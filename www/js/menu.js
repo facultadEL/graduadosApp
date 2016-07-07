@@ -28,6 +28,7 @@ document.write(`<div class="navbar-fixed">
 			<li class="liGraduate"><a class="inicioHref"><strong>Graduate UTN</strong></a></li>
 			<li class="liPerfil"><a class="perfilHref">Perfil</a></li>
 			<li class="liGraduado hideNotAdmin"><a class="graduadosHref">Graduados <span class="new badge cantGraduados">0</span></a></li>
+			<li class="liNovedad"><a class="novedadesHref">Novedades</a></li>
 			<li class="liCurso"><a class="cursosHref">Cursos</a></li>
 			<li class="liPosgrado"><a class="posgradosHref">Posgrados</a></li>
 			<li class="liEmpleo"><a class="empleoHref">Empleo</a></li>

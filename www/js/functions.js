@@ -100,7 +100,9 @@ const options = {
 	'perfil':'liPerfil',
 	'posgrados':'liPosgrado',
 	'posgradosAdmin':'liPosgrado',
-	'contacto':'liContacto'
+	'novedades':'liNovedad',
+	'novedadesAdmin':'liNovedad',
+	'contacto':'liContacto',
 };
 let notified = false;
 
@@ -160,11 +162,13 @@ function setQuantities()
 	const cEmpleo = getItem('cEmpleo');
 	const cDescuento = getItem('cDescuento');
 	const cPosgrado = getItem('cPosgrado');
+	const cNovedad = getItem('cNovedad');
 
 	asignQuantity(cCurso,'.cantCurso');
 	asignQuantity(cEmpleo,'.cantEmpleo');
 	asignQuantity(cDescuento,'.cantDescuento');
 	asignQuantity(cPosgrado,'.cantPosgrado');
+	asignQuantity(cNovedad,'.cantNovedades');
 }
 
 function asignQuantity(c,className)
@@ -225,7 +229,7 @@ function notifyCant()
 function checkMenu()
 {
 	if(excludedLoc.indexOf(getLoc()) != -1) return;
-	let cH,pH,eH,dH,pfH,iH,gH;
+	let cH,pH,eH,dH,pfH,iH,gH,nH;
 	pfH = 'perfil.html';
 	iH = 'inicio.html';
 	gH = 'graduadosAdmin.html';
@@ -235,6 +239,7 @@ function checkMenu()
 		pH = 'posgradosAdmin.html';
 		eH = 'empleoAdmin.html';
 		dH = 'descuentosAdmin.html';
+		nH = 'novedadesAdmin.html';
 		//conH = 'contactoAdmin.html'; //Esto se agrega cuando se haga el contactoAdmin
 		conH = 'contacto.html';
 		$('.hideNotAdmin').show();
@@ -248,6 +253,7 @@ function checkMenu()
 		pH = 'posgrados.html';
 		eH = 'empleo.html';
 		dH = 'descuentos.html';
+		nH = 'novedades.html';
 		conH = 'contacto.html';
 		$('.hideNotAdmin').hide();
 		$('.hideAdmin').show();
@@ -260,6 +266,7 @@ function checkMenu()
 	addClick('perfilHref',pfH);
 	addClick('inicioHref',iH);
 	addClick('graduadosHref',gH);
+	addClick('novedadesHref',nH);
 	addClick('contactoHref',conH);
 }
 
@@ -351,8 +358,6 @@ function checkRedirect()
 		if(excludedLoc.indexOf(l) == -1)
 		{
 			redirectAjax(l);
-			//setItem('starting','t');
-			//redirect(`${l}.html`);
 		}
 		else
 		{
@@ -501,7 +506,6 @@ function backControl(){
 
 document.addEventListener("DOMContentLoaded", setLocation, false);
 document.addEventListener("DOMContentLoaded", checkMenu, false);
-//document.addEventListener("DOMContentLoaded", checkBackArrow, false);
 document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
 
 

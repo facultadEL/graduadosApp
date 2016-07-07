@@ -31,6 +31,9 @@
 		<a class="descuentosHref col s10 offset-s1 waves-effect waves-light btn-large">Descuentos <span class="new badge cantDescuento hideAdmin">0</span></a>
 	</div>
 	<div class="row">
+		<a class="novedadesHref col s10 offset-s1 waves-effect waves-light btn-large">Novedades <span class="new badge cantNovedades hideAdmin">0</span></a>
+	</div>
+	<div class="row">
 		<a class="contactoHref col s10 offset-s1 waves-effect waves-light btn-large">Contacto</a>
 	</div>
 	<div class="row">
@@ -98,6 +101,7 @@ function getQuantities()
 			setItem('cDescuento',r.cDescuento);
 			setItem('cPosgrado',r.cPosgrado);
 			setItem('cEmpleo',r.cEmpleo);
+			setItem('cNovedad',r.cNovedad);
 			setQuantities();
 		},
 		error:function(msg)
