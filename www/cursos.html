@@ -65,6 +65,7 @@ function getCursos()
 	$.ajax({
 		type:"POST",
 		url: "http://extension.frvm.utn.edu.ar/graduadosApi/getCursos.php",
+		data: param,
 		success: function(response)
 		{
 			const r = parse(response);
