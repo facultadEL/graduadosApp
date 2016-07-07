@@ -28,7 +28,7 @@
         <div class="row">
             <form class="col s12" id="form" onsubmit="return controlSubmit();">
                 <div class="row">
-                    <div class="input-field col s12 right-align">
+                    <div class="input-field col s12 left-align">
                         <input type="checkbox" class="filled-in" id="novedad" checked="checked" onchange="checkNovedad()"/>
                         <label for="novedad">Novedad para todas las regionales</label>
                     </div>
@@ -36,13 +36,13 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <input type="hidden" id="id" />
-                        <select id="regional" onchange="getEspecialidad()" disabled>
+                        <select id="regional" onchange="enabledEspecialidad()" disabled>
                         </select>
                         <label>Regional</label>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s12 right-align">
+                    <div class="input-field col s12 left-align">
                         <input type="checkbox" class="filled-in" id="novedadEsp" checked="checked" onchange="checkNovedadEsp()"/>
                         <label for="novedadEsp">Novedad para todas las especialidades</label>
                     </div>
@@ -158,21 +158,36 @@ function controlVacio(nombreSelector)
 
 function checkNovedad()
 {   
-    if(($('#novedad').prop('checked')))
+    if(($('#novedad').is(':checked')))
     {
          $('#regional').material_select('destroy');
          $('#regional').prop('disabled','disabled');
          $('#regional').prop('selectedIndex',0);
          $('#regional').material_select('');
+		 $('#novedadEsp').prop('disabled', false);
     }
     
-    if(!($('#novedad').prop('checked')))
+    else
     {   
         $('#regional').material_select('destroy');
         $('#regional').prop('disabled','');
         $('#regional').material_select('');
+		$('#novedadEsp').prop('disabled',true);
     }
 }
+
+/**cuando la regional tiene el check destildado pero no hay una seleccionada, se inhabilitan las especialidades
+ * entonces cuando se selecciona una regional, ahi se habilitan las especialidades con esta funcion
+ */
+function enabledEspecialidad()
+{
+	if($('#regional').val() != null)
+	{
+		$('#novedadEsp').prop('disabled',false);
+	}
+	getEspecialidad();
+}
+
 /*esta funcion es para habilitar y deshabilitar el select de especialidades,
 cuando lo destilda, comprueba si hay alguna regional seleccionada, si hay, trae todas las
 especialidades de esa regional, sino trae todas las especialidades cargadas en la bd*/
@@ -287,12 +302,16 @@ function successGetRegional(data, val)
 	for(let i = 0; i < data.length; i++)
 	{
 		let id = data[i].id;
-		let selected = '';
-		if(id == val)
+		if(id != 0)
 		{
-			selected = ' selected ';
+			let selected = '';
+			if(id == val)
+			{
+				selected = ' selected ';
+			}
+			htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
 		}
-		htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
+
 	}
 	
 	$('#regional').html(htmlOptions);
@@ -333,12 +352,16 @@ function successGetEspecialidad(data,val)
 	for(let i = 0; i < data.length; i++)
 	{
 		let id = data[i].id;
-		let selected = '';
-		if(id == val)
+		if(id != 0)
 		{
-			selected = ' selected ';
+			let selected = '';
+			if(id == val)
+			{
+				selected = ' selected ';
+			}
+			htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
 		}
-		htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</option>`;
+		
 	}
 	
 	$('#especialidad').html(htmlOptions);
