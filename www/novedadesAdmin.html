@@ -102,8 +102,8 @@ const l = new Loader();
 function controlSubmit()
 {
     
-    let regional = ($('#regional').val() == undefined) ? 'null' : $('#regional').val();
-    let especialidad = ($('#especialidad').val() == undefined) ? 'null' : $('#especialidad').val();
+    let regional = ($('#regional').val() == undefined) ? '0' : $('#regional').val();
+    let especialidad = ($('#especialidad').val() == undefined) ? '0' : $('#especialidad').val();
     
     if(!controlVacio('#tipo_novedad')) return false;
     if(!controlVacio('#titulo_novedad')) return false;
