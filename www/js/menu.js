@@ -1,12 +1,13 @@
 document.write(`<div class="navbar-fixed">
 	<ul id="dropdownMoreOptions" class="dropdown-content">
+		<li class="moreOptions"><a onclick="changeFilter()" class="todosRegional">Todos</a></li>
 		<li class="liGraduado hideNotAdmin"><a class="graduadosHref">Graduados <span class="new badge cantGraduados">0</span></a></li>
 		<li class="liPerfil"><a class="perfilHref">Perfil</a></li>
 		<li class="liContacto"><a class="contactoHref">Contacto</a></li>
 		<li><a onclick="logout()">Cerrar Sesión</a></li>
 	</ul>
 	<ul id="dropdownMoreFilter" class="dropdown-content">
-		<li><a onclick="changeFilter()" id="todosRegional">Todos</a></li>
+		<li><a onclick="changeFilter()" class="todosRegional">Todos</a></li>
 	</ul>
 	<nav id="nav">
 	<div class="nav-wrapper blue darken-4">
@@ -24,9 +25,9 @@ document.write(`<div class="navbar-fixed">
 			<li><a class="dropdown-button" href="#" data-activates="dropdownMoreOptions"><i class="material-icons">more_vert</i></a></li>
 			<!--li><a onclick="logout()"><i class="material-icons">power_settings_new</i></a></li-->
 		</ul>
-		<ul class="right show-on-med-and-down">
+		<ul class="right show-on-med-and-down hide-on-large-only">
 			<!--li id="backMenuArrow"><a onclick="window.location.replace('inicio.html')"><i class="material-icons">keyboard_arrow_left</i></a></li-->
-			<li id="moreOptions"><a class="dropdown-button" href="#" data-activates="dropdownMoreFilter"><i class="material-icons">more_vert</i></a></li-->
+			<li class="moreOptions"><a class="dropdown-button" href="#" data-activates="dropdownMoreFilter"><i class="material-icons">more_vert</i></a></li-->
 		</ul>
 		<ul class="side-nav" id="mobile-demo">
 			<li class="liGraduate"><a class="inicioHref"><strong>Graduate UTN</strong></a></li>
