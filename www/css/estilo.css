@@ -43,3 +43,6 @@ span.badge.new:after{content:" nuevos";}
 .moreOptions{display: none;}
 #dropdownMoreFilter{top:56px !important;right:5px !important;width:120px !important;}
 #dropdownMoreFilter > li{text-align: center;}
+#rubroDescuento{
+    display: none;
+}

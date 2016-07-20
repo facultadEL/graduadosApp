@@ -37,6 +37,22 @@
 			<a class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="saveRate()">Puntuar</a>
 		</div>
 	</div>
+	<div id="filters" class="modal">
+		<div class="modal-content">
+			<h4 class="center-align"><span>Filtrar descuento</span></h4>
+			<div class="row">
+				<div class="input-field col s12">
+					<select id="rubro">
+					</select>
+					<label>Rubro</label>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a onclick="getDescuento(false)" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+			<a id="searchBtn" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="getDescuento(true)">Buscar</a>
+		</div>
+	</div>
 </div>
 <div class="footer-copyright right-align">
 	<div class="container">
@@ -51,12 +67,60 @@
 <script>
 let paramDiscount = {};
 const l = new Loader();
-function getDescuento()
+let rubros;
+function openFilters()
 {
+	$('#filters').openModal();
+}
+
+function getRubro()
+{
+	$.ajax({
+		type:"POST",
+		url:"http://extension.frvm.utn.edu.ar/graduadosApi/getRubro.php",
+		success: function(response)
+		{
+			successGetRubros(parse(response));
+		},
+		error: function(msg)
+		{
+			toasty('Error al traer rubros','error');
+		}
+	});
+}
+
+function successGetRubros(data)
+{		
+	if (data == undefined)
+	{
+		return;
+	}
+	$('select').material_select('destroy');
+	htmlOptions = `<option value="0" selected>Todos</option>`;
+
+	for(var i = 0; i < data.length; i++)
+	{
+		var id = data[i].id;
+		var selected = '';
+		htmlOptions += `<option value="${id}"${selected}>${data[i].nombre}</options>`;
+	}
+	$('#rubro').html(htmlOptions);
+	$('select').material_select();
+}
+
+function getDescuento(fromFilter)
+{
+	let rubro = 0;
+	if(fromFilter)
+	{
+		rubro = $('#rubro').val();
+	}
+
 	l.start();
 	const id = getItem('id');
 	const param = {
-		id
+		id,
+		rubro,
 	};
 	
 	$.ajax({
@@ -173,6 +237,7 @@ function successGetDescuento(data)
 $(document).ready(function()
 {
 	getDescuento();
+	getRubro();
 	setItem('cDescuento','0');
 	$(".button-collapse").sideNav();
 });

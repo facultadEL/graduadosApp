@@ -46,7 +46,7 @@ function toasty(text,style,time)
 const storage = window.localStorage;
 const excludedLoc = ['index','registro','restauraPass'];
 const excludedArrowMenu = ['inicio'];
-const showMoreOptions = ['cursos','empleo','novedades','posgrados'];
+const showMoreOptions = ['cursos','empleo','novedades','posgrados','descuentos'];
 const options = {
 	'cursos':'liCurso',
 	'cursosAdmin':'liCurso',
@@ -451,6 +451,14 @@ function checkMoreOptions()
 			arr[i].style.display = 'block';
 		}
 	}
+
+	if(getLoc() == 'descuentos')
+	{
+		const reg = document.getElementById('todosRegional');
+		reg.style.display = 'none';
+		const desc = document.getElementById('rubroDescuento');
+		desc.style.display = 'block';
+	}
 }
 
 function getIds(data)
@@ -490,14 +498,6 @@ function backControl(){
 		}
 	}, false);
 }
-
-document.addEventListener("DOMContentLoaded", setLocation, false);
-document.addEventListener("DOMContentLoaded", checkMenu, false);
-document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
-document.addEventListener("DOMContentLoaded", checkMoreOptions, false);
-
-
-document.addEventListener("deviceready", checkRegister, false);
 
 function checkRegister()
 {
@@ -555,3 +555,9 @@ function setRegId(regId)
 		}
 	});
 }
+
+document.addEventListener("DOMContentLoaded", setLocation, false);
+document.addEventListener("DOMContentLoaded", checkMenu, false);
+document.addEventListener("DOMContentLoaded", checkSelectedOption, false);
+document.addEventListener("DOMContentLoaded", checkMoreOptions, false);
+document.addEventListener("deviceready", checkRegister, false);
